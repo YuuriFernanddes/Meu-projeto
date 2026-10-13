@@ -3,183 +3,177 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#101827">
 <title>Controle de Obras</title>
 
 <style>
-    
 :root {
-  --bg: #10141c;
-  --panel: #191f2b;
-  --panel2: #222a38;
-  --text: #edf2f7;
-  --muted: #a0adbf;
-  --border: #303a4b;
-  --primary: #4f8cff;
-  --green: #25c685;
-  --red: #ff6474;
-  --yellow: #ffc857;
-  --input: #111722;
-  --shadow: 0 8px 25px #0002;
+  --bg: #0b1120;
+  --panel: #151f30;
+  --panel2: #1c293d;
+  --text: #f1f5f9;
+  --muted: #9aa9bd;
+  --border: #2b3a50;
+  --primary: #38bdf8;
+  --green: #34d399;
+  --red: #fb7185;
+  --yellow: #fbbf24;
+  --radius: 16px;
 }
 
-body.light {
-  --bg: #f2f5fa;
-  --panel: #ffffff;
-  --panel2: #edf1f7;
-  --text: #202938;
-  --muted: #647084;
-  --border: #d9e0eb;
-  --primary: #2868db;
-  --green: #119765;
-  --red: #d93649;
-  --yellow: #a87500;
-  --input: #ffffff;
-  --shadow: 0 8px 25px #2538580d;
+* {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
 }
 
-* { box-sizing: border-box; }
+html {
+  scroll-behavior: smooth;
+}
 
 body {
   margin: 0;
+  padding: 0 0 calc(88px + env(safe-area-inset-bottom));
   background: var(--bg);
   color: var(--text);
-  font-family: Arial, Helvetica, sans-serif;
-  transition: background .2s, color .2s;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 15px;
 }
 
-button, input, select, textarea { font: inherit; }
+button, input, select, textarea {
+  font: inherit;
+}
 
 button {
   cursor: pointer;
-  border: 0;
-  border-radius: 9px;
-  padding: 11px 15px;
-  background: var(--primary);
-  color: white;
-  font-weight: 600;
+  touch-action: manipulation;
 }
-
-button:hover { filter: brightness(1.08); }
-button:disabled { opacity: .5; cursor: not-allowed; }
-
-button.secondary {
-  background: var(--panel2);
-  color: var(--text);
-  border: 1px solid var(--border);
-}
-
-button.danger { background: var(--red); color: white; }
-button.success { background: var(--green); color: #061b12; }
-button.warning { background: var(--yellow); color: #241b06; }
-button.small { padding: 7px 10px; font-size: 12px; }
 
 header {
-  background: var(--panel);
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  padding: 16px;
+  padding-top: calc(16px + env(safe-area-inset-top));
+  background: rgba(11, 17, 32, .96);
   border-bottom: 1px solid var(--border);
-  padding: 18px;
+  backdrop-filter: blur(14px);
 }
 
-.header-inner {
-  max-width: 1450px;
-  margin: auto;
+.header-line {
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  gap: 15px;
-  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
 }
 
 .brand {
-  display: flex;
-  align-items: center;
-  gap: 12px;
+  font-size: 19px;
+  font-weight: 850;
+  letter-spacing: -.5px;
 }
 
-.logo {
-  width: 45px;
-  height: 45px;
-  display: grid;
-  place-items: center;
-  border-radius: 12px;
-  background: var(--primary);
-  color: white;
-  font-size: 24px;
+.brand span {
+  color: var(--primary);
 }
 
-h1 { font-size: 21px; margin: 0 0 5px; }
-h2 { font-size: 18px; margin-top: 0; }
-h3 { font-size: 15px; }
-p { line-height: 1.5; }
-
-.muted { color: var(--muted); font-size: 13px; }
-
-nav {
-  max-width: 1450px;
-  margin: auto;
-  display: flex;
-  gap: 8px;
-  padding: 14px 18px;
-  overflow-x: auto;
-}
-
-nav button {
-  white-space: nowrap;
-  background: var(--panel);
+.subtitle {
   color: var(--muted);
-  border: 1px solid var(--border);
-}
-
-nav button.active {
-  background: var(--primary);
-  color: white;
-  border-color: var(--primary);
+  font-size: 12px;
+  margin-top: 3px;
 }
 
 main {
-  max-width: 1450px;
+  padding: 16px;
+  max-width: 760px;
   margin: auto;
-  padding: 0 18px 40px;
 }
 
-.view { display: none; }
-.view.active { display: block; }
-
-.section-head {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 12px;
-  flex-wrap: wrap;
-  margin: 15px 0;
+.view {
+  display: none;
 }
 
-.grid {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 14px;
+.view.active {
+  display: block;
+  animation: appear .18s ease-out;
 }
 
-.card {
+@keyframes appear {
+  from { opacity: .5; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+h1 {
+  font-size: 24px;
+  letter-spacing: -.7px;
+  margin: 5px 0 6px;
+}
+
+h2 {
+  font-size: 17px;
+  margin: 0 0 14px;
+}
+
+h3 {
+  font-size: 15px;
+  margin: 0 0 10px;
+}
+
+.description {
+  color: var(--muted);
+  margin: 0 0 20px;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.panel {
   background: var(--panel);
   border: 1px solid var(--border);
-  border-radius: 14px;
-  padding: 18px;
-  box-shadow: var(--shadow);
+  border-radius: var(--radius);
+  padding: 16px;
+  margin-bottom: 14px;
   min-width: 0;
-  margin-bottom: 16px;
 }
 
-.metric-label { color: var(--muted); font-size: 13px; }
-.metric-value { font-size: 25px; font-weight: 700; margin-top: 10px; }
-.green { color: var(--green); }
-.red { color: var(--red); }
-.yellow { color: var(--yellow); }
-
-.form-grid {
+.metrics {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 13px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin: 18px 0;
+}
+
+.metric {
+  padding: 15px 13px;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 15px;
+  min-width: 0;
+}
+
+.metric-label {
+  color: var(--muted);
+  font-size: 12px;
+  margin-bottom: 8px;
+}
+
+.metric-value {
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: -.7px;
+  overflow-wrap: anywhere;
+}
+
+.metric small {
+  display: block;
+  color: var(--muted);
+  margin-top: 5px;
+  font-size: 11px;
+}
+
+form {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
 }
 
 .field {
@@ -189,127 +183,341 @@ main {
   min-width: 0;
 }
 
-.field.full { grid-column: 1 / -1; }
-
-label { color: var(--muted); font-size: 13px; }
+label {
+  color: #c5d1e0;
+  font-size: 13px;
+  font-weight: 650;
+}
 
 input, select, textarea {
   width: 100%;
-  padding: 11px;
-  color: var(--text);
-  background: var(--input);
+  min-width: 0;
+  min-height: 48px;
   border: 1px solid var(--border);
-  border-radius: 8px;
+  border-radius: 12px;
+  padding: 12px;
+  color: var(--text);
+  background: #0d1727;
   outline: none;
+  font-size: 16px;
+}
+
+textarea {
+  resize: vertical;
+  min-height: 88px;
 }
 
 input:focus, select:focus, textarea:focus {
   border-color: var(--primary);
+  box-shadow: 0 0 0 2px rgba(56, 189, 248, .12);
 }
 
-textarea { resize: vertical; min-height: 80px; }
+input[type="checkbox"] {
+  width: 21px;
+  height: 21px;
+  min-height: 21px;
+  accent-color: var(--primary);
+}
+
+.checkline {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 0;
+}
+
+.checkline label {
+  flex: 1;
+}
 
 .actions {
   display: flex;
   flex-wrap: wrap;
-  gap: 7px;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.btn {
+  min-height: 46px;
+  border: 1px solid var(--border);
+  background: var(--panel2);
+  color: var(--text);
+  border-radius: 12px;
+  padding: 11px 14px;
+  font-weight: 750;
+  font-size: 14px;
+  display: inline-flex;
+  justify-content: center;
   align-items: center;
+  gap: 7px;
+}
+
+.btn:active {
+  transform: scale(.98);
+}
+
+.btn.primary {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: #062033;
+}
+
+.btn.success {
+  background: #064e3b;
+  border-color: #047857;
+  color: #a7f3d0;
+}
+
+.btn.danger {
+  background: #4c1725;
+  border-color: #7f1d35;
+  color: #fecdd3;
+}
+
+.btn.warning {
+  background: #493714;
+  border-color: #785719;
+  color: #fde68a;
+}
+
+.btn.small {
+  min-height: 36px;
+  padding: 8px 10px;
+  font-size: 12px;
+}
+
+.btn.full {
+  width: 100%;
+}
+
+.search {
+  margin-bottom: 12px;
+}
+
+.item {
+  border: 1px solid var(--border);
+  background: #111b2b;
+  border-radius: 14px;
+  padding: 14px;
+  margin-bottom: 10px;
+  overflow-wrap: anywhere;
+}
+
+.item-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.item-title {
+  font-weight: 800;
+  font-size: 15px;
+}
+
+.item-sub {
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.5;
+  margin-top: 5px;
+}
+
+.item-value {
+  font-weight: 850;
+  font-size: 17px;
+  text-align: right;
+}
+
+.positive {
+  color: var(--green);
+}
+
+.negative {
+  color: var(--red);
+}
+
+.badge {
+  display: inline-block;
+  border: 1px solid var(--border);
+  color: var(--muted);
+  border-radius: 999px;
+  padding: 4px 9px;
+  font-size: 11px;
+  font-weight: 750;
+}
+
+.badge.green {
+  color: var(--green);
+  border-color: #16634d;
+}
+
+.badge.red {
+  color: var(--red);
+  border-color: #7f1d35;
+}
+
+.empty {
+  text-align: center;
+  color: var(--muted);
+  padding: 28px 12px;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.separator {
+  border: 0;
+  border-top: 1px solid var(--border);
+  margin: 16px 0;
+}
+
+.nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 50;
+  display: flex;
+  gap: 4px;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  padding: 8px 7px calc(8px + env(safe-area-inset-bottom));
+  background: rgba(15, 24, 40, .98);
+  border-top: 1px solid var(--border);
+  backdrop-filter: blur(18px);
+  scrollbar-width: none;
+}
+
+.nav::-webkit-scrollbar {
+  display: none;
+}
+
+.nav button {
+  flex: 0 0 70px;
+  min-width: 70px;
+  min-height: 57px;
+  border: 0;
+  border-radius: 12px;
+  color: var(--muted);
+  background: transparent;
+  font-size: 10px;
+  font-weight: 700;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+}
+
+.nav button .ico {
+  font-size: 20px;
+  line-height: 1.2;
+}
+
+.nav button.active {
+  color: var(--primary);
+  background: #193047;
+}
+
+.notice {
+  background: #172d40;
+  color: #bae6fd;
+  border: 1px solid #234b67;
+  border-radius: 12px;
+  padding: 12px;
+  font-size: 12px;
+  line-height: 1.5;
+  margin-bottom: 14px;
+}
+
+.filters {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.list {
+  margin-top: 14px;
 }
 
 .table-wrap {
   width: 100%;
   overflow-x: auto;
-  border: 1px solid var(--border);
-  border-radius: 10px;
 }
 
 table {
-  width: 100%;
   border-collapse: collapse;
-  min-width: 650px;
+  width: 100%;
+  min-width: 500px;
+  font-size: 12px;
 }
 
 th, td {
-  padding: 12px;
-  text-align: left;
   border-bottom: 1px solid var(--border);
-  font-size: 13px;
-  vertical-align: middle;
+  padding: 10px 8px;
+  text-align: left;
+  vertical-align: top;
 }
 
 th {
   color: var(--muted);
-  background: var(--panel2);
-  font-weight: 600;
-}
-
-tr:last-child td { border-bottom: 0; }
-
-.badge {
-  display: inline-block;
-  padding: 5px 8px;
-  border-radius: 20px;
-  font-size: 11px;
-  background: var(--panel2);
-}
-
-.badge.green { color: var(--green); }
-.badge.red { color: var(--red); }
-.badge.yellow { color: var(--yellow); }
-
-.empty {
-  text-align: center;
-  padding: 28px;
-  color: var(--muted);
-}
-
-.notice {
-  border: 1px solid var(--border);
-  background: var(--panel2);
-  padding: 13px;
-  border-radius: 9px;
-  color: var(--muted);
-  font-size: 13px;
-  line-height: 1.5;
-  margin-bottom: 15px;
-}
-
-.toolbar {
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-  align-items: center;
-  margin-bottom: 14px;
-}
-
-.toolbar input, .toolbar select { width: auto; min-width: 150px; }
-
-hr {
-  border: 0;
-  border-top: 1px solid var(--border);
-  margin: 20px 0;
 }
 
 footer {
-  text-align: center;
   color: var(--muted);
-  padding: 20px;
-  font-size: 12px;
+  font-size: 11px;
+  text-align: center;
+  padding: 12px;
 }
 
-@media (max-width: 900px) {
-  .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .form-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+@media (min-width: 600px) {
+  main {
+    padding: 24px;
+  }
+
+  .metrics {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .filters.two {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 
-@media (max-width: 560px) {
-  header { padding: 14px; }
-  nav { padding: 10px 14px; }
-  main { padding: 0 12px 30px; }
-  .grid, .form-grid { grid-template-columns: 1fr; }
-  .metric-value { font-size: 23px; }
-  .card { padding: 14px; }
-  .field.full { grid-column: auto; }
+@media print {
+  body {
+    background: white;
+    color: black;
+    padding: 0;
+  }
+
+  header, .nav, .no-print, .actions, footer {
+    display: none !important;
+  }
+
+  main {
+    max-width: none;
+    padding: 0;
+  }
+
+  .view {
+    display: none !important;
+  }
+
+  .view.active {
+    display: block !important;
+  }
+
+  .panel, .item {
+    background: white;
+    color: black;
+    border: 1px solid #ccc;
+    break-inside: avoid;
+  }
+
+  .item-sub, .metric-label, .description {
+    color: #444;
+  }
 }
 </style>
 </head>
@@ -317,492 +525,415 @@ footer {
 <body>
 
 <header>
-  <div class="header-inner">
-    <div class="brand">
-      <div class="logo">⌂</div>
-      <div>
-        <h1>Controle de Obras</h1>
-        <div class="muted">Pagamentos, diárias e controle financeiro</div>
-      </div>
+  <div class="header-line">
+    <div>
+      <div class="brand">OBRA<span>CONTROL</span></div>
+      <div class="subtitle">Gestão de obras no seu celular</div>
     </div>
-    <div class="actions">
-      <button class="secondary" onclick="toggleTheme()">◐ Tema</button>
-      <button class="secondary" onclick="exportData()">⇩ Backup</button>
-    </div>
+    <button class="btn small" id="themeBtn" type="button">☀️ Tema</button>
   </div>
 </header>
 
-<nav id="navigation">
-  <button class="active" data-view="dashboard">Visão geral</button>
-  <button data-view="works">Obras</button>
-  <button data-view="workers">Trabalhadores</button>
-  <button data-view="attendance">Presenças</button>
-  <button data-view="finance">Financeiro</button>
-  <button data-view="closings">Fechamentos</button>
-  <button data-view="backup">Backup e histórico</button>
-</nav>
-
 <main>
 
-<!-- VISÃO GERAL -->
-<section id="dashboard" class="view active">
-  <div class="section-head">
-    <div>
-      <h2>Visão geral</h2>
-      <p class="muted">Resumo dos registros cadastrados no sistema.</p>
-    </div>
-    <button onclick="refreshAll()">↻ Atualizar</button>
-  </div>
+<section class="view active" id="view-dashboard">
+  <h1>Painel geral</h1>
+  <p class="description">Resumo financeiro e operacional das suas obras.</p>
 
-  <div class="grid">
-    <div class="card">
-      <div class="metric-label">Saldo financeiro</div>
-      <div class="metric-value" id="dashBalance">R$ 0,00</div>
-    </div>
-    <div class="card">
-      <div class="metric-label">Total recebido</div>
-      <div class="metric-value green" id="dashIncome">R$ 0,00</div>
-    </div>
-    <div class="card">
-      <div class="metric-label">Pagamentos e despesas</div>
-      <div class="metric-value red" id="dashExpenses">R$ 0,00</div>
-    </div>
-    <div class="card">
+  <div class="metrics">
+    <div class="metric">
       <div class="metric-label">Obras ativas</div>
-      <div class="metric-value" id="dashWorks">0</div>
+      <div class="metric-value" id="mWorks">0</div>
+      <small>Obras cadastradas</small>
+    </div>
+    <div class="metric">
+      <div class="metric-label">Colaboradores</div>
+      <div class="metric-value" id="mWorkers">0</div>
+      <small>Cadastros ativos</small>
+    </div>
+    <div class="metric">
+      <div class="metric-label">Entradas</div>
+      <div class="metric-value positive" id="mIncome">R$ 0,00</div>
+      <small>Movimentações registradas</small>
+    </div>
+    <div class="metric">
+      <div class="metric-label">Saídas</div>
+      <div class="metric-value negative" id="mExpense">R$ 0,00</div>
+      <small>Movimentações registradas</small>
+    </div>
+    <div class="metric">
+      <div class="metric-label">Saldo em caixa</div>
+      <div class="metric-value" id="mBalance">R$ 0,00</div>
+      <small>Entradas menos saídas</small>
+    </div>
+    <div class="metric">
+      <div class="metric-label">A pagar a colaboradores</div>
+      <div class="metric-value" id="mPayable">R$ 0,00</div>
+      <small>Estimativa do período atual</small>
     </div>
   </div>
 
-  <div class="grid">
-    <div class="card">
-      <div class="metric-label">Trabalhadores ativos</div>
-      <div class="metric-value" id="dashWorkers">0</div>
-    </div>
-    <div class="card">
-      <div class="metric-label">Diárias registradas</div>
-      <div class="metric-value" id="dashDays">0</div>
-    </div>
-    <div class="card">
-      <div class="metric-label">Adiantamentos pendentes</div>
-      <div class="metric-value yellow" id="dashAdvances">R$ 0,00</div>
-    </div>
-    <div class="card">
-      <div class="metric-label">Fechamentos realizados</div>
-      <div class="metric-value" id="dashClosings">0</div>
+  <div class="panel">
+    <h2>Atalhos</h2>
+    <div class="actions">
+      <button class="btn primary" onclick="showView('attendance')">📅 Registrar dia</button>
+      <button class="btn" onclick="showView('finance')">💸 Lançar despesa</button>
+      <button class="btn" onclick="showView('closings')">🧾 Fechamentos</button>
+      <button class="btn" onclick="showView('backup')">💾 Backup</button>
     </div>
   </div>
 
-  <div class="card">
-    <h2>Últimas movimentações</h2>
-    <div id="recentMovements"></div>
-  </div>
-
-  <div class="notice">
-    <strong>Importante:</strong> os valores financeiros são calculados com base nos lançamentos
-    registrados. Confira os dados antes de realizar pagamentos reais.
+  <div class="panel">
+    <h2>Movimentações recentes</h2>
+    <div id="recentList" class="list"></div>
   </div>
 </section>
 
-<!-- OBRAS -->
-<section id="works" class="view">
-  <div class="section-head">
-    <div>
-      <h2>Obras</h2>
-      <p class="muted">Cadastre e acompanhe cada obra.</p>
-    </div>
-  </div>
+<section class="view" id="view-works">
+  <h1>Obras</h1>
+  <p class="description">Cadastre e organize cada obra separadamente.</p>
 
-  <div class="card">
-    <h3 id="workFormTitle">Cadastrar obra</h3>
+  <div class="panel">
+    <h2 id="workFormTitle">Nova obra</h2>
     <form id="workForm">
       <input type="hidden" id="workId">
-      <div class="form-grid">
-        <div class="field">
-          <label for="workName">Nome da obra *</label>
-          <input id="workName" required placeholder="Ex.: Reforma da casa">
-        </div>
-        <div class="field">
-          <label for="workClient">Cliente / responsável</label>
-          <input id="workClient" placeholder="Nome do cliente">
-        </div>
-        <div class="field">
-          <label for="workAddress">Endereço</label>
-          <input id="workAddress" placeholder="Endereço da obra">
-        </div>
-        <div class="field">
-          <label for="workStart">Data de início</label>
-          <input id="workStart" type="date">
-        </div>
-        <div class="field">
-          <label for="workStatus">Situação</label>
-          <select id="workStatus">
-            <option value="ativa">Ativa</option>
-            <option value="concluida">Concluída</option>
-            <option value="pausada">Pausada</option>
-          </select>
-        </div>
-        <div class="field full">
-          <label for="workNotes">Observações</label>
-          <textarea id="workNotes" placeholder="Informações adicionais"></textarea>
-        </div>
+      <div class="field">
+        <label for="workName">Nome da obra *</label>
+        <input id="workName" required placeholder="Ex.: Reforma residencial">
       </div>
-      <div class="actions" style="margin-top:14px">
-        <button type="submit">Salvar obra</button>
-        <button type="button" class="secondary" onclick="resetWorkForm()">Limpar</button>
+      <div class="field">
+        <label for="workClient">Cliente</label>
+        <input id="workClient" placeholder="Nome do cliente">
       </div>
+      <div class="field">
+        <label for="workAddress">Endereço ou local</label>
+        <input id="workAddress" placeholder="Local da obra">
+      </div>
+      <div class="field">
+        <label for="workBudget">Orçamento previsto (R$)</label>
+        <input id="workBudget" type="number" min="0" step="0.01" inputmode="decimal" placeholder="0,00">
+      </div>
+      <div class="field">
+        <label for="workStatus">Situação</label>
+        <select id="workStatus">
+          <option value="ativa">Ativa</option>
+          <option value="pausada">Pausada</option>
+          <option value="concluida">Concluída</option>
+        </select>
+      </div>
+      <button class="btn primary full" type="submit">💾 Salvar obra</button>
+      <button class="btn full" type="button" id="cancelWorkEdit" hidden>Cancelar edição</button>
     </form>
   </div>
 
-  <div class="card">
-    <h3>Obras cadastradas</h3>
-    <div class="toolbar">
-      <input id="workSearch" placeholder="Buscar obra..." oninput="renderWorks()">
-      <select id="workFilter" onchange="renderWorks()">
-        <option value="">Todas as situações</option>
-        <option value="ativa">Ativas</option>
-        <option value="pausada">Pausadas</option>
-        <option value="concluida">Concluídas</option>
-      </select>
-    </div>
-    <div id="worksTable"></div>
-  </div>
+  <input class="search" id="workSearch" placeholder="🔎 Buscar obra..." aria-label="Buscar obra">
+  <div id="worksList" class="list"></div>
 </section>
 
-<!-- TRABALHADORES -->
-<section id="workers" class="view">
-  <div class="section-head">
-    <div>
-      <h2>Trabalhadores</h2>
-      <p class="muted">Cadastre pedreiros, ajudantes e suas diárias.</p>
-    </div>
-  </div>
+<section class="view" id="view-workers">
+  <h1>Colaboradores</h1>
+  <p class="description">Cadastre os profissionais e seus valores de diária.</p>
 
-  <div class="card">
-    <h3 id="workerFormTitle">Cadastrar trabalhador</h3>
+  <div class="panel">
+    <h2 id="workerFormTitle">Novo colaborador</h2>
     <form id="workerForm">
       <input type="hidden" id="workerId">
-      <div class="form-grid">
-        <div class="field">
-          <label for="workerName">Nome completo *</label>
-          <input id="workerName" required placeholder="Nome do trabalhador">
-        </div>
-        <div class="field">
-          <label for="workerRole">Função</label>
-          <select id="workerRole">
-            <option>Pedreiro</option>
-            <option>Ajudante</option>
-            <option>Servente</option>
-            <option>Eletricista</option>
-            <option>Encanador</option>
-            <option>Pintor</option>
-            <option>Outro</option>
-          </select>
-        </div>
-        <div class="field">
-          <label for="workerRate">Valor da diária (R$) *</label>
-          <input id="workerRate" type="number" min="0" step="0.01" required placeholder="150,00">
-        </div>
-        <div class="field">
-          <label for="workerPhone">Telefone</label>
-          <input id="workerPhone" placeholder="Telefone de contato">
-        </div>
-        <div class="field">
-          <label for="workerStatus">Situação</label>
-          <select id="workerStatus">
-            <option value="ativo">Ativo</option>
-            <option value="inativo">Inativo</option>
-          </select>
-        </div>
-        <div class="field">
-          <label for="workerWork">Obra principal</label>
-          <select id="workerWork"></select>
-        </div>
-        <div class="field full">
-          <label for="workerNotes">Observações</label>
-          <textarea id="workerNotes"></textarea>
-        </div>
+      <div class="field">
+        <label for="workerName">Nome completo *</label>
+        <input id="workerName" required placeholder="Nome do profissional">
       </div>
-      <div class="actions" style="margin-top:14px">
-        <button type="submit">Salvar trabalhador</button>
-        <button type="button" class="secondary" onclick="resetWorkerForm()">Limpar</button>
+      <div class="field">
+        <label for="workerRole">Função</label>
+        <input id="workerRole" placeholder="Ex.: Pedreiro, ajudante">
       </div>
+      <div class="field">
+        <label for="workerRate">Valor da diária (R$) *</label>
+        <input id="workerRate" type="number" required min="0" step="0.01" inputmode="decimal" placeholder="0,00">
+      </div>
+      <div class="field">
+        <label for="workerWork">Obra principal</label>
+        <select id="workerWork"></select>
+      </div>
+      <div class="field">
+        <label for="workerPhone">Telefone (opcional)</label>
+        <input id="workerPhone" type="tel" inputmode="tel" placeholder="Telefone">
+      </div>
+      <div class="field">
+        <label for="workerStatus">Situação</label>
+        <select id="workerStatus">
+          <option value="ativo">Ativo</option>
+          <option value="inativo">Inativo</option>
+        </select>
+      </div>
+      <button class="btn primary full" type="submit">💾 Salvar colaborador</button>
+      <button class="btn full" type="button" id="cancelWorkerEdit" hidden>Cancelar edição</button>
     </form>
   </div>
 
-  <div class="card">
-    <h3>Equipe cadastrada</h3>
-    <div class="toolbar">
-      <input id="workerSearch" placeholder="Buscar trabalhador..." oninput="renderWorkers()">
-      <select id="workerFilter" onchange="renderWorkers()">
-        <option value="">Todos</option>
-        <option value="ativo">Ativos</option>
-        <option value="inativo">Inativos</option>
-      </select>
-    </div>
-    <div id="workersTable"></div>
-  </div>
+  <input class="search" id="workerSearch" placeholder="🔎 Buscar colaborador..." aria-label="Buscar colaborador">
+  <div id="workersList" class="list"></div>
 </section>
 
-<!-- PRESENÇAS -->
-<section id="attendance" class="view">
-  <div class="section-head">
-    <div>
-      <h2>Presenças e diárias</h2>
-      <p class="muted">Registre dias trabalhados, meias diárias, faltas e feriados.</p>
-    </div>
-  </div>
+<section class="view" id="view-attendance">
+  <h1>Presença diária</h1>
+  <p class="description">Registre presença, faltas, meia diária e feriados.</p>
 
-  <div class="card">
-    <h3>Lançar presença</h3>
+  <div class="panel">
+    <h2>Novo registro</h2>
     <form id="attendanceForm">
-      <div class="form-grid">
-        <div class="field">
-          <label for="attDate">Data *</label>
-          <input id="attDate" type="date" required>
-        </div>
-        <div class="field">
-          <label for="attWork">Obra *</label>
-          <select id="attWork" required></select>
-        </div>
-        <div class="field">
-          <label for="attWorker">Trabalhador *</label>
-          <select id="attWorker" required></select>
-        </div>
-        <div class="field">
-          <label for="attType">Registro *</label>
-          <select id="attType" required>
-            <option value="integral">Diária completa</option>
-            <option value="meia">Meia diária</option>
-            <option value="falta">Falta</option>
-            <option value="feriado">Feriado sem trabalho</option>
-            <option value="feriado_trabalhado">Trabalhou no feriado</option>
-          </select>
-        </div>
-        <div class="field">
-          <label for="attRate">Valor da diária aplicada (R$)</label>
-          <input id="attRate" type="number" min="0" step="0.01">
-        </div>
-        <div class="field">
-          <label for="attNotes">Observação</label>
-          <input id="attNotes" placeholder="Opcional">
-        </div>
+      <div class="field">
+        <label for="attDate">Data *</label>
+        <input type="date" id="attDate" required>
       </div>
-      <div class="notice" style="margin-top:14px;margin-bottom:0">
-        A diária completa paga 100% do valor informado; a meia diária paga 50%.
-        Faltas e feriados sem trabalho não geram pagamento. O valor aplicado fica registrado
-        para preservar o cálculo histórico.
+      <div class="field">
+        <label for="attWork">Obra *</label>
+        <select id="attWork" required></select>
       </div>
-      <div class="actions" style="margin-top:14px">
-        <button type="submit">Registrar presença</button>
+      <div class="field">
+        <label for="attWorker">Colaborador *</label>
+        <select id="attWorker" required></select>
       </div>
+      <div class="field">
+        <label for="attStatus">Situação do dia *</label>
+        <select id="attStatus" required>
+          <option value="presente">Presença — diária completa</option>
+          <option value="meia">Meia diária</option>
+          <option value="falta">Falta — sem pagamento</option>
+          <option value="feriado">Feriado — sem pagamento automático</option>
+          <option value="folga">Folga — sem pagamento</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="attRate">Diária deste registro (R$)</label>
+        <input id="attRate" type="number" min="0" step="0.01" inputmode="decimal">
+      </div>
+      <div class="field">
+        <label for="attNote">Observação</label>
+        <textarea id="attNote" placeholder="Detalhes opcionais"></textarea>
+      </div>
+      <div class="notice">O valor da diária é copiado do cadastro, mas pode ser alterado neste registro. Registros anteriores não mudam quando você altera a diária do colaborador.</div>
+      <button class="btn primary full" type="submit">➕ Registrar dia</button>
     </form>
   </div>
 
-  <div class="card">
-    <h3>Histórico de presenças</h3>
-    <div class="toolbar">
-      <input id="attFrom" type="date" title="Data inicial" onchange="renderAttendance()">
-      <input id="attTo" type="date" title="Data final" onchange="renderAttendance()">
-      <select id="attWorkFilter" onchange="renderAttendance()"></select>
-      <select id="attWorkerFilter" onchange="renderAttendance()"></select>
+  <div class="panel">
+    <h2>Consultar registros</h2>
+    <div class="filters">
+      <div class="field">
+        <label for="attFilterWork">Obra</label>
+        <select id="attFilterWork"></select>
+      </div>
+      <div class="field">
+        <label for="attFilterWorker">Colaborador</label>
+        <select id="attFilterWorker"></select>
+      </div>
+      <div class="field">
+        <label for="attFrom">De</label>
+        <input type="date" id="attFrom">
+      </div>
+      <div class="field">
+        <label for="attTo">Até</label>
+        <input type="date" id="attTo">
+      </div>
     </div>
-    <div id="attendanceTable"></div>
+    <div class="actions">
+      <button class="btn primary" id="applyAttFilters" type="button">Filtrar</button>
+      <button class="btn" id="clearAttFilters" type="button">Limpar filtros</button>
+    </div>
+    <div id="attendanceList" class="list"></div>
   </div>
 </section>
 
-<!-- FINANCEIRO -->
-<section id="finance" class="view">
-  <div class="section-head">
-    <div>
-      <h2>Financeiro</h2>
-      <p class="muted">Entradas, pagamentos, adiantamentos e despesas.</p>
-    </div>
-  </div>
+<section class="view" id="view-finance">
+  <h1>Caixa e pagamentos</h1>
+  <p class="description">Registre entradas, despesas, pagamentos e adiantamentos.</p>
 
-  <div class="grid">
-    <div class="card">
-      <div class="metric-label">Saldo atual</div>
-      <div class="metric-value" id="finBalance">R$ 0,00</div>
-    </div>
-    <div class="card">
+  <div class="metrics">
+    <div class="metric">
       <div class="metric-label">Entradas</div>
-      <div class="metric-value green" id="finIncome">R$ 0,00</div>
+      <div class="metric-value positive" id="fIncome">R$ 0,00</div>
     </div>
-    <div class="card">
+    <div class="metric">
       <div class="metric-label">Saídas</div>
-      <div class="metric-value red" id="finOut">R$ 0,00</div>
-    </div>
-    <div class="card">
-      <div class="metric-label">Adiantamentos em aberto</div>
-      <div class="metric-value yellow" id="finAdvances">R$ 0,00</div>
+      <div class="metric-value negative" id="fExpense">R$ 0,00</div>
     </div>
   </div>
 
-  <div class="card">
-    <h3>Lançar movimentação</h3>
+  <div class="panel">
+    <h2>Novo lançamento</h2>
     <form id="financeForm">
-      <div class="form-grid">
-        <div class="field">
-          <label for="finDate">Data *</label>
-          <input id="finDate" type="date" required>
-        </div>
-        <div class="field">
-          <label for="finType">Tipo *</label>
-          <select id="finType" required onchange="updateFinanceFields()">
-            <option value="entrada">Recebimento do contratante</option>
-            <option value="pagamento">Pagamento de trabalhador</option>
-            <option value="adiantamento">Adiantamento a trabalhador</option>
-            <option value="despesa">Despesa da obra</option>
-            <option value="devolucao">Devolução / estorno recebido</option>
-          </select>
-        </div>
-        <div class="field">
-          <label for="finAmount">Valor (R$) *</label>
-          <input id="finAmount" type="number" min="0.01" step="0.01" required placeholder="0,00">
-        </div>
-        <div class="field">
-          <label for="finWork">Obra</label>
-          <select id="finWork"></select>
-        </div>
-        <div class="field" id="finWorkerField">
-          <label for="finWorker">Trabalhador</label>
-          <select id="finWorker"></select>
-        </div>
-        <div class="field">
-          <label for="finMethod">Forma de pagamento</label>
-          <select id="finMethod">
-            <option>Dinheiro</option>
-            <option>Pix</option>
-            <option>Transferência</option>
-            <option>Cartão</option>
-            <option>Outro</option>
-          </select>
-        </div>
-        <div class="field full">
-          <label for="finDescription">Descrição / comprovante</label>
-          <input id="finDescription" placeholder="Ex.: compra de cimento, pagamento semanal...">
-        </div>
+      <div class="field">
+        <label for="finType">Tipo de lançamento *</label>
+        <select id="finType" required>
+          <option value="entrada">Entrada de dinheiro</option>
+          <option value="despesa">Despesa da obra</option>
+          <option value="pagamento">Pagamento de colaborador</option>
+          <option value="adiantamento">Adiantamento de colaborador</option>
+        </select>
       </div>
-      <div class="actions" style="margin-top:14px">
-        <button type="submit">Salvar movimentação</button>
+      <div class="field">
+        <label for="finDate">Data *</label>
+        <input type="date" id="finDate" required>
       </div>
+      <div class="field">
+        <label for="finWork">Obra</label>
+        <select id="finWork"></select>
+      </div>
+      <div class="field" id="finWorkerField" hidden>
+        <label for="finWorker">Colaborador</label>
+        <select id="finWorker"></select>
+      </div>
+      <div class="field">
+        <label for="finDescription">Descrição *</label>
+        <input id="finDescription" required placeholder="Ex.: Compra de material">
+      </div>
+      <div class="field">
+        <label for="finAmount">Valor (R$) *</label>
+        <input id="finAmount" type="number" required min="0.01" step="0.01" inputmode="decimal" placeholder="0,00">
+      </div>
+      <div class="field">
+        <label for="finMethod">Forma de pagamento</label>
+        <select id="finMethod">
+          <option>Dinheiro</option>
+          <option>Pix</option>
+          <option>Transferência</option>
+          <option>Cartão</option>
+          <option>Outro</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="finNote">Observação</label>
+        <textarea id="finNote" placeholder="Detalhes opcionais"></textarea>
+      </div>
+      <button class="btn primary full" type="submit">💾 Salvar lançamento</button>
     </form>
   </div>
 
-  <div class="card">
-    <h3>Livro-caixa</h3>
-    <div class="toolbar">
-      <input id="finFrom" type="date" title="Data inicial" onchange="renderFinance()">
-      <input id="finTo" type="date" title="Data final" onchange="renderFinance()">
-      <select id="finTypeFilter" onchange="renderFinance()">
-        <option value="">Todos os tipos</option>
-        <option value="entrada">Recebimentos</option>
-        <option value="pagamento">Pagamentos</option>
-        <option value="adiantamento">Adiantamentos</option>
-        <option value="despesa">Despesas</option>
-        <option value="devolucao">Devoluções</option>
-      </select>
+  <div class="panel">
+    <h2>Histórico do caixa</h2>
+    <div class="filters">
+      <div class="field">
+        <label for="finFilterType">Tipo</label>
+        <select id="finFilterType">
+          <option value="">Todos</option>
+          <option value="entrada">Entradas</option>
+          <option value="despesa">Despesas</option>
+          <option value="pagamento">Pagamentos</option>
+          <option value="adiantamento">Adiantamentos</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="finFilterWork">Obra</label>
+        <select id="finFilterWork"></select>
+      </div>
     </div>
-    <div id="financeTable"></div>
+    <input class="search" id="finSearch" placeholder="🔎 Buscar lançamento..." aria-label="Buscar lançamento">
+    <div id="financeList" class="list"></div>
   </div>
 </section>
 
-<!-- FECHAMENTOS -->
-<section id="closings" class="view">
-  <div class="section-head">
-    <div>
-      <h2>Fechamentos de pagamento</h2>
-      <p class="muted">Calcule o valor devido por trabalhador em um período personalizado.</p>
-    </div>
-  </div>
+<section class="view" id="view-closings">
+  <h1>Fechamentos</h1>
+  <p class="description">Feche um período de trabalho e guarde um retrato dos valores calculados.</p>
 
   <div class="notice">
-    O fechamento registra uma cópia dos valores e das presenças daquele período.
-    Alterações posteriores nos cadastros não modificam automaticamente um fechamento já salvo.
-    Revise os lançamentos antes de fechar.
+    O fechamento considera os registros de presença e os pagamentos e adiantamentos já lançados no período. Ao confirmar, os valores são congelados como histórico. Guarde também um backup dos dados.
   </div>
 
-  <div class="card">
-    <h3>Gerar fechamento</h3>
+  <div class="panel">
+    <h2>Novo fechamento</h2>
     <form id="closingForm">
-      <div class="form-grid">
-        <div class="field">
-          <label for="closeWork">Obra *</label>
-          <select id="closeWork" required></select>
-        </div>
-        <div class="field">
-          <label for="closeFrom">Início do período *</label>
-          <input id="closeFrom" type="date" required>
-        </div>
-        <div class="field">
-          <label for="closeTo">Fim do período *</label>
-          <input id="closeTo" type="date" required>
-        </div>
+      <div class="field">
+        <label for="closeWork">Obra *</label>
+        <select id="closeWork" required></select>
       </div>
-      <div class="actions" style="margin-top:14px">
-        <button type="submit">Calcular e salvar fechamento</button>
+      <div class="field">
+        <label for="closeFrom">Data inicial *</label>
+        <input type="date" id="closeFrom" required>
       </div>
+      <div class="field">
+        <label for="closeTo">Data final *</label>
+        <input type="date" id="closeTo" required>
+      </div>
+      <div class="field">
+        <label for="closeNote">Observação</label>
+        <textarea id="closeNote" placeholder="Ex.: Fechamento da primeira quinzena"></textarea>
+      </div>
+      <button class="btn primary full" type="submit">🧾 Calcular e salvar fechamento</button>
     </form>
   </div>
 
-  <div class="card">
-    <h3>Fechamentos salvos</h3>
-    <div id="closingsTable"></div>
-  </div>
-
-  <div id="closingDetail"></div>
-</section>
-
-<!-- BACKUP -->
-<section id="backup" class="view">
-  <div class="section-head">
-    <div>
-      <h2>Backup e histórico</h2>
-      <p class="muted">Proteja os dados e acompanhe as ações realizadas.</p>
-    </div>
-  </div>
-
-  <div class="card">
-    <h3>Backup dos dados</h3>
-    <p class="muted">Exporte todos os registros para um arquivo JSON. Para restaurar, selecione um backup previamente exportado.</p>
-    <div class="actions">
-      <button onclick="exportData()">⇩ Exportar backup JSON</button>
-      <button class="secondary" onclick="document.getElementById('importFile').click()">⇧ Importar backup JSON</button>
-      <input type="file" id="importFile" accept=".json,application/json" hidden onchange="importData(event)">
-    </div>
-    <hr>
-    <p class="muted">O arquivo de backup pode conter informações financeiras e pessoais. Guarde-o em local seguro.</p>
-  </div>
-
-  <div class="card">
-    <h3>Histórico de ações</h3>
-    <div id="auditTable"></div>
-  </div>
-
-  <div class="card">
-    <h3>Dados do navegador</h3>
-    <p class="muted" id="storageInfo"></p>
-    <button class="danger" onclick="clearAllData()">Apagar todos os dados</button>
-    <p class="muted">Esta ação não pode ser desfeita. Exporte um backup antes de continuar.</p>
+  <div class="panel">
+    <h2>Histórico de fechamentos</h2>
+    <div id="closingsList" class="list"></div>
   </div>
 </section>
 
+<section class="view" id="view-backup">
+  <h1>Backup e ajustes</h1>
+  <p class="description">Proteja seus dados e transfira-os para outro dispositivo.</p>
+
+  <div class="panel">
+    <h2>💾 Cópia de segurança</h2>
+    <p class="description">Exporte um arquivo JSON e guarde-o em um local seguro. O backup inclui obras, colaboradores, presenças, lançamentos, fechamentos e histórico.</p>
+    <button class="btn primary full" id="exportBtn" type="button">⬇️ Exportar backup</button>
+    <hr class="separator">
+    <div class="field">
+      <label for="importFile">Restaurar backup JSON</label>
+      <input id="importFile" type="file" accept=".json,application/json">
+    </div>
+    <button class="btn warning full" id="importBtn" type="button">⬆️ Importar backup</button>
+    <p class="description">Importar substitui os dados atuais. Exporte um backup antes de restaurar.</p>
+  </div>
+
+  <div class="panel">
+    <h2>Configurações</h2>
+    <button class="btn full" id="themeBtn2" type="button">🌗 Alternar tema</button>
+    <hr class="separator">
+    <h3>Dados locais</h3>
+    <p class="description">Os dados ficam no armazenamento do navegador deste dispositivo. Limpar os dados do navegador pode apagá-los. Exporte backups regularmente.</p>
+    <button class="btn danger full" id="clearBtn" type="button">Apagar todos os dados</button>
+  </div>
+
+  <div class="panel">
+    <h2>Auditoria</h2>
+    <div id="auditList" class="list"></div>
+  </div>
+</section>
+
+<footer>ObraControl · Controle de obras no celular</footer>
 </main>
 
-<footer>Controle de Obras • Sistema local • Faça backups regularmente</footer>
+<nav class="nav no-print" aria-label="Navegação principal">
+  <button class="active" data-view="dashboard"><span class="ico">🏠</span>Início</button>
+  <button data-view="works"><span class="ico">🏗️</span>Obras</button>
+  <button data-view="workers"><span class="ico">👷</span>Equipe</button>
+  <button data-view="attendance"><span class="ico">📅</span>Presença</button>
+  <button data-view="finance"><span class="ico">💰</span>Caixa</button>
+  <button data-view="closings"><span class="ico">🧾</span>Fechar</button>
+  <button data-view="backup"><span class="ico">💾</span>Backup</button>
+</nav>
 
 <script>
 "use strict";
 
-/* =========================
-   DADOS E ARMAZENAMENTO
-========================= */
-
 const STORAGE_KEY = "controle_obras_v1";
+
+const $ = id => document.getElementById(id);
+const today = () => new Date().toLocaleDateString("en-CA");
+const money = value => Number(value || 0).toLocaleString("pt-BR", {
+  style: "currency", currency: "BRL"
+});
+const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
+const escapeHTML = value => String(value ?? "").replace(/[&<>"']/g, ch => ({
+  "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+}[ch]));
+const dateBR = value => value
+  ? new Date(value + "T12:00:00").toLocaleDateString("pt-BR")
+  : "—";
 
 function emptyDB() {
   return {
-    version: 1,
     works: [],
     workers: [],
     attendance: [],
@@ -817,21 +948,15 @@ function loadDB() {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (!raw) return emptyDB();
-
-    const data = JSON.parse(raw);
+    const parsed = JSON.parse(raw);
     const base = emptyDB();
-
-    for (const key of Object.keys(base)) {
-      if (Array.isArray(base[key])) {
-        base[key] = Array.isArray(data[key]) ? data[key] : [];
-      } else if (key === "theme") {
-        base.theme = data.theme === "light" ? "light" : "dark";
-      }
-    }
-
+    Object.keys(base).forEach(key => {
+      if (Array.isArray(base[key])) base[key] = Array.isArray(parsed[key]) ? parsed[key] : [];
+      else base[key] = parsed[key] ?? base[key];
+    });
     return base;
   } catch (error) {
-    alert("Não foi possível ler os dados salvos. Faça a recuperação usando um backup, se disponível.");
+    alert("Não foi possível ler os dados salvos. Antes de continuar, evite apagar os dados do navegador.");
     return emptyDB();
   }
 }
@@ -841,60 +966,10 @@ let db = loadDB();
 function saveDB() {
   try {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(db));
-    updateStorageInfo();
-    return true;
+    renderAll();
   } catch (error) {
-    alert("Não foi possível salvar. O armazenamento pode estar cheio. Exporte um backup e libere espaço.");
-    return false;
+    alert("Não foi possível salvar. O armazenamento pode estar cheio. Exporte um backup e verifique o espaço disponível.");
   }
-}
-
-function uid() {
-  return Date.now().toString(36) + Math.random().toString(36).slice(2, 9);
-}
-
-function today() {
-  const d = new Date();
-  return d.getFullYear() + "-" +
-    String(d.getMonth() + 1).padStart(2, "0") + "-" +
-    String(d.getDate()).padStart(2, "0");
-}
-
-function money(value) {
-  return Number(value || 0).toLocaleString("pt-BR", {
-    style: "currency",
-    currency: "BRL"
-  });
-}
-
-function num(value) {
-  const n = Number(value);
-  return Number.isFinite(n) ? n : 0;
-}
-
-function escapeHTML(value) {
-  return String(value ?? "").replace(/[&<>"']/g, char => ({
-    "&": "&amp;",
-    "<": "&lt;",
-    ">": "&gt;",
-    '"': "&quot;",
-    "'": "&#39;"
-  })[char]);
-}
-
-function dateBR(date) {
-  if (!date) return "—";
-  const parts = date.split("-");
-  if (parts.length !== 3) return escapeHTML(date);
-  return parts[2] + "/" + parts[1] + "/" + parts[0];
-}
-
-function workName(id) {
-  return db.works.find(x => x.id === id)?.name || "Obra não identificada";
-}
-
-function workerName(id) {
-  return db.workers.find(x => x.id === id)?.name || "Trabalhador não identificado";
 }
 
 function logAction(action, detail) {
@@ -902,1030 +977,746 @@ function logAction(action, detail) {
     id: uid(),
     date: new Date().toISOString(),
     action,
-    detail: String(detail || "")
+    detail
   });
-  db.audit = db.audit.slice(0, 500);
+  db.audit = db.audit.slice(0, 300);
 }
 
-function persist(action, detail) {
-  logAction(action, detail);
-  saveDB();
-  refreshAll();
+function getWork(id) {
+  return db.works.find(item => item.id === id);
 }
 
-function isActiveWork(work) {
-  return work.status === "ativa";
+function getWorker(id) {
+  return db.workers.find(item => item.id === id);
 }
 
-function getWorkOptions(selected = "") {
-  return '<option value="">Selecione...</option>' +
-    db.works.map(w =>
-      `<option value="${escapeHTML(w.id)}" ${w.id === selected ? "selected" : ""}>${escapeHTML(w.name)}</option>`
-    ).join("");
+function selectOptions(items, firstLabel = "Todas") {
+  return `<option value="">${escapeHTML(firstLabel)}</option>` +
+    items.map(item => `<option value="${escapeHTML(item.id)}">${escapeHTML(item.name)}</option>`).join("");
 }
 
-function getWorkerOptions(selected = "", onlyActive = true) {
-  const list = onlyActive ? db.workers.filter(w => w.status === "ativo") : db.workers;
-  return '<option value="">Selecione...</option>' +
-    list.map(w =>
-      `<option value="${escapeHTML(w.id)}" ${w.id === selected ? "selected" : ""}>${escapeHTML(w.name)}</option>`
-    ).join("");
+function setSelect(id, html, preserve = true) {
+  const el = $(id);
+  if (!el) return;
+  const old = preserve ? el.value : "";
+  el.innerHTML = html;
+  if ([...el.options].some(option => option.value === old)) el.value = old;
 }
 
-function fillSelects() {
-  const workFields = [
-    "workerWork", "attWork", "attWorkFilter", "finWork", "closeWork"
-  ];
+function refreshSelects() {
+  const workOptions = selectOptions(db.works, "Selecione uma obra");
+  const filterWorkOptions = selectOptions(db.works, "Todas as obras");
+  const workerOptions = selectOptions(db.workers, "Selecione um colaborador");
+  const filterWorkerOptions = selectOptions(db.workers, "Todos os colaboradores");
 
-  workFields.forEach(id => {
-    const el = document.getElementById(id);
-    if (!el) return;
-    const previous = el.value;
-    const allOption = id === "attWorkFilter"
-      ? '<option value="">Todas as obras</option>'
-      : '<option value="">Selecione...</option>';
-    el.innerHTML = allOption + db.works.map(w =>
-      `<option value="${escapeHTML(w.id)}">${escapeHTML(w.name)}</option>`
-    ).join("");
-    if ([...el.options].some(o => o.value === previous)) el.value = previous;
-  });
-
-  const workerFields = ["attWorker", "attWorkerFilter", "finWorker"];
-  workerFields.forEach(id => {
-    const el = document.getElementById(id);
-    if (!el) return;
-    const previous = el.value;
-    const allOption = id === "attWorkerFilter"
-      ? '<option value="">Todos os trabalhadores</option>'
-      : '<option value="">Selecione...</option>';
-    el.innerHTML = allOption + db.workers.map(w =>
-      `<option value="${escapeHTML(w.id)}">${escapeHTML(w.name)}</option>`
-    ).join("");
-    if ([...el.options].some(o => o.value === previous)) el.value = previous;
-  });
+  ["workerWork", "attWork", "finWork", "closeWork"].forEach(id => setSelect(id, workOptions));
+  ["attFilterWork", "finFilterWork"].forEach(id => setSelect(id, filterWorkOptions));
+  setSelect("attWorker", workerOptions);
+  setSelect("finWorker", workerOptions);
+  setSelect("attFilterWorker", filterWorkerOptions);
 }
 
-/* =========================
-   NAVEGAÇÃO E TEMA
-========================= */
+function showView(name) {
+  document.querySelectorAll(".view").forEach(view => view.classList.remove("active"));
+  document.querySelectorAll(".nav button").forEach(button => button.classList.toggle("active", button.dataset.view === name));
+  const target = $("view-" + name);
+  if (target) target.classList.add("active");
+  window.scrollTo({ top: 0, behavior: "smooth" });
+  renderAll();
+}
 
-document.querySelectorAll("#navigation button").forEach(button => {
-  button.addEventListener("click", () => {
-    document.querySelectorAll("#navigation button").forEach(b => b.classList.remove("active"));
-    document.querySelectorAll(".view").forEach(v => v.classList.remove("active"));
-
-    button.classList.add("active");
-    document.getElementById(button.dataset.view).classList.add("active");
-    refreshAll();
-  });
+document.querySelectorAll(".nav button").forEach(button => {
+  button.addEventListener("click", () => showView(button.dataset.view));
 });
+
+function applyTheme() {
+  const light = db.theme === "light";
+  if (light) {
+    document.documentElement.style.setProperty("--bg", "#f1f5f9");
+    document.documentElement.style.setProperty("--panel", "#ffffff");
+    document.documentElement.style.setProperty("--panel2", "#e2e8f0");
+    document.documentElement.style.setProperty("--text", "#172033");
+    document.documentElement.style.setProperty("--muted", "#64748b");
+    document.documentElement.style.setProperty("--border", "#d7e0eb");
+    document.querySelectorAll("input,select,textarea").forEach(el => {
+      el.style.background = "#ffffff";
+      el.style.color = "#172033";
+    });
+    document.querySelectorAll(".item").forEach(el => {
+      el.style.background = "#f8fafc";
+    });
+    document.querySelectorAll(".nav").forEach(el => el.style.background = "rgba(255,255,255,.97)");
+    document.querySelectorAll("header").forEach(el => el.style.background = "rgba(241,245,249,.97)");
+  } else {
+    ["--bg", "--panel", "--panel2", "--text", "--muted", "--border"].forEach((key, i) => {
+      const values = ["#0b1120", "#151f30", "#1c293d", "#f1f5f9", "#9aa9bd", "#2b3a50"];
+      document.documentElement.style.setProperty(key, values[i]);
+    });
+    document.querySelectorAll("input,select,textarea").forEach(el => {
+      el.style.background = "#0d1727";
+      el.style.color = "#f1f5f9";
+    });
+    document.querySelectorAll(".item").forEach(el => el.style.background = "#111b2b");
+    document.querySelectorAll(".nav").forEach(el => el.style.background = "rgba(15,24,40,.98)");
+    document.querySelectorAll("header").forEach(el => el.style.background = "rgba(11,17,32,.96)");
+  }
+  $("themeBtn").textContent = light ? "🌙 Tema" : "☀️ Tema";
+  $("themeBtn2").textContent = light ? "🌙 Usar tema escuro" : "☀️ Usar tema claro";
+}
 
 function toggleTheme() {
-  db.theme = db.theme === "dark" ? "light" : "dark";
-  document.body.classList.toggle("light", db.theme === "light");
-  saveDB();
+  db.theme = db.theme === "light" ? "dark" : "light";
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(db));
+  applyTheme();
 }
 
-document.body.classList.toggle("light", db.theme === "light");
+$("themeBtn").addEventListener("click", toggleTheme);
+$("themeBtn2").addEventListener("click", toggleTheme);
 
-/* =========================
-   OBRAS
-========================= */
-
-function resetWorkForm() {
-  document.getElementById("workForm").reset();
-  document.getElementById("workId").value = "";
-  document.getElementById("workFormTitle").textContent = "Cadastrar obra";
-  document.getElementById("workStart").value = today();
+function workCard(work) {
+  const spent = db.finance
+    .filter(item => item.workId === work.id && item.type !== "entrada")
+    .reduce((sum, item) => sum + Number(item.amount), 0);
+  return `
+    <div class="item">
+      <div class="item-top">
+        <div>
+          <div class="item-title">${escapeHTML(work.name)}</div>
+          <div class="item-sub">
+            ${escapeHTML(work.client || "Sem cliente informado")}<br>
+            ${escapeHTML(work.address || "Sem endereço informado")}<br>
+            Situação: ${escapeHTML(work.status)}
+          </div>
+        </div>
+        <span class="badge">${escapeHTML(work.status)}</span>
+      </div>
+      <hr class="separator">
+      <div class="item-sub">Orçamento: <strong>${money(work.budget)}</strong></div>
+      <div class="item-sub">Saídas registradas: <strong>${money(spent)}</strong></div>
+      <div class="actions">
+        <button class="btn small" onclick="editWork('${work.id}')">✏️ Editar</button>
+        <button class="btn small danger" onclick="deleteWork('${work.id}')">Excluir</button>
+      </div>
+    </div>`;
 }
 
-document.getElementById("workForm").addEventListener("submit", event => {
-  event.preventDefault();
-
-  const id = document.getElementById("workId").value;
-  const name = document.getElementById("workName").value.trim();
-  if (!name) return alert("Informe o nome da obra.");
-
-  const existing = db.works.find(w => w.id === id);
-
-  const item = {
-    id: id || uid(),
-    name,
-    client: document.getElementById("workClient").value.trim(),
-    address: document.getElementById("workAddress").value.trim(),
-    start: document.getElementById("workStart").value,
-    status: document.getElementById("workStatus").value,
-    notes: document.getElementById("workNotes").value.trim(),
-    createdAt: existing?.createdAt || new Date().toISOString()
-  };
-
-  if (existing) {
-    Object.assign(existing, item);
-    persist("Obra editada", name);
-  } else {
-    db.works.push(item);
-    persist("Obra cadastrada", name);
-  }
-
-  resetWorkForm();
-});
-
-function editWork(id) {
-  const w = db.works.find(x => x.id === id);
-  if (!w) return;
-
-  document.getElementById("workId").value = w.id;
-  document.getElementById("workName").value = w.name;
-  document.getElementById("workClient").value = w.client || "";
-  document.getElementById("workAddress").value = w.address || "";
-  document.getElementById("workStart").value = w.start || "";
-  document.getElementById("workStatus").value = w.status || "ativa";
-  document.getElementById("workNotes").value = w.notes || "";
-  document.getElementById("workFormTitle").textContent = "Editar obra";
-
-  showView("works");
-  window.scrollTo({ top: 0, behavior: "smooth" });
+function workerCard(worker) {
+  const work = getWork(worker.workId);
+  const records = db.attendance.filter(item => item.workerId === worker.id);
+  const earned = records.reduce((sum, item) => sum + Number(item.amount || 0), 0);
+  return `
+    <div class="item">
+      <div class="item-top">
+        <div>
+          <div class="item-title">${escapeHTML(worker.name)}</div>
+          <div class="item-sub">${escapeHTML(worker.role || "Função não informada")}</div>
+          <div class="item-sub">${escapeHTML(work?.name || "Sem obra principal")}</div>
+          <div class="item-sub">${escapeHTML(worker.phone || "Sem telefone")}</div>
+        </div>
+        <span class="badge ${worker.status === "ativo" ? "green" : ""}">${escapeHTML(worker.status)}</span>
+      </div>
+      <hr class="separator">
+      <div class="item-sub">Diária atual: <strong>${money(worker.rate)}</strong></div>
+      <div class="item-sub">Total registrado em presença: <strong>${money(earned)}</strong></div>
+      <div class="actions">
+        <button class="btn small" onclick="editWorker('${worker.id}')">✏️ Editar</button>
+        <button class="btn small danger" onclick="deleteWorker('${worker.id}')">Excluir</button>
+      </div>
+    </div>`;
 }
-
-function deleteWork(id) {
-  const w = db.works.find(x => x.id === id);
-  if (!w) return;
-
-  const hasRecords =
-    db.attendance.some(a => a.workId === id) ||
-    db.finance.some(f => f.workId === id) ||
-    db.closings.some(c => c.workId === id);
-
-  if (hasRecords) {
-    return alert("Esta obra possui registros relacionados. Altere a situação para Pausada ou Concluída em vez de excluir.");
-  }
-
-  if (!confirm(`Excluir a obra "${w.name}"?`)) return;
-  db.works = db.works.filter(x => x.id !== id);
-  persist("Obra excluída", w.name);
-}
-
-function renderWorks() {
-  const search = (document.getElementById("workSearch")?.value || "").toLowerCase();
-  const filter = document.getElementById("workFilter")?.value || "";
-
-  const list = db.works.filter(w =>
-    (w.name + " " + (w.client || "") + " " + (w.address || "")).toLowerCase().includes(search) &&
-    (!filter || w.status === filter)
-  );
-
-  const target = document.getElementById("worksTable");
-  if (!list.length) {
-    target.innerHTML = '<div class="empty">Nenhuma obra encontrada.</div>';
-    return;
-  }
-
-  target.innerHTML = `<div class="table-wrap"><table>
-    <thead><tr><th>Obra</th><th>Cliente</th><th>Início</th><th>Situação</th><th>Ações</th></tr></thead>
-    <tbody>${list.map(w => `<tr>
-      <td><strong>${escapeHTML(w.name)}</strong><br><span class="muted">${escapeHTML(w.address || "")}</span></td>
-      <td>${escapeHTML(w.client || "—")}</td>
-      <td>${dateBR(w.start)}</td>
-      <td><span class="badge ${w.status === "ativa" ? "green" : w.status === "pausada" ? "yellow" : ""}">${escapeHTML(w.status)}</span></td>
-      <td><div class="actions">
-        <button class="small secondary" onclick="editWork('${w.id}')">Editar</button>
-        <button class="small danger" onclick="deleteWork('${w.id}')">Excluir</button>
-      </div></td>
-    </tr>`).join("")}</tbody>
-  </table></div>`;
-}
-
-/* =========================
-   TRABALHADORES
-========================= */
-
-function resetWorkerForm() {
-  document.getElementById("workerForm").reset();
-  document.getElementById("workerId").value = "";
-  document.getElementById("workerFormTitle").textContent = "Cadastrar trabalhador";
-  fillSelects();
-}
-
-document.getElementById("workerForm").addEventListener("submit", event => {
-  event.preventDefault();
-
-  const id = document.getElementById("workerId").value;
-  const name = document.getElementById("workerName").value.trim();
-  const rate = num(document.getElementById("workerRate").value);
-
-  if (!name) return alert("Informe o nome do trabalhador.");
-  if (rate < 0) return alert("O valor da diária não pode ser negativo.");
-
-  const existing = db.workers.find(w => w.id === id);
-
-  const item = {
-    id: id || uid(),
-    name,
-    role: document.getElementById("workerRole").value,
-    rate,
-    phone: document.getElementById("workerPhone").value.trim(),
-    status: document.getElementById("workerStatus").value,
-    workId: document.getElementById("workerWork").value,
-    notes: document.getElementById("workerNotes").value.trim(),
-    createdAt: existing?.createdAt || new Date().toISOString()
-  };
-
-  if (existing) {
-    Object.assign(existing, item);
-    persist("Trabalhador editado", name);
-  } else {
-    db.workers.push(item);
-    persist("Trabalhador cadastrado", name);
-  }
-
-  resetWorkerForm();
-});
-
-function editWorker(id) {
-  const w = db.workers.find(x => x.id === id);
-  if (!w) return;
-
-  fillSelects();
-  document.getElementById("workerId").value = w.id;
-  document.getElementById("workerName").value = w.name;
-  document.getElementById("workerRole").value = w.role || "Pedreiro";
-  document.getElementById("workerRate").value = w.rate;
-  document.getElementById("workerPhone").value = w.phone || "";
-  document.getElementById("workerStatus").value = w.status || "ativo";
-  document.getElementById("workerWork").value = w.workId || "";
-  document.getElementById("workerNotes").value = w.notes || "";
-  document.getElementById("workerFormTitle").textContent = "Editar trabalhador";
-
-  showView("workers");
-  window.scrollTo({ top: 0, behavior: "smooth" });
-}
-
-function deleteWorker(id) {
-  const w = db.workers.find(x => x.id === id);
-  if (!w) return;
-
-  const hasRecords =
-    db.attendance.some(a => a.workerId === id) ||
-    db.finance.some(f => f.workerId === id) ||
-    db.closings.some(c => c.workers?.some(x => x.workerId === id));
-
-  if (hasRecords) {
-    return alert("Este trabalhador possui histórico. Altere a situação para Inativo para preservar os registros.");
-  }
-
-  if (!confirm(`Excluir o trabalhador "${w.name}"?`)) return;
-  db.workers = db.workers.filter(x => x.id !== id);
-  persist("Trabalhador excluído", w.name);
-}
-
-function renderWorkers() {
-  const search = (document.getElementById("workerSearch")?.value || "").toLowerCase();
-  const filter = document.getElementById("workerFilter")?.value || "";
-
-  const list = db.workers.filter(w =>
-    (w.name + " " + (w.role || "") + " " + (w.phone || "")).toLowerCase().includes(search) &&
-    (!filter || w.status === filter)
-  );
-
-  const target = document.getElementById("workersTable");
-  if (!list.length) {
-    target.innerHTML = '<div class="empty">Nenhum trabalhador encontrado.</div>';
-    return;
-  }
-
-  target.innerHTML = `<div class="table-wrap"><table>
-    <thead><tr><th>Trabalhador</th><th>Função</th><th>Diária</th><th>Obra principal</th><th>Situação</th><th>Ações</th></tr></thead>
-    <tbody>${list.map(w => `<tr>
-      <td><strong>${escapeHTML(w.name)}</strong><br><span class="muted">${escapeHTML(w.phone || "")}</span></td>
-      <td>${escapeHTML(w.role || "—")}</td>
-      <td>${money(w.rate)}</td>
-      <td>${escapeHTML(w.workId ? workName(w.workId) : "—")}</td>
-      <td><span class="badge ${w.status === "ativo" ? "green" : ""}">${escapeHTML(w.status)}</span></td>
-      <td><div class="actions">
-        <button class="small secondary" onclick="editWorker('${w.id}')">Editar</button>
-        <button class="small danger" onclick="deleteWorker('${w.id}')">Excluir</button>
-      </div></td>
-    </tr>`).join("")}</tbody>
-  </table></div>`;
-}
-
-/* =========================
-   PRESENÇAS
-========================= */
-
-document.getElementById("attDate").value = today();
-
-document.getElementById("attWorker").addEventListener("change", () => {
-  const w = db.workers.find(x => x.id === document.getElementById("attWorker").value);
-  if (w) document.getElementById("attRate").value = w.rate;
-});
-
-document.getElementById("attType").addEventListener("change", () => {
-  const type = document.getElementById("attType").value;
-  const field = document.getElementById("attRate");
-  if (type === "falta" || type === "feriado") {
-    field.value = 0;
-  } else {
-    const w = db.workers.find(x => x.id === document.getElementById("attWorker").value);
-    if (w) field.value = w.rate;
-  }
-});
-
-document.getElementById("attWorker").addEventListener("change", () => {
-  const w = db.workers.find(x => x.id === document.getElementById("attWorker").value);
-  if (w && !document.getElementById("attRate").value) {
-    document.getElementById("attRate").value = w.rate;
-  }
-});
-
-document.getElementById("attendanceForm").addEventListener("submit", event => {
-  event.preventDefault();
-
-  const date = document.getElementById("attDate").value;
-  const workId = document.getElementById("attWork").value;
-  const workerId = document.getElementById("attWorker").value;
-  const type = document.getElementById("attType").value;
-  const rate = num(document.getElementById("attRate").value);
-
-  if (!date || !workId || !workerId) {
-    return alert("Preencha data, obra e trabalhador.");
-  }
-
-  if (rate < 0) return alert("O valor não pode ser negativo.");
-
-  const duplicate = db.attendance.find(a =>
-    a.date === date && a.workId === workId && a.workerId === workerId
-  );
-
-  if (duplicate) {
-    if (!confirm("Já existe um lançamento para este trabalhador nesta obra e data. Deseja substituir o registro?")) return;
-    db.attendance = db.attendance.filter(a => a.id !== duplicate.id);
-    logAction("Presença substituída", `${workerName(workerId)} • ${dateBR(date)}`);
-  }
-
-  const item = {
-    id: uid(),
-    date,
-    workId,
-    workerId,
-    type,
-    rate,
-    notes: document.getElementById("attNotes").value.trim(),
-    createdAt: new Date().toISOString()
-  };
-
-  db.attendance.push(item);
-  persist("Presença registrada", `${workerName(workerId)} • ${dateBR(date)} • ${type}`);
-  document.getElementById("attNotes").value = "";
-});
-
-function attendanceUnits(type) {
-  if (type === "integral" || type === "feriado_trabalhado") return 1;
-  if (type === "meia") return 0.5;
-  return 0;
-}
-
-function attendanceValue(item) {
-  return num(item.rate) * attendanceUnits(item.type);
-}
-
-function attendanceLabel(type) {
-  return ({
-    integral: "Diária completa",
-    meia: "Meia diária",
-    falta: "Falta",
-    feriado: "Feriado sem trabalho",
-    feriado_trabalhado: "Trabalhou no feriado"
-  })[type] || type;
-}
-
-function deleteAttendance(id) {
-  const item = db.attendance.find(a => a.id === id);
-  if (!item) return;
-
-  if (!confirm("Excluir este lançamento de presença? Os fechamentos já salvos não serão alterados.")) return;
-
-  db.attendance = db.attendance.filter(a => a.id !== id);
-  persist("Presença excluída", `${workerName(item.workerId)} • ${dateBR(item.date)}`);
-}
-
-function renderAttendance() {
-  const from = document.getElementById("attFrom")?.value || "";
-  const to = document.getElementById("attTo")?.value || "";
-  const work = document.getElementById("attWorkFilter")?.value || "";
-  const worker = document.getElementById("attWorkerFilter")?.value || "";
-
-  const list = db.attendance.filter(a =>
-    (!from || a.date >= from) &&
-    (!to || a.date <= to) &&
-    (!work || a.workId === work) &&
-    (!worker || a.workerId === worker)
-  ).sort((a, b) => b.date.localeCompare(a.date));
-
-  const target = document.getElementById("attendanceTable");
-  if (!list.length) {
-    target.innerHTML = '<div class="empty">Nenhuma presença encontrada.</div>';
-    return;
-  }
-
-  const total = list.reduce((sum, a) => sum + attendanceValue(a), 0);
-  const units = list.reduce((sum, a) => sum + attendanceUnits(a.type), 0);
-
-  target.innerHTML = `<p class="muted">Diárias equivalentes: <strong>${units}</strong> • Valor calculado: <strong>${money(total)}</strong></p>
-    <div class="table-wrap"><table>
-    <thead><tr><th>Data</th><th>Obra</th><th>Trabalhador</th><th>Registro</th><th>Diária aplicada</th><th>Valor</th><th>Ação</th></tr></thead>
-    <tbody>${list.map(a => `<tr>
-      <td>${dateBR(a.date)}</td>
-      <td>${escapeHTML(workName(a.workId))}</td>
-      <td>${escapeHTML(workerName(a.workerId))}</td>
-      <td>${escapeHTML(attendanceLabel(a.type))}</td>
-      <td>${money(a.rate)}</td>
-      <td><strong>${money(attendanceValue(a))}</strong></td>
-      <td><button class="small danger" onclick="deleteAttendance('${a.id}')">Excluir</button></td>
-    </tr>`).join("")}</tbody>
-    </table></div>`;
-}
-
-/* =========================
-   FINANCEIRO
-========================= */
-
-document.getElementById("finDate").value = today();
-
-function updateFinanceFields() {
-  const type = document.getElementById("finType").value;
-  const needsWorker = type === "pagamento" || type === "adiantamento";
-  document.getElementById("finWorkerField").style.display = needsWorker ? "flex" : "none";
-  document.getElementById("finWorker").required = needsWorker;
-}
-
-document.getElementById("finType").addEventListener("change", updateFinanceFields);
-
-document.getElementById("financeForm").addEventListener("submit", event => {
-  event.preventDefault();
-
-  const date = document.getElementById("finDate").value;
-  const type = document.getElementById("finType").value;
-  const amount = num(document.getElementById("finAmount").value);
-  const workId = document.getElementById("finWork").value;
-  const workerId = document.getElementById("finWorker").value;
-
-  if (!date) return alert("Informe a data.");
-  if (amount <= 0) return alert("O valor precisa ser maior que zero.");
-
-  if ((type === "pagamento" || type === "adiantamento") && !workerId) {
-    return alert("Selecione o trabalhador.");
-  }
-
-  if (type === "pagamento" && workerId) {
-    const balance = workerBalance(workerId);
-    if (amount > balance + 0.001) {
-      if (!confirm(`O pagamento (${money(amount)}) é maior que o saldo calculado do trabalhador (${money(balance)}). Deseja continuar?`)) return;
-    }
-  }
-
-  const item = {
-    id: uid(),
-    date,
-    type,
-    amount,
-    workId,
-    workerId: (type === "pagamento" || type === "adiantamento") ? workerId : "",
-    method: document.getElementById("finMethod").value,
-    description: document.getElementById("finDescription").value.trim(),
-    status: "ativo",
-    createdAt: new Date().toISOString()
-  };
-
-  db.finance.push(item);
-  persist("Movimentação financeira registrada", `${financeLabel(type)} • ${money(amount)}`);
-  document.getElementById("financeForm").reset();
-  document.getElementById("finDate").value = today();
-  updateFinanceFields();
-});
 
 function financeLabel(type) {
   return ({
-    entrada: "Recebimento",
-    pagamento: "Pagamento de trabalhador",
-    adiantamento: "Adiantamento",
+    entrada: "Entrada",
     despesa: "Despesa",
-    devolucao: "Devolução / estorno recebido"
+    pagamento: "Pagamento",
+    adiantamento: "Adiantamento"
   })[type] || type;
 }
 
-/*
-  Entradas e devoluções aumentam o caixa.
-  Pagamentos, adiantamentos e despesas reduzem o caixa.
-  Adiantamentos são saídas de caixa e ficam separados para consulta.
-*/
-
-function financeDirection(item) {
-  if (item.status === "cancelado") return 0;
-  return (item.type === "entrada" || item.type === "devolucao") ? 1 : -1;
-}
-
-function financeBalance(list = db.finance) {
-  return list.reduce((sum, f) => sum + financeDirection(f) * num(f.amount), 0);
-}
-
-function totalByType(type) {
-  return db.finance
-    .filter(f => f.status !== "cancelado" && f.type === type)
-    .reduce((sum, f) => sum + num(f.amount), 0);
-}
-
-function workerBalance(workerId, workId = "") {
-  const earned = db.attendance
-    .filter(a => a.workerId === workerId && (!workId || a.workId === workId))
-    .reduce((sum, a) => sum + attendanceValue(a), 0);
-
-  const paid = db.finance
-    .filter(f => f.status !== "cancelado" &&
-      f.workerId === workerId &&
-      (!workId || !f.workId || f.workId === workId) &&
-      (f.type === "pagamento" || f.type === "adiantamento"))
-    .reduce((sum, f) => sum + num(f.amount), 0);
-
-  return earned - paid;
-}
-
-function cancelFinance(id) {
-  const item = db.finance.find(f => f.id === id);
-  if (!item || item.status === "cancelado") return;
-
-  if (!confirm("Cancelar esta movimentação? Ela permanecerá no histórico, mas deixará de afetar o saldo.")) return;
-
-  item.status = "cancelado";
-  item.cancelledAt = new Date().toISOString();
-  persist("Movimentação cancelada", `${financeLabel(item.type)} • ${money(item.amount)}`);
-}
-
-function renderFinance() {
-  const from = document.getElementById("finFrom")?.value || "";
-  const to = document.getElementById("finTo")?.value || "";
-  const type = document.getElementById("finTypeFilter")?.value || "";
-
-  const list = db.finance.filter(f =>
-    (!from || f.date >= from) &&
-    (!to || f.date <= to) &&
-    (!type || f.type === type)
-  ).sort((a, b) => b.date.localeCompare(a.date));
-
-  const target = document.getElementById("financeTable");
-  if (!list.length) {
-    target.innerHTML = '<div class="empty">Nenhuma movimentação encontrada.</div>';
-    return;
-  }
-
-  target.innerHTML = `<div class="table-wrap"><table>
-    <thead><tr><th>Data</th><th>Tipo</th><th>Descrição</th><th>Obra</th><th>Valor</th><th>Situação</th><th>Ações</th></tr></thead>
-    <tbody>${list.map(f => `<tr>
-      <td>${dateBR(f.date)}</td>
-      <td>${escapeHTML(financeLabel(f.type))}<br><span class="muted">${escapeHTML(f.method || "")}</span></td>
-      <td>${escapeHTML(f.description || (f.workerId ? workerName(f.workerId) : "—"))}</td>
-      <td>${escapeHTML(f.workId ? workName(f.workId) : "—")}</td>
-      <td class="${financeDirection(f) > 0 ? "green" : financeDirection(f) < 0 ? "red" : ""}">${financeDirection(f) > 0 ? "+" : financeDirection(f) < 0 ? "−" : ""}${money(f.amount)}</td>
-      <td><span class="badge ${f.status === "cancelado" ? "red" : "green"}">${escapeHTML(f.status || "ativo")}</span></td>
-      <td>${f.status === "cancelado" ? "—" : `<button class="small danger" onclick="cancelFinance('${f.id}')">Cancelar</button>
-        ${f.workerId ? `<button class="small secondary" onclick="printReceipt('${f.id}')">Recibo</button>` : ""}`}</td>
-    </tr>`).join("")}</tbody>
-    </table></div>`;
-}
-
-/* =========================
-   FECHAMENTOS
-========================= */
-
-document.getElementById("closeFrom").value = today();
-document.getElementById("closeTo").value = today();
-
-document.getElementById("closingForm").addEventListener("submit", event => {
-  event.preventDefault();
-
-  const workId = document.getElementById("closeWork").value;
-  const from = document.getElementById("closeFrom").value;
-  const to = document.getElementById("closeTo").value;
-
-  if (!workId || !from || !to) return alert("Preencha obra e período.");
-  if (from > to) return alert("A data inicial não pode ser posterior à data final.");
-
-  const overlap = db.closings.find(c =>
-    c.workId === workId &&
-    from <= c.to &&
-    to >= c.from
-  );
-
-  if (overlap) {
-    if (!confirm("Já existe um fechamento com período sobreposto nesta obra. Deseja criar outro mesmo assim?")) return;
-  }
-
-  const attendance = db.attendance.filter(a =>
-    a.workId === workId && a.date >= from && a.date <= to
-  );
-
-  const workerIds = [...new Set(attendance.map(a => a.workerId))];
-
-  const workers = workerIds.map(workerId => {
-    const records = attendance.filter(a => a.workerId === workerId);
-    const units = records.reduce((sum, a) => sum + attendanceUnits(a.type), 0);
-    const gross = records.reduce((sum, a) => sum + attendanceValue(a), 0);
-
-    const advances = db.finance.filter(f =>
-      f.status !== "cancelado" &&
-      f.type === "adiantamento" &&
-      f.workerId === workerId &&
-      (!f.workId || f.workId === workId) &&
-      f.date >= from && f.date <= to
-    ).reduce((sum, f) => sum + num(f.amount), 0);
-
-    const payments = db.finance.filter(f =>
-      f.status !== "cancelado" &&
-      f.type === "pagamento" &&
-      f.workerId === workerId &&
-      (!f.workId || f.workId === workId) &&
-      f.date >= from && f.date <= to
-    ).reduce((sum, f) => sum + num(f.amount), 0);
-
-    return {
-      workerId,
-      name: workerName(workerId),
-      units,
-      gross,
-      advances,
-      payments,
-      net: gross - advances - payments,
-      records: records.map(a => ({
-        date: a.date,
-        type: a.type,
-        rate: num(a.rate),
-        value: attendanceValue(a),
-        notes: a.notes || ""
-      }))
-    };
-  });
-
-  const closing = {
-    id: uid(),
-    workId,
-    workName: workName(workId),
-    from,
-    to,
-    createdAt: new Date().toISOString(),
-    workers,
-    totalGross: workers.reduce((sum, w) => sum + w.gross, 0),
-    totalAdvances: workers.reduce((sum, w) => sum + w.advances, 0),
-    totalPayments: workers.reduce((sum, w) => sum + w.payments, 0),
-    totalNet: workers.reduce((sum, w) => sum + w.net, 0)
-  };
-
-  db.closings.unshift(closing);
-  persist("Fechamento criado", `${closing.workName} • ${dateBR(from)} a ${dateBR(to)}`);
-  showClosing(closing.id);
-});
-
-function renderClosings() {
-  const target = document.getElementById("closingsTable");
-
-  if (!db.closings.length) {
-    target.innerHTML = '<div class="empty">Nenhum fechamento salvo.</div>';
-    return;
-  }
-
-  target.innerHTML = `<div class="table-wrap"><table>
-    <thead><tr><th>Obra</th><th>Período</th><th>Data do fechamento</th><th>Total bruto</th><th>Saldo calculado</th><th>Ações</th></tr></thead>
-    <tbody>${db.closings.map(c => `<tr>
-      <td>${escapeHTML(c.workName || workName(c.workId))}</td>
-      <td>${dateBR(c.from)} a ${dateBR(c.to)}</td>
-      <td>${dateBR((c.createdAt || "").slice(0,10))}</td>
-      <td>${money(c.totalGross)}</td>
-      <td><strong>${money(c.totalNet)}</strong></td>
-      <td><div class="actions">
-        <button class="small secondary" onclick="showClosing('${c.id}')">Detalhes</button>
-        <button class="small secondary" onclick="printClosing('${c.id}')">Imprimir</button>
-        <button class="small danger" onclick="deleteClosing('${c.id}')">Excluir</button>
-      </div></td>
-    </tr>`).join("")}</tbody>
-    </table></div>`;
-}
-
-function showClosing(id) {
-  const c = db.closings.find(x => x.id === id);
-  if (!c) return;
-
-  const target = document.getElementById("closingDetail");
-  target.innerHTML = `<div class="card">
-    <div class="section-head">
-      <div>
-        <h2>Fechamento: ${escapeHTML(c.workName || workName(c.workId))}</h2>
-        <p class="muted">${dateBR(c.from)} a ${dateBR(c.to)} • Salvo em ${dateBR((c.createdAt || "").slice(0,10))}</p>
+function financeCard(item) {
+  const work = getWork(item.workId);
+  const worker = getWorker(item.workerId);
+  const isIncome = item.type === "entrada";
+  return `
+    <div class="item">
+      <div class="item-top">
+        <div>
+          <div class="item-title">${escapeHTML(item.description)}</div>
+          <div class="item-sub">${dateBR(item.date)} · ${escapeHTML(financeLabel(item.type))}</div>
+          <div class="item-sub">${escapeHTML(work?.name || "Sem obra")}</div>
+          ${worker ? `<div class="item-sub">Colaborador: ${escapeHTML(worker.name)}</div>` : ""}
+          <div class="item-sub">${escapeHTML(item.method || "")}</div>
+          ${item.note ? `<div class="item-sub">${escapeHTML(item.note)}</div>` : ""}
+          ${item.cancelled ? `<span class="badge red">Cancelado</span>` : ""}
+        </div>
+        <div class="item-value ${isIncome ? "positive" : "negative"}">${isIncome ? "+" : "−"}${money(item.amount)}</div>
       </div>
-      <button onclick="printClosing('${c.id}')">Imprimir relatório</button>
-    </div>
-    <div class="grid">
-      <div class="card"><div class="metric-label">Total bruto</div><div class="metric-value">${money(c.totalGross)}</div></div>
-      <div class="card"><div class="metric-label">Adiantamentos</div><div class="metric-value yellow">${money(c.totalAdvances)}</div></div>
-      <div class="card"><div class="metric-label">Pagamentos registrados no período</div><div class="metric-value">${money(c.totalPayments)}</div></div>
-      <div class="card"><div class="metric-label">Saldo calculado</div><div class="metric-value green">${money(c.totalNet)}</div></div>
-    </div>
-    <div class="table-wrap"><table>
-      <thead><tr><th>Trabalhador</th><th>Diárias equivalentes</th><th>Bruto</th><th>Adiantamentos</th><th>Pagamentos</th><th>Saldo calculado</th></tr></thead>
-      <tbody>${(c.workers || []).map(w => `<tr>
-        <td>${escapeHTML(w.name)}</td>
-        <td>${num(w.units)}</td>
-        <td>${money(w.gross)}</td>
-        <td>${money(w.advances)}</td>
-        <td>${money(w.payments)}</td>
-        <td><strong>${money(w.net)}</strong></td>
-      </tr>`).join("")}</tbody>
-    </table></div>
-    <p class="muted">Este relatório é uma cópia dos dados no momento do fechamento. Excluir o fechamento não cancela nem altera movimentações financeiras.</p>
-  </div>`;
+      <div class="actions">
+        ${!item.cancelled ? `<button class="btn small danger" onclick="cancelFinance('${item.id}')">Cancelar lançamento</button>` : ""}
+        <button class="btn small" onclick="printReceipt('${item.id}')">🧾 Recibo</button>
+      </div>
+    </div>`;
 }
 
-function deleteClosing(id) {
-  const c = db.closings.find(x => x.id === id);
-  if (!c) return;
-  if (!confirm("Excluir este fechamento salvo? Os registros originais de presença e financeiro serão mantidos.")) return;
-
-  db.closings = db.closings.filter(x => x.id !== id);
-  document.getElementById("closingDetail").innerHTML = "";
-  persist("Fechamento excluído", `${c.workName || workName(c.workId)} • ${dateBR(c.from)} a ${dateBR(c.to)}`);
-}
-
-/* =========================
-   RECIBOS E IMPRESSÃO
-========================= */
-
-function printReceipt(id) {
-  const f = db.finance.find(x => x.id === id);
-  if (!f) return;
-
-  if (f.type !== "pagamento" && f.type !== "adiantamento") {
-    return alert("O recibo está disponível para pagamentos e adiantamentos de trabalhadores.");
-  }
-
-  if (f.status === "cancelado") return alert("Não é possível emitir recibo de um lançamento cancelado.");
-
-  const title = f.type === "adiantamento" ? "RECIBO DE ADIANTAMENTO" : "RECIBO DE PAGAMENTO";
-  const worker = workerName(f.workerId);
-  const description = f.description || financeLabel(f.type);
-  const html = `<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8">
-    <title>${title}</title>
-    <style>
-      body{font-family:Arial,sans-serif;max-width:800px;margin:40px auto;padding:20px;color:#111}
-      h1{text-align:center;font-size:22px}p{line-height:1.8}
-      .line{margin-top:65px;text-align:center}
-      .box{border:1px solid #888;padding:25px}
-      @media print{button{display:none}}
-    </style></head><body>
-    <div class="box">
-    <h1>${title}</h1>
-    <p>Eu, <strong>${escapeHTML(worker)}</strong>, declaro ter recebido o valor de
-    <strong>${money(f.amount)}</strong>, referente a ${escapeHTML(description)}.</p>
-    <p>Obra: <strong>${escapeHTML(f.workId ? workName(f.workId) : "Não informada")}</strong></p>
-    <p>Data: <strong>${dateBR(f.date)}</strong></p>
-    <p>Forma de pagamento: <strong>${escapeHTML(f.method || "Não informada")}</strong></p>
-    <p>Observações: ${escapeHTML(f.description || "—")}</p>
-    <p>Declaro que as informações acima correspondem ao valor recebido nesta data.</p>
-    <p>Local e data: ______________________________________________</p>
-    <div class="line">________________________________________<br>Assinatura do trabalhador</div>
-    <div class="line">________________________________________<br>Assinatura do responsável pelo pagamento</div>
-    </div><p><button onclick="window.print()">Imprimir / Salvar PDF</button></p>
-    </body></html>`;
-
-  openPrintWindow(html);
-}
-
-function printClosing(id) {
-  const c = db.closings.find(x => x.id === id);
-  if (!c) return;
-
-  const rows = (c.workers || []).map(w => `<tr>
-    <td>${escapeHTML(w.name)}</td><td>${num(w.units)}</td>
-    <td>${money(w.gross)}</td><td>${money(w.advances)}</td>
-    <td>${money(w.payments)}</td><td>${money(w.net)}</td>
-  </tr>`).join("");
-
-  const html = `<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8">
-    <title>Fechamento de obra</title>
-    <style>
-      body{font-family:Arial,sans-serif;margin:25px;color:#111}
-      h1{font-size:22px}p{line-height:1.5}
-      table{width:100%;border-collapse:collapse;margin-top:20px}
-      th,td{border:1px solid #aaa;padding:9px;text-align:left;font-size:12px}
-      @media print{button{display:none}}
-    </style></head><body>
-    <h1>Relatório de fechamento de obra</h1>
-    <p><strong>Obra:</strong> ${escapeHTML(c.workName || workName(c.workId))}</p>
-    <p><strong>Período:</strong> ${dateBR(c.from)} a ${dateBR(c.to)}</p>
-    <p><strong>Gerado em:</strong> ${dateBR((c.createdAt || "").slice(0,10))}</p>
-    <table><thead><tr><th>Trabalhador</th><th>Diárias</th><th>Bruto</th><th>Adiantamentos</th><th>Pagamentos</th><th>Saldo calculado</th></tr></thead>
-    <tbody>${rows}</tbody></table>
-    <h3>Total bruto: ${money(c.totalGross)}</h3>
-    <h3>Adiantamentos: ${money(c.totalAdvances)}</h3>
-    <h3>Pagamentos registrados: ${money(c.totalPayments)}</h3>
-    <h2>Saldo calculado: ${money(c.totalNet)}</h2>
-    <p>Relatório gerado a partir dos registros salvos no sistema.</p>
-    <p><button onclick="window.print()">Imprimir / Salvar PDF</button></p>
-    </body></html>`;
-
-  openPrintWindow(html);
-}
-
-function openPrintWindow(html) {
-  const win = window.open("", "_blank");
-  if (!win) {
-    alert("O navegador bloqueou a janela de impressão. Permita pop-ups para este arquivo e tente novamente.");
-    return;
-  }
-  win.document.open();
-  win.document.write(html);
-  win.document.close();
-}
-
-/* =========================
-   BACKUP E IMPORTAÇÃO
-========================= */
-
-function exportData() {
-  const content = JSON.stringify(db, null, 2);
-  const blob = new Blob([content], { type: "application/json;charset=utf-8" });
-  const url = URL.createObjectURL(blob);
-  const link = document.createElement("a");
-  link.href = url;
-  link.download = `backup-controle-obras-${today()}.json`;
-  document.body.appendChild(link);
-  link.click();
-  link.remove();
-  URL.revokeObjectURL(url);
-
-  logAction("Backup exportado", `Exportação em ${dateBR(today())}`);
-  saveDB();
-  renderAudit();
-}
-
-function importData(event) {
-  const file = event.target.files?.[0];
-  if (!file) return;
-
-  const reader = new FileReader();
-
-  reader.onload = () => {
-    try {
-      const imported = JSON.parse(reader.result);
-
-      const requiredArrays = ["works", "workers", "attendance", "finance", "closings", "audit"];
-      if (!imported || typeof imported !== "object" ||
-          !requiredArrays.every(key => Array.isArray(imported[key]))) {
-        throw new Error("Formato de backup inválido.");
-      }
-
-      if (!confirm("Importar este backup substituirá os dados atuais. Exporte os dados atuais antes, se quiser preservá-los. Continuar?")) {
-        event.target.value = "";
-        return;
-      }
-
-      const base = emptyDB();
-      requiredArrays.forEach(key => base[key] = imported[key]);
-      base.theme = imported.theme === "light" ? "light" : "dark";
-      db = base;
-
-      document.body.classList.toggle("light", db.theme === "light");
-      logAction("Backup importado", file.name);
-      saveDB();
-      refreshAll();
-      alert("Backup importado. Confira os registros para confirmar que tudo está correto.");
-    } catch (error) {
-      alert("Não foi possível importar este arquivo. Selecione um backup JSON válido do sistema.");
-    }
-
-    event.target.value = "";
+function attendanceCard(item) {
+  const worker = getWorker(item.workerId);
+  const work = getWork(item.workId);
+  const statusLabels = {
+    presente: "Presença",
+    meia: "Meia diária",
+    falta: "Falta",
+    feriado: "Feriado",
+    folga: "Folga"
   };
-
-  reader.onerror = () => {
-    alert("Erro ao ler o arquivo.");
-    event.target.value = "";
-  };
-
-  reader.readAsText(file);
+  return `
+    <div class="item">
+      <div class="item-top">
+        <div>
+          <div class="item-title">${escapeHTML(worker?.name || "Colaborador removido")}</div>
+          <div class="item-sub">${dateBR(item.date)} · ${escapeHTML(work?.name || "Obra removida")}</div>
+          <div class="item-sub">Situação: ${escapeHTML(statusLabels[item.status] || item.status)}</div>
+          ${item.note ? `<div class="item-sub">${escapeHTML(item.note)}</div>` : ""}
+        </div>
+        <div class="item-value">${money(item.amount)}</div>
+      </div>
+      <div class="actions">
+        <button class="btn small" onclick="editAttendance('${item.id}')">✏️ Editar</button>
+        <button class="btn small danger" onclick="deleteAttendance('${item.id}')">Excluir</button>
+      </div>
+    </div>`;
 }
 
-function clearAllData() {
-  const confirmation = prompt('Para apagar permanentemente todos os dados, digite APAGAR');
-  if (confirmation !== "APAGAR") return;
-
-  db = emptyDB();
-  saveDB();
-  document.body.classList.remove("light");
-  refreshAll();
-  alert("Todos os dados locais foram apagados.");
+function closingCard(item) {
+  return `
+    <div class="item">
+      <div class="item-top">
+        <div>
+          <div class="item-title">${escapeHTML(getWork(item.workId)?.name || "Obra removida")}</div>
+          <div class="item-sub">${dateBR(item.from)} até ${dateBR(item.to)}</div>
+          <div class="item-sub">Salvo em ${new Date(item.createdAt).toLocaleString("pt-BR")}</div>
+        </div>
+        <span class="badge green">Fechado</span>
+      </div>
+      <hr class="separator">
+      <div class="item-sub">Diárias calculadas: <strong>${money(item.totalWages)}</strong></div>
+      <div class="item-sub">Pagamentos registrados: <strong>${money(item.paid)}</strong></div>
+      <div class="item-sub">Adiantamentos registrados: <strong>${money(item.advances)}</strong></div>
+      <div class="item-sub">Saldo estimado: <strong>${money(item.balance)}</strong></div>
+      ${item.note ? `<div class="item-sub">${escapeHTML(item.note)}</div>` : ""}
+      <div class="actions">
+        <button class="btn small" onclick="printClosing('${item.id}')">🖨️ Imprimir relatório</button>
+      </div>
+    </div>`;
 }
 
-/* =========================
-   HISTÓRICO E PAINEL
-========================= */
-
-function renderAudit() {
-  const target = document.getElementById("auditTable");
-  if (!db.audit.length) {
-    target.innerHTML = '<div class="empty">Nenhuma ação registrada ainda.</div>';
-    return;
-  }
-
-  target.innerHTML = `<div class="table-wrap"><table>
-    <thead><tr><th>Data e hora</th><th>Ação</th><th>Detalhes</th></tr></thead>
-    <tbody>${db.audit.slice(0,200).map(a => `<tr>
-      <td>${escapeHTML(new Date(a.date).toLocaleString("pt-BR"))}</td>
-      <td>${escapeHTML(a.action)}</td>
-      <td>${escapeHTML(a.detail)}</td>
-    </tr>`).join("")}</tbody>
-  </table></div>`;
-}
-
-function renderDashboard() {
-  const balance = financeBalance();
-  const income = totalByType("entrada") + totalByType("devolucao");
-  const out = totalByType("pagamento") + totalByType("adiantamento") + totalByType("despesa");
-  const advances = totalByType("adiantamento");
-
-  document.getElementById("dashBalance").textContent = money(balance);
-  document.getElementById("dashIncome").textContent = money(income);
-  document.getElementById("dashExpenses").textContent = money(out);
-  document.getElementById("dashWorks").textContent = db.works.filter(isActiveWork).length;
-  document.getElementById("dashWorkers").textContent = db.workers.filter(w => w.status === "ativo").length;
-  document.getElementById("dashDays").textContent = db.attendance.reduce((sum, a) => sum + attendanceUnits(a.type), 0);
-  document.getElementById("dashAdvances").textContent = money(advances);
-  document.getElementById("dashClosings").textContent = db.closings.length;
-
-  document.getElementById("finBalance").textContent = money(balance);
-  document.getElementById("finIncome").textContent = money(income);
-  document.getElementById("finOut").textContent = money(out);
-  document.getElementById("finAdvances").textContent = money(advances);
-
-  const recent = db.finance.filter(f => f.status !== "cancelado")
-    .slice().sort((a,b) => (b.createdAt || "").localeCompare(a.createdAt || "")).slice(0,8);
-
-  const target = document.getElementById("recentMovements");
-  if (!recent.length) {
-    target.innerHTML = '<div class="empty">Ainda não há movimentações financeiras.</div>';
-  } else {
-    target.innerHTML = `<div class="table-wrap"><table>
-      <thead><tr><th>Data</th><th>Tipo</th><th>Descrição</th><th>Valor</th></tr></thead>
-      <tbody>${recent.map(f => `<tr>
-        <td>${dateBR(f.date)}</td>
-        <td>${escapeHTML(financeLabel(f.type))}</td>
-        <td>${escapeHTML(f.description || (f.workerId ? workerName(f.workerId) : workName(f.workId)))}</td>
-        <td class="${financeDirection(f) > 0 ? "green" : "red"}">${financeDirection(f) > 0 ? "+" : "−"}${money(f.amount)}</td>
-      </tr>`).join("")}</tbody>
-    </table></div>`;
-  }
-}
-
-function updateStorageInfo() {
-  const el = document.getElementById("storageInfo");
-  if (!el) return;
-
-  let bytes = 0;
-  try {
-    bytes = new Blob([localStorage.getItem(STORAGE_KEY) || ""]).size;
-  } catch (_) {}
-
-  el.textContent = `Estimativa dos dados salvos: ${(bytes / 1024).toFixed(1)} KB. O armazenamento é local a este navegador e dispositivo.`;
-}
-
-function showView(id) {
-  document.querySelectorAll("#navigation button").forEach(b => {
-    b.classList.toggle("active", b.dataset.view === id);
-  });
-  document.querySelectorAll(".view").forEach(v => {
-    v.classList.toggle("active", v.id === id);
-  });
-  refreshAll();
-}
-
-function refreshAll() {
-  fillSelects();
+function renderAll() {
+  refreshSelects();
+  applyTheme();
+  renderDashboard();
   renderWorks();
   renderWorkers();
   renderAttendance();
   renderFinance();
   renderClosings();
-  renderDashboard();
   renderAudit();
-  updateStorageInfo();
-  updateFinanceFields();
+  updateAttendanceRate();
 }
 
-/* =========================
-   INICIALIZAÇÃO
-========================= */
+function renderDashboard() {
+  const activeWorks = db.works.filter(item => item.status === "ativa").length;
+  const activeWorkers = db.workers.filter(item => item.status === "ativo").length;
+  const valid = db.finance.filter(item => !item.cancelled);
+  const income = valid.filter(item => item.type === "entrada").reduce((s, i) => s + Number(i.amount), 0);
+  const expense = valid.filter(item => item.type !== "entrada").reduce((s, i) => s + Number(i.amount), 0);
 
-resetWorkForm();
-fillSelects();
-updateFinanceFields();
-refreshAll();
+  const currentFrom = new Date();
+  currentFrom.setDate(currentFrom.getDate() - 14);
+  const from = currentFrom.toLocaleDateString("en-CA");
+  const to = today();
+
+  const payable = db.attendance
+    .filter(item => item.date >= from && item.date <= to)
+    .reduce((sum, item) => sum + Number(item.amount || 0), 0)
+    - valid.filter(item => ["pagamento", "adiantamento"].includes(item.type) && item.date >= from && item.date <= to)
+      .reduce((sum, item) => sum + Number(item.amount), 0);
+
+  $("mWorks").textContent = activeWorks;
+  $("mWorkers").textContent = activeWorkers;
+  $("mIncome").textContent = money(income);
+  $("mExpense").textContent = money(expense);
+  $("mBalance").textContent = money(income - expense);
+  $("mPayable").textContent = money(payable);
+
+  const recent = [...valid].sort((a, b) => b.date.localeCompare(a.date)).slice(0, 5);
+  $("recentList").innerHTML = recent.length
+    ? recent.map(financeCard).join("")
+    : `<div class="empty">Nenhuma movimentação registrada ainda.</div>`;
+}
+
+function renderWorks() {
+  const q = $("workSearch").value.toLowerCase();
+  const items = db.works.filter(item => `${item.name} ${item.client} ${item.address}`.toLowerCase().includes(q));
+  $("worksList").innerHTML = items.length ? items.map(workCard).join("") : `<div class="empty">Nenhuma obra cadastrada.</div>`;
+}
+
+function renderWorkers() {
+  const q = $("workerSearch").value.toLowerCase();
+  const items = db.workers.filter(item => `${item.name} ${item.role} ${item.phone}`.toLowerCase().includes(q));
+  $("workersList").innerHTML = items.length ? items.map(workerCard).join("") : `<div class="empty">Nenhum colaborador cadastrado.</div>`;
+}
+
+function renderAttendance() {
+  let items = [...db.attendance].sort((a, b) => b.date.localeCompare(a.date));
+  if ($("attFilterWork").value) items = items.filter(item => item.workId === $("attFilterWork").value);
+  if ($("attFilterWorker").value) items = items.filter(item => item.workerId === $("attFilterWorker").value);
+  if ($("attFrom").value) items = items.filter(item => item.date >= $("attFrom").value);
+  if ($("attTo").value) items = items.filter(item => item.date <= $("attTo").value);
+  $("attendanceList").innerHTML = items.length ? items.map(attendanceCard).join("") : `<div class="empty">Nenhum registro encontrado para esses filtros.</div>`;
+}
+
+function renderFinance() {
+  const valid = db.finance.filter(item => !item.cancelled);
+  const income = valid.filter(item => item.type === "entrada").reduce((s, i) => s + Number(i.amount), 0);
+  const expense = valid.filter(item => iTypeOut(item)).reduce((s, i) => s + Number(i.amount), 0);
+  $("fIncome").textContent = money(income);
+  $("fExpense").textContent = money(expense);
+
+  let items = [...db.finance].sort((a, b) => b.date.localeCompare(a.date));
+  const type = $("finFilterType").value;
+  const work = $("finFilterWork").value;
+  const q = $("finSearch").value.toLowerCase();
+  if (type) items = items.filter(item => item.type === type);
+  if (work) items = items.filter(item => item.workId === work);
+  if (q) items = items.filter(item => `${item.description} ${item.note || ""} ${getWorker(item.workerId)?.name || ""}`.toLowerCase().includes(q));
+  $("financeList").innerHTML = items.length ? items.map(financeCard).join("") : `<div class="empty">Nenhum lançamento encontrado.</div>`;
+}
+
+function iTypeOut(item) {
+  return item.type !== "entrada";
+}
+
+function renderClosings() {
+  $("closingsList").innerHTML = db.closings.length
+    ? [...db.closings].sort((a, b) => b.createdAt.localeCompare(a.createdAt)).map(closingCard).join("")
+    : `<div class="empty">Você ainda não criou nenhum fechamento.</div>`;
+}
+
+function renderAudit() {
+  $("auditList").innerHTML = db.audit.length
+    ? db.audit.slice(0, 50).map(item => `
+      <div class="item">
+        <div class="item-title">${escapeHTML(item.action)}</div>
+        <div class="item-sub">${new Date(item.date).toLocaleString("pt-BR")}</div>
+        <div class="item-sub">${escapeHTML(item.detail)}</div>
+      </div>`).join("")
+    : `<div class="empty">Nenhuma ação registrada.</div>`;
+}
+
+function updateAttendanceRate() {
+  const worker = getWorker($("attWorker").value);
+  if (worker && !$("attRate").dataset.manual) $("attRate").value = worker.rate;
+}
+
+$("attWorker").addEventListener("change", () => {
+  $("attRate").dataset.manual = "";
+  updateAttendanceRate();
+});
+$("attRate").addEventListener("input", () => {
+  $("attRate").dataset.manual = "1";
+});
+$("attStatus").addEventListener("change", () => {});
+
+$("workForm").addEventListener("submit", event => {
+  event.preventDefault();
+  const id = $("workId").value;
+  const data = {
+    id: id || uid(),
+    name: $("workName").value.trim(),
+    client: $("workClient").value.trim(),
+    address: $("workAddress").value.trim(),
+    budget: Number($("workBudget").value || 0),
+    status: $("workStatus").value
+  };
+  if (!data.name) return alert("Informe o nome da obra.");
+  if (id) {
+    db.works = db.works.map(item => item.id === id ? data : item);
+    logAction("Obra alterada", data.name);
+  } else {
+    db.works.push(data);
+    logAction("Obra cadastrada", data.name);
+  }
+  $("workForm").reset();
+  $("workId").value = "";
+  $("workFormTitle").textContent = "Nova obra";
+  $("cancelWorkEdit").hidden = true;
+  saveDB();
+});
+
+function editWork(id) {
+  const item = getWork(id);
+  if (!item) return;
+  $("workId").value = item.id;
+  $("workName").value = item.name;
+  $("workClient").value = item.client || "";
+  $("workAddress").value = item.address || "";
+  $("workBudget").value = item.budget || 0;
+  $("workStatus").value = item.status;
+  $("workFormTitle").textContent = "Editar obra";
+  $("cancelWorkEdit").hidden = false;
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+$("cancelWorkEdit").addEventListener("click", () => {
+  $("workForm").reset();
+  $("workId").value = "";
+  $("workFormTitle").textContent = "Nova obra";
+  $("cancelWorkEdit").hidden = true;
+});
+
+function deleteWork(id) {
+  const item = getWork(id);
+  if (!item) return;
+  if (db.attendance.some(a => a.workId === id) || db.finance.some(f => f.workId === id) || db.closings.some(c => c.workId === id)) {
+    return alert("Esta obra tem registros associados. Altere sua situação para concluída ou pausada para manter o histórico.");
+  }
+  if (!confirm(`Excluir a obra "${item.name}"?`)) return;
+  db.works = db.works.filter(work => work.id !== id);
+  logAction("Obra excluída", item.name);
+  saveDB();
+}
+
+$("workerForm").addEventListener("submit", event => {
+  event.preventDefault();
+  const id = $("workerId").value;
+  const data = {
+    id: id || uid(),
+    name: $("workerName").value.trim(),
+    role: $("workerRole").value.trim(),
+    rate: Number($("workerRate").value),
+    workId: $("workerWork").value,
+    phone: $("workerPhone").value.trim(),
+    status: $("workerStatus").value
+  };
+  if (!data.name || data.rate < 0) return alert("Confira o nome e o valor da diária.");
+  if (id) {
+    db.workers = db.workers.map(item => item.id === id ? data : item);
+    logAction("Colaborador alterado", data.name);
+  } else {
+    db.workers.push(data);
+    logAction("Colaborador cadastrado", data.name);
+  }
+  $("workerForm").reset();
+  $("workerId").value = "";
+  $("workerFormTitle").textContent = "Novo colaborador";
+  $("cancelWorkerEdit").hidden = true;
+  saveDB();
+});
+
+function editWorker(id) {
+  const item = getWorker(id);
+  if (!item) return;
+  $("workerId").value = item.id;
+  $("workerName").value = item.name;
+  $("workerRole").value = item.role || "";
+  $("workerRate").value = item.rate;
+  $("workerWork").value = item.workId || "";
+  $("workerPhone").value = item.phone || "";
+  $("workerStatus").value = item.status;
+  $("workerFormTitle").textContent = "Editar colaborador";
+  $("cancelWorkerEdit").hidden = false;
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+$("cancelWorkerEdit").addEventListener("click", () => {
+  $("workerForm").reset();
+  $("workerId").value = "";
+  $("workerFormTitle").textContent = "Novo colaborador";
+  $("cancelWorkerEdit").hidden = true;
+});
+
+function deleteWorker(id) {
+  const item = getWorker(id);
+  if (!item) return;
+  if (db.attendance.some(a => a.workerId === id) || db.finance.some(f => f.workerId === id)) {
+    return alert("Este colaborador possui registros associados. Marque-o como inativo para preservar o histórico.");
+  }
+  if (!confirm(`Excluir o colaborador "${item.name}"?`)) return;
+  db.workers = db.workers.filter(worker => worker.id !== id);
+  logAction("Colaborador excluído", item.name);
+  saveDB();
+}
+
+$("attendanceForm").addEventListener("submit", event => {
+  event.preventDefault();
+  const date = $("attDate").value;
+  const workId = $("attWork").value;
+  const workerId = $("attWorker").value;
+  const status = $("attStatus").value;
+  const rate = Number($("attRate").value || 0);
+
+  if (!getWork(workId) || !getWorker(workerId)) return alert("Cadastre e selecione uma obra e um colaborador válidos.");
+  if (rate < 0) return alert("O valor da diária não pode ser negativo.");
+
+  if (db.attendance.some(item => item.date === date && item.workId === workId && item.workerId === workerId)) {
+    return alert("Já existe um registro deste colaborador nesta obra e data. Edite o registro existente para evitar duplicidade.");
+  }
+
+  const amount = status === "presente" ? rate : status === "meia" ? rate / 2 : 0;
+  db.attendance.push({
+    id: uid(), date, workId, workerId, status, rate, amount,
+    note: $("attNote").value.trim()
+  });
+  logAction("Presença registrada", `${getWorker(workerId).name} · ${dateBR(date)} · ${status}`);
+  $("attNote").value = "";
+  saveDB();
+});
+
+function editAttendance(id) {
+  const item = db.attendance.find(a => a.id === id);
+  if (!item) return;
+  const newStatus = prompt("Situação: presente, meia, falta, feriado ou folga", item.status);
+  if (newStatus === null) return;
+  const valid = ["presente", "meia", "falta", "feriado", "folga"];
+  if (!valid.includes(newStatus)) return alert("Situação inválida.");
+  const rateText = prompt("Valor da diária deste registro (R$)", String(item.rate));
+  if (rateText === null) return;
+  const rate = Number(rateText.replace(",", "."));
+  if (!Number.isFinite(rate) || rate < 0) return alert("Valor inválido.");
+  item.status = newStatus;
+  item.rate = rate;
+  item.amount = newStatus === "presente" ? rate : newStatus === "meia" ? rate / 2 : 0;
+  logAction("Registro de presença alterado", `${dateBR(item.date)} · ${getWorker(item.workerId)?.name || ""}`);
+  saveDB();
+}
+
+function deleteAttendance(id) {
+  const item = db.attendance.find(a => a.id === id);
+  if (!item) return;
+  if (!confirm("Excluir este registro de presença?")) return;
+  db.attendance = db.attendance.filter(a => a.id !== id);
+  logAction("Presença excluída", `${dateBR(item.date)} · ${getWorker(item.workerId)?.name || ""}`);
+  saveDB();
+}
+
+$("applyAttFilters").addEventListener("click", renderAttendance);
+$("clearAttFilters").addEventListener("click", () => {
+  ["attFilterWork", "attFilterWorker", "attFrom", "attTo"].forEach(id => $(id).value = "");
+  renderAttendance();
+});
+
+$("finType").addEventListener("change", () => {
+  const needsWorker = ["pagamento", "adiantamento"].includes($("finType").value);
+  $("finWorkerField").hidden = !needsWorker;
+  $("finWorker").required = needsWorker;
+});
+
+$("financeForm").addEventListener("submit", event => {
+  event.preventDefault();
+  const type = $("finType").value;
+  const amount = Number($("finAmount").value);
+  const workerId = $("finWorker").value;
+  if (!Number.isFinite(amount) || amount <= 0) return alert("Informe um valor maior que zero.");
+  if (["pagamento", "adiantamento"].includes(type) && !getWorker(workerId)) {
+    return alert("Selecione o colaborador deste pagamento.");
+  }
+
+  const item = {
+    id: uid(),
+    type,
+    date: $("finDate").value,
+    workId: $("finWork").value,
+    workerId: ["pagamento", "adiantamento"].includes(type) ? workerId : "",
+    description: $("finDescription").value.trim(),
+    amount,
+    method: $("finMethod").value,
+    note: $("finNote").value.trim(),
+    cancelled: false,
+    createdAt: new Date().toISOString()
+  };
+
+  if (!item.description || !item.date) return alert("Preencha a descrição e a data.");
+  db.finance.push(item);
+  logAction("Lançamento financeiro", `${financeLabel(type)} · ${item.description} · ${money(amount)}`);
+  $("financeForm").reset();
+  $("finDate").value = today();
+  $("finWorkerField").hidden = true;
+  $("finWorker").required = false;
+  saveDB();
+});
+
+function cancelFinance(id) {
+  const item = db.finance.find(f => f.id === id);
+  if (!item || item.cancelled) return;
+  if (!confirm(`Cancelar "${item.description}" no valor de ${money(item.amount)}? O lançamento será mantido no histórico.`)) return;
+  item.cancelled = true;
+  item.cancelledAt = new Date().toISOString();
+  logAction("Lançamento cancelado", `${item.description} · ${money(item.amount)}`);
+  saveDB();
+}
+
+function printReceipt(id) {
+  const item = db.finance.find(f => f.id === id);
+  if (!item) return;
+  const worker = getWorker(item.workerId);
+  const work = getWork(item.workId);
+  const w = window.open("", "_blank");
+  if (!w) return alert("Permita a abertura de janelas no navegador para imprimir o recibo.");
+  w.document.write(`<!DOCTYPE html><html lang="pt-BR"><meta charset="UTF-8"><title>Recibo</title>
+    <style>body{font-family:Arial,sans-serif;padding:25px;color:#111}h1{font-size:22px}p{line-height:1.6}.line{margin-top:70px;border-top:1px solid #444;padding-top:8px;text-align:center}</style>
+    <h1>RECIBO / REGISTRO DE MOVIMENTAÇÃO</h1>
+    <p><b>Descrição:</b> ${escapeHTML(item.description)}</p>
+    <p><b>Valor:</b> ${money(item.amount)}</p>
+    <p><b>Tipo:</b> ${escapeHTML(financeLabel(item.type))}</p>
+    <p><b>Data:</b> ${dateBR(item.date)}</p>
+    <p><b>Obra:</b> ${escapeHTML(work?.name || "Não informada")}</p>
+    <p><b>Colaborador:</b> ${escapeHTML(worker?.name || "Não informado")}</p>
+    <p><b>Forma de pagamento:</b> ${escapeHTML(item.method || "Não informada")}</p>
+    <p><b>Observação:</b> ${escapeHTML(item.note || "—")}</p>
+    <p>Este documento registra um lançamento no sistema de controle de obras.</p>
+    <div class="line">Assinatura</div><script>window.onload=()=>window.print()<\/script></html>`);
+  w.document.close();
+}
+
+$("closingForm").addEventListener("submit", event => {
+  event.preventDefault();
+  const workId = $("closeWork").value;
+  const from = $("closeFrom").value;
+  const to = $("closeTo").value;
+  if (!getWork(workId) || !from || !to || from > to) return alert("Selecione uma obra e confira as datas.");
+  if (db.closings.some(c => c.workId === workId && c.from === from && c.to === to)) {
+    return alert("Já existe um fechamento com a mesma obra e período.");
+  }
+
+  const attendance = db.attendance.filter(a => a.workId === workId && a.date >= from && a.date <= to);
+  const finance = db.finance.filter(f => f.workId === workId && !f.cancelled && f.date >= from && f.date <= to);
+  const totalWages = attendance.reduce((sum, a) => sum + Number(a.amount || 0), 0);
+  const paid = finance.filter(f => f.type === "pagamento").reduce((sum, f) => sum + Number(f.amount), 0);
+  const advances = finance.filter(f => f.type === "adiantamento").reduce((sum, f) => sum + Number(f.amount), 0);
+  const closing = {
+    id: uid(), workId, from, to,
+    totalWages, paid, advances,
+    balance: totalWages - paid - advances,
+    note: $("closeNote").value.trim(),
+    attendanceCount: attendance.length,
+    createdAt: new Date().toISOString()
+  };
+
+  if (!confirm(
+    `Confirmar fechamento?\n\n` +
+    `Diárias: ${money(totalWages)}\n` +
+    `Pagamentos: ${money(paid)}\n` +
+    `Adiantamentos: ${money(advances)}\n` +
+    `Saldo estimado: ${money(closing.balance)}\n\n` +
+    `Depois de salvar, o retrato deste fechamento não será recalculado automaticamente.`
+  )) return;
+
+  db.closings.push(closing);
+  logAction("Fechamento criado", `${getWork(workId).name} · ${dateBR(from)} a ${dateBR(to)}`);
+  $("closeNote").value = "";
+  saveDB();
+});
+
+function printClosing(id) {
+  const c = db.closings.find(item => item.id === id);
+  if (!c) return;
+  const w = getWork(c.workId);
+  const win = window.open("", "_blank");
+  if (!win) return alert("Permita a abertura de janelas para imprimir o relatório.");
+  win.document.write(`<!DOCTYPE html><html lang="pt-BR"><meta charset="UTF-8"><title>Fechamento</title>
+    <style>body{font-family:Arial,sans-serif;padding:25px;color:#111}h1{font-size:23px}p{line-height:1.6}hr{margin:20px 0}</style>
+    <h1>RELATÓRIO DE FECHAMENTO</h1>
+    <p><b>Obra:</b> ${escapeHTML(w?.name || "Obra removida")}</p>
+    <p><b>Período:</b> ${dateBR(c.from)} a ${dateBR(c.to)}</p>
+    <hr>
+    <p><b>Diárias registradas:</b> ${money(c.totalWages)}</p>
+    <p><b>Pagamentos registrados:</b> ${money(c.paid)}</p>
+    <p><b>Adiantamentos registrados:</b> ${money(c.advances)}</p>
+    <p><b>Saldo estimado a pagar:</b> ${money(c.balance)}</p>
+    <p><b>Quantidade de registros de presença:</b> ${c.attendanceCount}</p>
+    <p><b>Observação:</b> ${escapeHTML(c.note || "—")}</p>
+    <p><small>Relatório baseado nos valores congelados no momento do fechamento.</small></p>
+    <script>window.onload=()=>window.print()<\/script></html>`);
+  win.document.close();
+}
+
+function downloadJSON(filename, content) {
+  const blob = new Blob([content], { type: "application/json;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+}
+
+$("exportBtn").addEventListener("click", () => {
+  const filename = `backup-obracontrol-${today()}.json`;
+  downloadJSON(filename, JSON.stringify({
+    app: "ObraControl",
+    version: 1,
+    exportedAt: new Date().toISOString(),
+    data: db
+  }, null, 2));
+  logAction("Backup exportado", filename);
+  saveDB();
+});
+
+$("importBtn").addEventListener("click", async () => {
+  const file = $("importFile").files[0];
+  if (!file) return alert("Escolha um arquivo JSON primeiro.");
+  if (!confirm("A importação substituirá os dados atuais. Exporte um backup antes de continuar. Deseja importar?")) return;
+
+  try {
+    const parsed = JSON.parse(await file.text());
+    const incoming = parsed.data || parsed;
+    const keys = ["works", "workers", "attendance", "finance", "closings", "audit"];
+    for (const key of keys) {
+      if (!Array.isArray(incoming[key])) throw new Error("Estrutura inválida: " + key);
+    }
+    const newDB = {
+      ...emptyDB(),
+      ...incoming,
+      works: incoming.works,
+      workers: incoming.workers,
+      attendance: incoming.attendance,
+      finance: incoming.finance,
+      closings: incoming.closings,
+      audit: incoming.audit
+    };
+    if (!confirm(`Backup validado.\nObras: ${newDB.works.length}\nColaboradores: ${newDB.workers.length}\nRegistros de presença: ${newDB.attendance.length}\nLançamentos: ${newDB.finance.length}\n\nConfirmar substituição dos dados atuais?`)) return;
+    db = newDB;
+    logAction("Backup importado", file.name);
+    saveDB();
+    $("importFile").value = "";
+    alert("Backup importado com sucesso.");
+  } catch (error) {
+    alert("Não foi possível importar esse arquivo. Confira se ele é um backup válido deste sistema.");
+  }
+});
+
+$("clearBtn").addEventListener("click", () => {
+  if (!confirm("ATENÇÃO: isso apagará obras, colaboradores, presenças, lançamentos e fechamentos deste navegador. Exporte um backup antes. Deseja continuar?")) return;
+  if (!confirm("Confirma definitivamente a exclusão de todos os dados?")) return;
+  db = emptyDB();
+  localStorage.removeItem(STORAGE_KEY);
+  saveDB();
+  showView("dashboard");
+});
+
+["workSearch", "workerSearch", "finSearch"].forEach(id => {
+  $(id).addEventListener("input", renderAll);
+});
+["finFilterType", "finFilterWork"].forEach(id => {
+  $(id).addEventListener("change", renderFinance);
+});
+
+$("attDate").value = today();
+$("finDate").value = today();
+
+renderAll();
 </script>
-
 </body>
 </html>
