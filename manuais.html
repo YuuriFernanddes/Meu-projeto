@@ -1,537 +1,1931 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="icon" href="../ESTUDOS/pcture/img/IRON MAN🔥.jfif">
-<title> Painel de Manuais</title>
+<title>Controle de Obras</title>
 
 <style>
+    
 :root {
-  --bg:#080d1b;--card:#111b31;--text:#edf3ff;
-  --muted:#91a1bd;--border:#29344c;--primary:#7c6cff;
-  --cyan:#37d9f5;--green:#40dfad;--input:#101a30;
+  --bg: #10141c;
+  --panel: #191f2b;
+  --panel2: #222a38;
+  --text: #edf2f7;
+  --muted: #a0adbf;
+  --border: #303a4b;
+  --primary: #4f8cff;
+  --green: #25c685;
+  --red: #ff6474;
+  --yellow: #ffc857;
+  --input: #111722;
+  --shadow: 0 8px 25px #0002;
 }
-body.light {
-  --bg:#f1f5fc;--card:#fff;--text:#17213a;
-  --muted:#68758e;--border:#dce3f0;--primary:#6654ed;
-  --cyan:#008eae;--green:#087e5b;--input:#f5f7fc;
-}
-*{box-sizing:border-box}
-body{
-  margin:0;min-height:100vh;padding:25px;
-  font-family:Arial,Helvetica,sans-serif;color:var(--text);
-  background:radial-gradient(ellipse at top left,#25205a 0,transparent 45%),var(--bg);
-  transition:.25s;
-}
-button,input,select,textarea{font:inherit}
-button{cursor:pointer}
-.container{max-width:1250px;margin:auto}
-header{display:flex;justify-content:space-between;align-items:center;gap:15px;flex-wrap:wrap;margin-bottom:30px}
-.brand{display:flex;align-items:center;gap:13px}
-.logo{
-  width:48px;height:48px;border-radius:15px;display:grid;place-items:center;
-  color:white;font-size:25px;background:linear-gradient(135deg,#7565ff,#27c8e8)
-}
-h1{font-size:24px;margin:0}
-.brand p{color:var(--muted);font-size:11px;letter-spacing:1.5px;margin:6px 0 0}
-.actions{display:flex;gap:10px;flex-wrap:wrap}
-.btn{
-  padding:12px 16px;border:1px solid var(--border);
-  border-radius:11px;background:var(--card);color:var(--text)
-}
-.primary{background:linear-gradient(110deg,#7565ff,#438ff7);color:white;border:0}
-.hero{
-  border:1px solid var(--border);border-radius:22px;padding:32px;
-  background:linear-gradient(120deg,#6a59ff22,#1ec2e111),var(--card);
-  margin-bottom:20px
-}
-.eyebrow{color:var(--cyan);font-size:11px;font-weight:bold;letter-spacing:2px}
-.hero h2{font-size:clamp(28px,4vw,42px);margin:15px 0 10px}
-.hero p{color:var(--muted);line-height:1.7;max-width:600px}
-.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin:20px 0 32px}
-.stat{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:20px}
-.stat-label{color:var(--muted);font-size:12px}
-.stat-number{font-size:32px;font-weight:bold;margin:15px 0 5px}
-.stat small{color:var(--muted)}
-.track{height:6px;background:var(--border);border-radius:20px;overflow:hidden;margin-top:13px}
-.fill{height:100%;width:0;background:linear-gradient(90deg,var(--primary),var(--cyan));transition:.3s}
-.progress-caption{font-size:11px;color:var(--muted);margin-top:8px}
-h3{font-size:20px;margin-bottom:8px}
-.subtitle{color:var(--muted);font-size:13px;margin-bottom:20px}
-.toolbar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:18px}
-.toolbar input,.toolbar select,.form-input{
-  padding:13px;border-radius:11px;border:1px solid var(--border);
-  background:var(--input);color:var(--text)
-}
-.toolbar input{flex:1;min-width:200px}
-.toolbar select{min-width:150px}
-.list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
-.manual{
-  display:flex;align-items:center;gap:13px;min-width:0;
-  padding:16px;background:var(--card);border:1px solid var(--border);
-  border-radius:14px;transition:.2s
-}
-.manual:hover{border-color:var(--primary);transform:translateY(-2px)}
-.manual input{width:21px;height:21px;accent-color:var(--green);flex-shrink:0;cursor:pointer}
-.manual-content{flex:1;min-width:0}
-.manual-title{font-size:13px;font-weight:bold;line-height:1.5;overflow-wrap:anywhere}
-.manual.done .manual-title{text-decoration:line-through;color:var(--muted)}
-.status{display:inline-block;margin-top:7px;font-size:10px;padding:5px 8px;border-radius:6px}
-.status.pending{color:var(--muted);background:#8899aa20}
-.status.done{color:var(--green);background:#40dfad18}
-.delete{border:0;background:transparent;color:var(--muted);font-size:20px;padding:5px}
-.delete:hover{color:#ff7189}
-.empty{grid-column:1/-1;text-align:center;color:var(--muted);padding:40px;border:1px dashed var(--border);border-radius:15px}
-footer{border-top:1px solid var(--border);margin-top:30px;padding:20px 0;color:var(--muted);font-size:12px}
-.modal{display:none;position:fixed;inset:0;background:#000b;align-items:center;justify-content:center;padding:20px;z-index:5}
-.modal.open{display:flex}
-.modal-box{width:100%;max-width:440px;background:var(--card);border:1px solid var(--border);border-radius:20px;padding:25px;max-height:90vh;overflow-y:auto}
-.modal-box p{color:var(--muted);font-size:13px;line-height:1.6}
-.modal-box label{display:block;margin:20px 0 8px;font-size:13px}
-.form-input{width:100%}
 
-/* Campo para escrever o conteúdo do manual */
-.manual-editor{
-  width:100%;
-  min-height:300px;
-  resize:vertical;
-  padding:13px;
-  border-radius:11px;
-  border:1px solid var(--border);
-  background:var(--input);
-  color:var(--text);
-  line-height:1.6;
+body.light {
+  --bg: #f2f5fa;
+  --panel: #ffffff;
+  --panel2: #edf1f7;
+  --text: #202938;
+  --muted: #647084;
+  --border: #d9e0eb;
+  --primary: #2868db;
+  --green: #119765;
+  --red: #d93649;
+  --yellow: #a87500;
+  --input: #ffffff;
+  --shadow: 0 8px 25px #2538580d;
 }
-.manual-editor:focus{
-  outline:2px solid var(--primary);
-  outline-offset:1px;
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: Arial, Helvetica, sans-serif;
+  transition: background .2s, color .2s;
 }
-.modal-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:20px;flex-wrap:wrap}
-.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--card);border:1px solid var(--border);border-radius:10px;padding:13px 18px;display:none;z-index:9}
-.toast.show{display:block}
-@media(max-width:850px){.stats{grid-template-columns:repeat(2,minmax(0,1fr))}}
-@media(max-width:600px){
-  body{padding:15px}.hero{padding:23px}
-  .list{grid-template-columns:1fr}
-  .stats{gap:9px}.stat{padding:14px}.stat-number{font-size:26px}
-  .toolbar input,.toolbar select{width:100%;min-width:0}
-  .manual-editor{min-height:240px}
+
+button, input, select, textarea { font: inherit; }
+
+button {
+  cursor: pointer;
+  border: 0;
+  border-radius: 9px;
+  padding: 11px 15px;
+  background: var(--primary);
+  color: white;
+  font-weight: 600;
+}
+
+button:hover { filter: brightness(1.08); }
+button:disabled { opacity: .5; cursor: not-allowed; }
+
+button.secondary {
+  background: var(--panel2);
+  color: var(--text);
+  border: 1px solid var(--border);
+}
+
+button.danger { background: var(--red); color: white; }
+button.success { background: var(--green); color: #061b12; }
+button.warning { background: var(--yellow); color: #241b06; }
+button.small { padding: 7px 10px; font-size: 12px; }
+
+header {
+  background: var(--panel);
+  border-bottom: 1px solid var(--border);
+  padding: 18px;
+}
+
+.header-inner {
+  max-width: 1450px;
+  margin: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo {
+  width: 45px;
+  height: 45px;
+  display: grid;
+  place-items: center;
+  border-radius: 12px;
+  background: var(--primary);
+  color: white;
+  font-size: 24px;
+}
+
+h1 { font-size: 21px; margin: 0 0 5px; }
+h2 { font-size: 18px; margin-top: 0; }
+h3 { font-size: 15px; }
+p { line-height: 1.5; }
+
+.muted { color: var(--muted); font-size: 13px; }
+
+nav {
+  max-width: 1450px;
+  margin: auto;
+  display: flex;
+  gap: 8px;
+  padding: 14px 18px;
+  overflow-x: auto;
+}
+
+nav button {
+  white-space: nowrap;
+  background: var(--panel);
+  color: var(--muted);
+  border: 1px solid var(--border);
+}
+
+nav button.active {
+  background: var(--primary);
+  color: white;
+  border-color: var(--primary);
+}
+
+main {
+  max-width: 1450px;
+  margin: auto;
+  padding: 0 18px 40px;
+}
+
+.view { display: none; }
+.view.active { display: block; }
+
+.section-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin: 15px 0;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 18px;
+  box-shadow: var(--shadow);
+  min-width: 0;
+  margin-bottom: 16px;
+}
+
+.metric-label { color: var(--muted); font-size: 13px; }
+.metric-value { font-size: 25px; font-weight: 700; margin-top: 10px; }
+.green { color: var(--green); }
+.red { color: var(--red); }
+.yellow { color: var(--yellow); }
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 13px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+.field.full { grid-column: 1 / -1; }
+
+label { color: var(--muted); font-size: 13px; }
+
+input, select, textarea {
+  width: 100%;
+  padding: 11px;
+  color: var(--text);
+  background: var(--input);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  outline: none;
+}
+
+input:focus, select:focus, textarea:focus {
+  border-color: var(--primary);
+}
+
+textarea { resize: vertical; min-height: 80px; }
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  align-items: center;
+}
+
+.table-wrap {
+  width: 100%;
+  overflow-x: auto;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 650px;
+}
+
+th, td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+  font-size: 13px;
+  vertical-align: middle;
+}
+
+th {
+  color: var(--muted);
+  background: var(--panel2);
+  font-weight: 600;
+}
+
+tr:last-child td { border-bottom: 0; }
+
+.badge {
+  display: inline-block;
+  padding: 5px 8px;
+  border-radius: 20px;
+  font-size: 11px;
+  background: var(--panel2);
+}
+
+.badge.green { color: var(--green); }
+.badge.red { color: var(--red); }
+.badge.yellow { color: var(--yellow); }
+
+.empty {
+  text-align: center;
+  padding: 28px;
+  color: var(--muted);
+}
+
+.notice {
+  border: 1px solid var(--border);
+  background: var(--panel2);
+  padding: 13px;
+  border-radius: 9px;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.5;
+  margin-bottom: 15px;
+}
+
+.toolbar {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-bottom: 14px;
+}
+
+.toolbar input, .toolbar select { width: auto; min-width: 150px; }
+
+hr {
+  border: 0;
+  border-top: 1px solid var(--border);
+  margin: 20px 0;
+}
+
+footer {
+  text-align: center;
+  color: var(--muted);
+  padding: 20px;
+  font-size: 12px;
+}
+
+@media (max-width: 900px) {
+  .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .form-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 560px) {
+  header { padding: 14px; }
+  nav { padding: 10px 14px; }
+  main { padding: 0 12px 30px; }
+  .grid, .form-grid { grid-template-columns: 1fr; }
+  .metric-value { font-size: 23px; }
+  .card { padding: 14px; }
+  .field.full { grid-column: auto; }
 }
 </style>
 </head>
 
 <body>
-<div class="container">
 
 <header>
-  <div class="brand">
-    <div class="logo">✧</div>
-    <div>
-      <h1>Manual<span style="color:var(--cyan)"></span></h1>
-      <p>CENTRAL DE DOCUMENTAÇÃO</p>
+  <div class="header-inner">
+    <div class="brand">
+      <div class="logo">⌂</div>
+      <div>
+        <h1>Controle de Obras</h1>
+        <div class="muted">Pagamentos, diárias e controle financeiro</div>
+      </div>
     </div>
-  </div>
-  <div class="actions">
-    <button class="btn" id="themeBtn">☀️ Modo claro</button>
-    <button class="btn primary" id="addBtn">＋ Novo manual</button>
+    <div class="actions">
+      <button class="secondary" onclick="toggleTheme()">◐ Tema</button>
+      <button class="secondary" onclick="exportData()">⇩ Backup</button>
+    </div>
   </div>
 </header>
 
-<section class="hero">
-  <div class="eyebrow">✦ PAINEL DE PRODUTIVIDADE</div>
-  <h2>Manuais</h2>
-  <p>Organize seus manuais, acompanhe o desenvolvimento e visualize seu progresso em um só lugar.</p>
+<nav id="navigation">
+  <button class="active" data-view="dashboard">Visão geral</button>
+  <button data-view="works">Obras</button>
+  <button data-view="workers">Trabalhadores</button>
+  <button data-view="attendance">Presenças</button>
+  <button data-view="finance">Financeiro</button>
+  <button data-view="closings">Fechamentos</button>
+  <button data-view="backup">Backup e histórico</button>
+</nav>
+
+<main>
+
+<!-- VISÃO GERAL -->
+<section id="dashboard" class="view active">
+  <div class="section-head">
+    <div>
+      <h2>Visão geral</h2>
+      <p class="muted">Resumo dos registros cadastrados no sistema.</p>
+    </div>
+    <button onclick="refreshAll()">↻ Atualizar</button>
+  </div>
+
+  <div class="grid">
+    <div class="card">
+      <div class="metric-label">Saldo financeiro</div>
+      <div class="metric-value" id="dashBalance">R$ 0,00</div>
+    </div>
+    <div class="card">
+      <div class="metric-label">Total recebido</div>
+      <div class="metric-value green" id="dashIncome">R$ 0,00</div>
+    </div>
+    <div class="card">
+      <div class="metric-label">Pagamentos e despesas</div>
+      <div class="metric-value red" id="dashExpenses">R$ 0,00</div>
+    </div>
+    <div class="card">
+      <div class="metric-label">Obras ativas</div>
+      <div class="metric-value" id="dashWorks">0</div>
+    </div>
+  </div>
+
+  <div class="grid">
+    <div class="card">
+      <div class="metric-label">Trabalhadores ativos</div>
+      <div class="metric-value" id="dashWorkers">0</div>
+    </div>
+    <div class="card">
+      <div class="metric-label">Diárias registradas</div>
+      <div class="metric-value" id="dashDays">0</div>
+    </div>
+    <div class="card">
+      <div class="metric-label">Adiantamentos pendentes</div>
+      <div class="metric-value yellow" id="dashAdvances">R$ 0,00</div>
+    </div>
+    <div class="card">
+      <div class="metric-label">Fechamentos realizados</div>
+      <div class="metric-value" id="dashClosings">0</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Últimas movimentações</h2>
+    <div id="recentMovements"></div>
+  </div>
+
+  <div class="notice">
+    <strong>Importante:</strong> os valores financeiros são calculados com base nos lançamentos
+    registrados. Confira os dados antes de realizar pagamentos reais.
+  </div>
 </section>
 
-<section class="stats">
-  <div class="stat">
-    <div class="stat-label">TOTAL DE MANUAIS</div>
-    <div class="stat-number" id="total">0</div>
-    <small>Itens cadastrados</small>
+<!-- OBRAS -->
+<section id="works" class="view">
+  <div class="section-head">
+    <div>
+      <h2>Obras</h2>
+      <p class="muted">Cadastre e acompanhe cada obra.</p>
+    </div>
   </div>
-  <div class="stat">
-    <div class="stat-label">CONCLUÍDOS</div>
-    <div class="stat-number" id="completed">0</div>
-    <small>Manuais finalizados</small>
-  </div>
-  <div class="stat">
-    <div class="stat-label">PENDENTES</div>
-    <div class="stat-number" id="pending">0</div>
-    <small>Aguardando desenvolvimento</small>
-  </div>
-  <div class="stat">
-    <div class="stat-label">PROGRESSO GERAL</div>
-    <div class="stat-number" id="percentage">0%</div>
-    <div class="track"><div class="fill" id="bar"></div></div>
-    <div class="progress-caption" id="caption">0 de 0 concluídos</div>
-  </div>
-</section>
 
-<section>
-  <h3>Biblioteca de manuais</h3>
-  <div class="subtitle">Marque os concluídos, pesquise, filtre ou adicione novos documentos.</div>
-  <div class="toolbar">
-    <input id="search" type="search" placeholder="⌕  Buscar manual...">
-    <select id="filter">
-      <option value="all">Todos os status</option>
-      <option value="pending">Pendentes</option>
-      <option value="done">Concluídos</option>
-    </select>
-    <select id="sort">
-      <option value="original">Ordem original</option>
-      <option value="az">Nome A–Z</option>
-      <option value="za">Nome Z–A</option>
-      <option value="pending">Pendentes primeiro</option>
-    </select>
-  </div>
-  <div class="list" id="list"></div>
-</section>
-
-<footer>ManualHub ◆ Painel de controle de manuais · <span id="saveInfo">Salvamento local ativado</span></footer>
-</div>
-
-<div class="modal" id="modal">
-  <div class="modal-box">
-    <h3>Novo manual</h3>
-    <p>Adicione um item ao seu planejamento.</p>
-    <form id="form">
-      <label for="manualName">Nome do manual</label>
-      <input class="form-input" id="manualName" maxlength="180" placeholder="Digite o nome do manual" required>
-      <div class="modal-actions">
-        <button class="btn" type="button" id="cancelBtn">Cancelar</button>
-        <button class="btn primary" type="submit">Adicionar</button>
+  <div class="card">
+    <h3 id="workFormTitle">Cadastrar obra</h3>
+    <form id="workForm">
+      <input type="hidden" id="workId">
+      <div class="form-grid">
+        <div class="field">
+          <label for="workName">Nome da obra *</label>
+          <input id="workName" required placeholder="Ex.: Reforma da casa">
+        </div>
+        <div class="field">
+          <label for="workClient">Cliente / responsável</label>
+          <input id="workClient" placeholder="Nome do cliente">
+        </div>
+        <div class="field">
+          <label for="workAddress">Endereço</label>
+          <input id="workAddress" placeholder="Endereço da obra">
+        </div>
+        <div class="field">
+          <label for="workStart">Data de início</label>
+          <input id="workStart" type="date">
+        </div>
+        <div class="field">
+          <label for="workStatus">Situação</label>
+          <select id="workStatus">
+            <option value="ativa">Ativa</option>
+            <option value="concluida">Concluída</option>
+            <option value="pausada">Pausada</option>
+          </select>
+        </div>
+        <div class="field full">
+          <label for="workNotes">Observações</label>
+          <textarea id="workNotes" placeholder="Informações adicionais"></textarea>
+        </div>
+      </div>
+      <div class="actions" style="margin-top:14px">
+        <button type="submit">Salvar obra</button>
+        <button type="button" class="secondary" onclick="resetWorkForm()">Limpar</button>
       </div>
     </form>
   </div>
-</div>
 
-<!-- Janela para escrever e salvar o conteúdo do manual -->
-<div class="modal" id="editorModal">
-  <div class="modal-box" style="max-width:750px">
-    <h3 id="editorTitle">Escrever manual</h3>
-    <p>Digite ou cole abaixo o conteúdo do manual. Clique em salvar para guardar o texto neste navegador.</p>
-    <form id="editorForm">
-      <label for="manualText">Conteúdo do manual</label>
-      <textarea
-        class="manual-editor"
-        id="manualText"
-        placeholder="Digite ou cole aqui o conteúdo completo do manual..."
-      ></textarea>
-      <div class="modal-actions">
-        <button class="btn" type="button" id="cancelEditorBtn">Fechar</button>
-        <button class="btn primary" type="submit">Salvar manual</button>
+  <div class="card">
+    <h3>Obras cadastradas</h3>
+    <div class="toolbar">
+      <input id="workSearch" placeholder="Buscar obra..." oninput="renderWorks()">
+      <select id="workFilter" onchange="renderWorks()">
+        <option value="">Todas as situações</option>
+        <option value="ativa">Ativas</option>
+        <option value="pausada">Pausadas</option>
+        <option value="concluida">Concluídas</option>
+      </select>
+    </div>
+    <div id="worksTable"></div>
+  </div>
+</section>
+
+<!-- TRABALHADORES -->
+<section id="workers" class="view">
+  <div class="section-head">
+    <div>
+      <h2>Trabalhadores</h2>
+      <p class="muted">Cadastre pedreiros, ajudantes e suas diárias.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3 id="workerFormTitle">Cadastrar trabalhador</h3>
+    <form id="workerForm">
+      <input type="hidden" id="workerId">
+      <div class="form-grid">
+        <div class="field">
+          <label for="workerName">Nome completo *</label>
+          <input id="workerName" required placeholder="Nome do trabalhador">
+        </div>
+        <div class="field">
+          <label for="workerRole">Função</label>
+          <select id="workerRole">
+            <option>Pedreiro</option>
+            <option>Ajudante</option>
+            <option>Servente</option>
+            <option>Eletricista</option>
+            <option>Encanador</option>
+            <option>Pintor</option>
+            <option>Outro</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="workerRate">Valor da diária (R$) *</label>
+          <input id="workerRate" type="number" min="0" step="0.01" required placeholder="150,00">
+        </div>
+        <div class="field">
+          <label for="workerPhone">Telefone</label>
+          <input id="workerPhone" placeholder="Telefone de contato">
+        </div>
+        <div class="field">
+          <label for="workerStatus">Situação</label>
+          <select id="workerStatus">
+            <option value="ativo">Ativo</option>
+            <option value="inativo">Inativo</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="workerWork">Obra principal</label>
+          <select id="workerWork"></select>
+        </div>
+        <div class="field full">
+          <label for="workerNotes">Observações</label>
+          <textarea id="workerNotes"></textarea>
+        </div>
+      </div>
+      <div class="actions" style="margin-top:14px">
+        <button type="submit">Salvar trabalhador</button>
+        <button type="button" class="secondary" onclick="resetWorkerForm()">Limpar</button>
       </div>
     </form>
   </div>
-</div>
 
-<div class="toast" id="toast" role="status"></div>
+  <div class="card">
+    <h3>Equipe cadastrada</h3>
+    <div class="toolbar">
+      <input id="workerSearch" placeholder="Buscar trabalhador..." oninput="renderWorkers()">
+      <select id="workerFilter" onchange="renderWorkers()">
+        <option value="">Todos</option>
+        <option value="ativo">Ativos</option>
+        <option value="inativo">Inativos</option>
+      </select>
+    </div>
+    <div id="workersTable"></div>
+  </div>
+</section>
+
+<!-- PRESENÇAS -->
+<section id="attendance" class="view">
+  <div class="section-head">
+    <div>
+      <h2>Presenças e diárias</h2>
+      <p class="muted">Registre dias trabalhados, meias diárias, faltas e feriados.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>Lançar presença</h3>
+    <form id="attendanceForm">
+      <div class="form-grid">
+        <div class="field">
+          <label for="attDate">Data *</label>
+          <input id="attDate" type="date" required>
+        </div>
+        <div class="field">
+          <label for="attWork">Obra *</label>
+          <select id="attWork" required></select>
+        </div>
+        <div class="field">
+          <label for="attWorker">Trabalhador *</label>
+          <select id="attWorker" required></select>
+        </div>
+        <div class="field">
+          <label for="attType">Registro *</label>
+          <select id="attType" required>
+            <option value="integral">Diária completa</option>
+            <option value="meia">Meia diária</option>
+            <option value="falta">Falta</option>
+            <option value="feriado">Feriado sem trabalho</option>
+            <option value="feriado_trabalhado">Trabalhou no feriado</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="attRate">Valor da diária aplicada (R$)</label>
+          <input id="attRate" type="number" min="0" step="0.01">
+        </div>
+        <div class="field">
+          <label for="attNotes">Observação</label>
+          <input id="attNotes" placeholder="Opcional">
+        </div>
+      </div>
+      <div class="notice" style="margin-top:14px;margin-bottom:0">
+        A diária completa paga 100% do valor informado; a meia diária paga 50%.
+        Faltas e feriados sem trabalho não geram pagamento. O valor aplicado fica registrado
+        para preservar o cálculo histórico.
+      </div>
+      <div class="actions" style="margin-top:14px">
+        <button type="submit">Registrar presença</button>
+      </div>
+    </form>
+  </div>
+
+  <div class="card">
+    <h3>Histórico de presenças</h3>
+    <div class="toolbar">
+      <input id="attFrom" type="date" title="Data inicial" onchange="renderAttendance()">
+      <input id="attTo" type="date" title="Data final" onchange="renderAttendance()">
+      <select id="attWorkFilter" onchange="renderAttendance()"></select>
+      <select id="attWorkerFilter" onchange="renderAttendance()"></select>
+    </div>
+    <div id="attendanceTable"></div>
+  </div>
+</section>
+
+<!-- FINANCEIRO -->
+<section id="finance" class="view">
+  <div class="section-head">
+    <div>
+      <h2>Financeiro</h2>
+      <p class="muted">Entradas, pagamentos, adiantamentos e despesas.</p>
+    </div>
+  </div>
+
+  <div class="grid">
+    <div class="card">
+      <div class="metric-label">Saldo atual</div>
+      <div class="metric-value" id="finBalance">R$ 0,00</div>
+    </div>
+    <div class="card">
+      <div class="metric-label">Entradas</div>
+      <div class="metric-value green" id="finIncome">R$ 0,00</div>
+    </div>
+    <div class="card">
+      <div class="metric-label">Saídas</div>
+      <div class="metric-value red" id="finOut">R$ 0,00</div>
+    </div>
+    <div class="card">
+      <div class="metric-label">Adiantamentos em aberto</div>
+      <div class="metric-value yellow" id="finAdvances">R$ 0,00</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>Lançar movimentação</h3>
+    <form id="financeForm">
+      <div class="form-grid">
+        <div class="field">
+          <label for="finDate">Data *</label>
+          <input id="finDate" type="date" required>
+        </div>
+        <div class="field">
+          <label for="finType">Tipo *</label>
+          <select id="finType" required onchange="updateFinanceFields()">
+            <option value="entrada">Recebimento do contratante</option>
+            <option value="pagamento">Pagamento de trabalhador</option>
+            <option value="adiantamento">Adiantamento a trabalhador</option>
+            <option value="despesa">Despesa da obra</option>
+            <option value="devolucao">Devolução / estorno recebido</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="finAmount">Valor (R$) *</label>
+          <input id="finAmount" type="number" min="0.01" step="0.01" required placeholder="0,00">
+        </div>
+        <div class="field">
+          <label for="finWork">Obra</label>
+          <select id="finWork"></select>
+        </div>
+        <div class="field" id="finWorkerField">
+          <label for="finWorker">Trabalhador</label>
+          <select id="finWorker"></select>
+        </div>
+        <div class="field">
+          <label for="finMethod">Forma de pagamento</label>
+          <select id="finMethod">
+            <option>Dinheiro</option>
+            <option>Pix</option>
+            <option>Transferência</option>
+            <option>Cartão</option>
+            <option>Outro</option>
+          </select>
+        </div>
+        <div class="field full">
+          <label for="finDescription">Descrição / comprovante</label>
+          <input id="finDescription" placeholder="Ex.: compra de cimento, pagamento semanal...">
+        </div>
+      </div>
+      <div class="actions" style="margin-top:14px">
+        <button type="submit">Salvar movimentação</button>
+      </div>
+    </form>
+  </div>
+
+  <div class="card">
+    <h3>Livro-caixa</h3>
+    <div class="toolbar">
+      <input id="finFrom" type="date" title="Data inicial" onchange="renderFinance()">
+      <input id="finTo" type="date" title="Data final" onchange="renderFinance()">
+      <select id="finTypeFilter" onchange="renderFinance()">
+        <option value="">Todos os tipos</option>
+        <option value="entrada">Recebimentos</option>
+        <option value="pagamento">Pagamentos</option>
+        <option value="adiantamento">Adiantamentos</option>
+        <option value="despesa">Despesas</option>
+        <option value="devolucao">Devoluções</option>
+      </select>
+    </div>
+    <div id="financeTable"></div>
+  </div>
+</section>
+
+<!-- FECHAMENTOS -->
+<section id="closings" class="view">
+  <div class="section-head">
+    <div>
+      <h2>Fechamentos de pagamento</h2>
+      <p class="muted">Calcule o valor devido por trabalhador em um período personalizado.</p>
+    </div>
+  </div>
+
+  <div class="notice">
+    O fechamento registra uma cópia dos valores e das presenças daquele período.
+    Alterações posteriores nos cadastros não modificam automaticamente um fechamento já salvo.
+    Revise os lançamentos antes de fechar.
+  </div>
+
+  <div class="card">
+    <h3>Gerar fechamento</h3>
+    <form id="closingForm">
+      <div class="form-grid">
+        <div class="field">
+          <label for="closeWork">Obra *</label>
+          <select id="closeWork" required></select>
+        </div>
+        <div class="field">
+          <label for="closeFrom">Início do período *</label>
+          <input id="closeFrom" type="date" required>
+        </div>
+        <div class="field">
+          <label for="closeTo">Fim do período *</label>
+          <input id="closeTo" type="date" required>
+        </div>
+      </div>
+      <div class="actions" style="margin-top:14px">
+        <button type="submit">Calcular e salvar fechamento</button>
+      </div>
+    </form>
+  </div>
+
+  <div class="card">
+    <h3>Fechamentos salvos</h3>
+    <div id="closingsTable"></div>
+  </div>
+
+  <div id="closingDetail"></div>
+</section>
+
+<!-- BACKUP -->
+<section id="backup" class="view">
+  <div class="section-head">
+    <div>
+      <h2>Backup e histórico</h2>
+      <p class="muted">Proteja os dados e acompanhe as ações realizadas.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>Backup dos dados</h3>
+    <p class="muted">Exporte todos os registros para um arquivo JSON. Para restaurar, selecione um backup previamente exportado.</p>
+    <div class="actions">
+      <button onclick="exportData()">⇩ Exportar backup JSON</button>
+      <button class="secondary" onclick="document.getElementById('importFile').click()">⇧ Importar backup JSON</button>
+      <input type="file" id="importFile" accept=".json,application/json" hidden onchange="importData(event)">
+    </div>
+    <hr>
+    <p class="muted">O arquivo de backup pode conter informações financeiras e pessoais. Guarde-o em local seguro.</p>
+  </div>
+
+  <div class="card">
+    <h3>Histórico de ações</h3>
+    <div id="auditTable"></div>
+  </div>
+
+  <div class="card">
+    <h3>Dados do navegador</h3>
+    <p class="muted" id="storageInfo"></p>
+    <button class="danger" onclick="clearAllData()">Apagar todos os dados</button>
+    <p class="muted">Esta ação não pode ser desfeita. Exporte um backup antes de continuar.</p>
+  </div>
+</section>
+
+</main>
+
+<footer>Controle de Obras • Sistema local • Faça backups regularmente</footer>
 
 <script>
-const KEY = "manualhub_v1";
-const THEME_KEY = "manualhub_theme";
+"use strict";
 
-const initialTitles = [
-  "Atendimento Compartilhado",
-  "Cadastro de Profissionais",
-  "Realização de Ultrassom nas UPAs",
-  "Solicitar Encaminhamento",
-  "Solicitar Exame",
-  "Ficha de Rastreamento TEA (M-CHAT)",
-  "Disponibilidade do IVCF-20 no Prontuário Eletrônico",
-  "Atendimento por Profissional",
-  "Atendimento Domiciliar",
-  "Prontuário Eletrônico",
-  "Cadastro > Pacientes",
-  "Manutenção de Agenda > Criar novas agendas > Central de Vagas > Exclusão/Bloqueio de agenda",
-  "Posição de estoque",
-  "Dispensa por paciente",
-  "Requisição de suprimentos",
-  "Recebimento por Requisição",
-  "Gerar BPA",
-  "Relatório de faturamento",
-  "Ficha de atendimento",
-  "Solicitar encaminhamento",
-  "Solicitar exame",
-  "Gerenciamento de status",
-  "Unificar paciente",
-  "Ficha de atividade coletiva",
-  "Agendamento",
-  "Listagem de agendamento",
-  "Listagem de exames agendados",
-  "Vacinação",
-  "Saída e entrada de estoque"
-];
+/* =========================
+   DADOS E ARMAZENAMENTO
+========================= */
 
-function newId() {
-  return Date.now().toString(36) + Math.random().toString(36).slice(2,8);
+const STORAGE_KEY = "controle_obras_v1";
+
+function emptyDB() {
+  return {
+    version: 1,
+    works: [],
+    workers: [],
+    attendance: [],
+    finance: [],
+    closings: [],
+    audit: [],
+    theme: "dark"
+  };
 }
 
-function loadData() {
+function loadDB() {
   try {
-    const data = localStorage.getItem(KEY);
-    if (data !== null) {
-      const parsed = JSON.parse(data);
-      if (Array.isArray(parsed)) {
-        return parsed.filter(m => m && typeof m.title === "string")
-          .map(m => ({
-            id: String(m.id || newId()),
-            title: m.title,
-            done: m.done === true,
-            content: typeof m.content === "string" ? m.content : ""
-          }));
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return emptyDB();
+
+    const data = JSON.parse(raw);
+    const base = emptyDB();
+
+    for (const key of Object.keys(base)) {
+      if (Array.isArray(base[key])) {
+        base[key] = Array.isArray(data[key]) ? data[key] : [];
+      } else if (key === "theme") {
+        base.theme = data.theme === "light" ? "light" : "dark";
       }
     }
-  } catch(e) {
-    console.warn("Não foi possível carregar os dados.",e);
+
+    return base;
+  } catch (error) {
+    alert("Não foi possível ler os dados salvos. Faça a recuperação usando um backup, se disponível.");
+    return emptyDB();
   }
-  return initialTitles.map(title => ({
-    id:newId(),
-    title,
-    done:false,
-    content:""
-  }));
 }
 
-let manuals = loadData();
+let db = loadDB();
 
-/* Identifica qual manual está sendo editado */
-let editingManualId = null;
-
-function saveData() {
+function saveDB() {
   try {
-    localStorage.setItem(KEY,JSON.stringify(manuals));
-    document.getElementById("saveInfo").textContent = "✓ Alterações salvas neste navegador";
-  } catch(e) {
-    document.getElementById("saveInfo").textContent = "Erro ao salvar dados";
-    notify("Não foi possível salvar. Verifique o armazenamento.");
-  }
-}
-
-function el(tag,cls,text) {
-  const node = document.createElement(tag);
-  if(cls) node.className = cls;
-  if(text !== undefined) node.textContent = text;
-  return node;
-}
-
-function updateStats() {
-  const total = manuals.length;
-  const completed = manuals.filter(m => m.done).length;
-  const pending = total-completed;
-  const pct = total ? Math.round(completed/total*100) : 0;
-
-  document.getElementById("total").textContent = total;
-  document.getElementById("completed").textContent = completed;
-  document.getElementById("pending").textContent = pending;
-  document.getElementById("percentage").textContent = pct+"%";
-  document.getElementById("bar").style.width = pct+"%";
-  document.getElementById("caption").textContent = completed+" de "+total+" concluídos";
-}
-
-/* Abre a janela de edição do manual */
-function openEditor(manual) {
-  editingManualId = manual.id;
-
-  document.getElementById("editorTitle").textContent = "Manual: " + manual.title;
-  document.getElementById("manualText").value = manual.content || "";
-  document.getElementById("editorModal").classList.add("open");
-
-  setTimeout(() => {
-    document.getElementById("manualText").focus();
-  }, 0);
-}
-
-/* Fecha a janela de edição sem apagar o conteúdo salvo */
-function closeEditor() {
-  document.getElementById("editorModal").classList.remove("open");
-  editingManualId = null;
-}
-
-function render() {
-  const list = document.getElementById("list");
-  const query = document.getElementById("search").value.trim().toLocaleLowerCase("pt-BR");
-  const filter = document.getElementById("filter").value;
-  const sort = document.getElementById("sort").value;
-
-  let items = manuals.filter(m =>
-    m.title.toLocaleLowerCase("pt-BR").includes(query) &&
-    (filter === "all" || (filter === "done" && m.done) || (filter === "pending" && !m.done))
-  );
-
-  if(sort === "az") items.sort((a,b)=>a.title.localeCompare(b.title,"pt-BR"));
-  if(sort === "za") items.sort((a,b)=>b.title.localeCompare(a.title,"pt-BR"));
-  if(sort === "pending") items.sort((a,b)=>Number(a.done)-Number(b.done));
-
-  list.replaceChildren();
-
-  if(items.length === 0) {
-    list.appendChild(el("div","empty","Nenhum manual encontrado. Tente alterar a busca ou o filtro."));
-  }
-
-  items.forEach(m => {
-    const card = el("article","manual"+(m.done?" done":""));
-    const check = el("input");
-    check.type = "checkbox";
-    check.checked = m.done;
-    check.setAttribute("aria-label","Concluir: "+m.title);
-
-    check.addEventListener("change",()=>{
-      m.done = check.checked;
-      saveData();
-      render();
-
-      if(m.done) {
-        notify("Manual concluído!");
-        openEditor(m);
-      } else {
-        notify("Manual marcado como pendente.");
-      }
-    });
-
-    const content = el("div","manual-content");
-    content.appendChild(el("div","manual-title",m.title));
-    content.appendChild(el("span","status "+(m.done?"done":"pending"),m.done?"✓ Concluído":"◷ Pendente"));
-
-    /* Permite abrir novamente um manual já concluído */
-    if(m.done) {
-      const editBtn = el("button","btn","Abrir manual");
-      editBtn.type = "button";
-      editBtn.style.marginTop = "8px";
-      editBtn.style.padding = "7px 10px";
-      editBtn.style.fontSize = "11px";
-      editBtn.addEventListener("click",()=>{
-        openEditor(m);
-      });
-      content.appendChild(document.createElement("br"));
-      content.appendChild(editBtn);
-    }
-
-    const del = el("button","delete","×");
-    del.type = "button";
-    del.title = "Excluir manual";
-    del.setAttribute("aria-label","Excluir "+m.title);
-    del.addEventListener("click",()=>{
-      if(confirm('Deseja excluir "'+m.title+'"?')) {
-        manuals = manuals.filter(x=>x.id!==m.id);
-        saveData();
-        render();
-        notify("Manual excluído.");
-      }
-    });
-
-    card.append(check,content,del);
-    list.appendChild(card);
-  });
-
-  updateStats();
-}
-
-function addManual(title) {
-  title = title.trim();
-  if(!title) return false;
-
-  if(manuals.some(m=>m.title.toLocaleLowerCase("pt-BR")===title.toLocaleLowerCase("pt-BR"))) {
-    notify("Esse manual já está cadastrado.");
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(db));
+    updateStorageInfo();
+    return true;
+  } catch (error) {
+    alert("Não foi possível salvar. O armazenamento pode estar cheio. Exporte um backup e libere espaço.");
     return false;
   }
-
-  manuals.push({id:newId(),title,done:false,content:""});
-  saveData();
-  document.getElementById("search").value = "";
-  document.getElementById("filter").value = "all";
-  document.getElementById("sort").value = "original";
-  render();
-  notify("Novo manual adicionado!");
-  return true;
 }
 
-function notify(message) {
-  const toast = document.getElementById("toast");
-  toast.textContent = message;
-  toast.classList.add("show");
-  clearTimeout(notify.timer);
-  notify.timer = setTimeout(()=>toast.classList.remove("show"),2500);
+function uid() {
+  return Date.now().toString(36) + Math.random().toString(36).slice(2, 9);
 }
 
-function setTheme(theme) {
-  const light = theme === "light";
-  document.body.classList.toggle("light",light);
-  document.getElementById("themeBtn").textContent = light ? "🌙 Modo noturno" : "☀️ Modo claro";
-  try { localStorage.setItem(THEME_KEY,theme); } catch(e) {}
+function today() {
+  const d = new Date();
+  return d.getFullYear() + "-" +
+    String(d.getMonth() + 1).padStart(2, "0") + "-" +
+    String(d.getDate()).padStart(2, "0");
 }
 
-document.getElementById("themeBtn").addEventListener("click",()=>{
-  setTheme(document.body.classList.contains("light")?"dark":"light");
+function money(value) {
+  return Number(value || 0).toLocaleString("pt-BR", {
+    style: "currency",
+    currency: "BRL"
+  });
+}
+
+function num(value) {
+  const n = Number(value);
+  return Number.isFinite(n) ? n : 0;
+}
+
+function escapeHTML(value) {
+  return String(value ?? "").replace(/[&<>"']/g, char => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#39;"
+  })[char]);
+}
+
+function dateBR(date) {
+  if (!date) return "—";
+  const parts = date.split("-");
+  if (parts.length !== 3) return escapeHTML(date);
+  return parts[2] + "/" + parts[1] + "/" + parts[0];
+}
+
+function workName(id) {
+  return db.works.find(x => x.id === id)?.name || "Obra não identificada";
+}
+
+function workerName(id) {
+  return db.workers.find(x => x.id === id)?.name || "Trabalhador não identificado";
+}
+
+function logAction(action, detail) {
+  db.audit.unshift({
+    id: uid(),
+    date: new Date().toISOString(),
+    action,
+    detail: String(detail || "")
+  });
+  db.audit = db.audit.slice(0, 500);
+}
+
+function persist(action, detail) {
+  logAction(action, detail);
+  saveDB();
+  refreshAll();
+}
+
+function isActiveWork(work) {
+  return work.status === "ativa";
+}
+
+function getWorkOptions(selected = "") {
+  return '<option value="">Selecione...</option>' +
+    db.works.map(w =>
+      `<option value="${escapeHTML(w.id)}" ${w.id === selected ? "selected" : ""}>${escapeHTML(w.name)}</option>`
+    ).join("");
+}
+
+function getWorkerOptions(selected = "", onlyActive = true) {
+  const list = onlyActive ? db.workers.filter(w => w.status === "ativo") : db.workers;
+  return '<option value="">Selecione...</option>' +
+    list.map(w =>
+      `<option value="${escapeHTML(w.id)}" ${w.id === selected ? "selected" : ""}>${escapeHTML(w.name)}</option>`
+    ).join("");
+}
+
+function fillSelects() {
+  const workFields = [
+    "workerWork", "attWork", "attWorkFilter", "finWork", "closeWork"
+  ];
+
+  workFields.forEach(id => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    const previous = el.value;
+    const allOption = id === "attWorkFilter"
+      ? '<option value="">Todas as obras</option>'
+      : '<option value="">Selecione...</option>';
+    el.innerHTML = allOption + db.works.map(w =>
+      `<option value="${escapeHTML(w.id)}">${escapeHTML(w.name)}</option>`
+    ).join("");
+    if ([...el.options].some(o => o.value === previous)) el.value = previous;
+  });
+
+  const workerFields = ["attWorker", "attWorkerFilter", "finWorker"];
+  workerFields.forEach(id => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    const previous = el.value;
+    const allOption = id === "attWorkerFilter"
+      ? '<option value="">Todos os trabalhadores</option>'
+      : '<option value="">Selecione...</option>';
+    el.innerHTML = allOption + db.workers.map(w =>
+      `<option value="${escapeHTML(w.id)}">${escapeHTML(w.name)}</option>`
+    ).join("");
+    if ([...el.options].some(o => o.value === previous)) el.value = previous;
+  });
+}
+
+/* =========================
+   NAVEGAÇÃO E TEMA
+========================= */
+
+document.querySelectorAll("#navigation button").forEach(button => {
+  button.addEventListener("click", () => {
+    document.querySelectorAll("#navigation button").forEach(b => b.classList.remove("active"));
+    document.querySelectorAll(".view").forEach(v => v.classList.remove("active"));
+
+    button.classList.add("active");
+    document.getElementById(button.dataset.view).classList.add("active");
+    refreshAll();
+  });
 });
 
-document.getElementById("addBtn").addEventListener("click",()=>{
-  document.getElementById("modal").classList.add("open");
-  document.getElementById("manualName").focus();
-});
-
-function closeModal() {
-  document.getElementById("modal").classList.remove("open");
+function toggleTheme() {
+  db.theme = db.theme === "dark" ? "light" : "dark";
+  document.body.classList.toggle("light", db.theme === "light");
+  saveDB();
 }
 
-document.getElementById("cancelBtn").addEventListener("click",closeModal);
-document.getElementById("modal").addEventListener("click",e=>{
-  if(e.target.id==="modal") closeModal();
+document.body.classList.toggle("light", db.theme === "light");
+
+/* =========================
+   OBRAS
+========================= */
+
+function resetWorkForm() {
+  document.getElementById("workForm").reset();
+  document.getElementById("workId").value = "";
+  document.getElementById("workFormTitle").textContent = "Cadastrar obra";
+  document.getElementById("workStart").value = today();
+}
+
+document.getElementById("workForm").addEventListener("submit", event => {
+  event.preventDefault();
+
+  const id = document.getElementById("workId").value;
+  const name = document.getElementById("workName").value.trim();
+  if (!name) return alert("Informe o nome da obra.");
+
+  const existing = db.works.find(w => w.id === id);
+
+  const item = {
+    id: id || uid(),
+    name,
+    client: document.getElementById("workClient").value.trim(),
+    address: document.getElementById("workAddress").value.trim(),
+    start: document.getElementById("workStart").value,
+    status: document.getElementById("workStatus").value,
+    notes: document.getElementById("workNotes").value.trim(),
+    createdAt: existing?.createdAt || new Date().toISOString()
+  };
+
+  if (existing) {
+    Object.assign(existing, item);
+    persist("Obra editada", name);
+  } else {
+    db.works.push(item);
+    persist("Obra cadastrada", name);
+  }
+
+  resetWorkForm();
 });
 
-/* Salva o conteúdo digitado no manual selecionado */
-document.getElementById("editorForm").addEventListener("submit",e=>{
-  e.preventDefault();
+function editWork(id) {
+  const w = db.works.find(x => x.id === id);
+  if (!w) return;
 
-  const manual = manuals.find(m => m.id === editingManualId);
+  document.getElementById("workId").value = w.id;
+  document.getElementById("workName").value = w.name;
+  document.getElementById("workClient").value = w.client || "";
+  document.getElementById("workAddress").value = w.address || "";
+  document.getElementById("workStart").value = w.start || "";
+  document.getElementById("workStatus").value = w.status || "ativa";
+  document.getElementById("workNotes").value = w.notes || "";
+  document.getElementById("workFormTitle").textContent = "Editar obra";
 
-  if(!manual) {
-    closeEditor();
+  showView("works");
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+function deleteWork(id) {
+  const w = db.works.find(x => x.id === id);
+  if (!w) return;
+
+  const hasRecords =
+    db.attendance.some(a => a.workId === id) ||
+    db.finance.some(f => f.workId === id) ||
+    db.closings.some(c => c.workId === id);
+
+  if (hasRecords) {
+    return alert("Esta obra possui registros relacionados. Altere a situação para Pausada ou Concluída em vez de excluir.");
+  }
+
+  if (!confirm(`Excluir a obra "${w.name}"?`)) return;
+  db.works = db.works.filter(x => x.id !== id);
+  persist("Obra excluída", w.name);
+}
+
+function renderWorks() {
+  const search = (document.getElementById("workSearch")?.value || "").toLowerCase();
+  const filter = document.getElementById("workFilter")?.value || "";
+
+  const list = db.works.filter(w =>
+    (w.name + " " + (w.client || "") + " " + (w.address || "")).toLowerCase().includes(search) &&
+    (!filter || w.status === filter)
+  );
+
+  const target = document.getElementById("worksTable");
+  if (!list.length) {
+    target.innerHTML = '<div class="empty">Nenhuma obra encontrada.</div>';
     return;
   }
 
-  manual.content = document.getElementById("manualText").value;
-  saveData();
-  render();
-  closeEditor();
-  notify("Conteúdo do manual salvo!");
-});
-
-document.getElementById("cancelEditorBtn").addEventListener("click",closeEditor);
-
-document.getElementById("editorModal").addEventListener("click",e=>{
-  if(e.target.id === "editorModal") closeEditor();
-});
-
-document.addEventListener("keydown",e=>{
-  if(e.key==="Escape") {
-    closeModal();
-    closeEditor();
-  }
-});
-
-document.getElementById("form").addEventListener("submit",e=>{
-  e.preventDefault();
-  if(addManual(document.getElementById("manualName").value)) {
-    document.getElementById("form").reset();
-    closeModal();
-  }
-});
-
-["search","filter","sort"].forEach(id=>{
-  document.getElementById(id).addEventListener(
-    id==="search"?"input":"change",render
-  );
-});
-
-try {
-  setTheme(localStorage.getItem(THEME_KEY)==="light"?"light":"dark");
-} catch(e) {
-  setTheme("dark");
+  target.innerHTML = `<div class="table-wrap"><table>
+    <thead><tr><th>Obra</th><th>Cliente</th><th>Início</th><th>Situação</th><th>Ações</th></tr></thead>
+    <tbody>${list.map(w => `<tr>
+      <td><strong>${escapeHTML(w.name)}</strong><br><span class="muted">${escapeHTML(w.address || "")}</span></td>
+      <td>${escapeHTML(w.client || "—")}</td>
+      <td>${dateBR(w.start)}</td>
+      <td><span class="badge ${w.status === "ativa" ? "green" : w.status === "pausada" ? "yellow" : ""}">${escapeHTML(w.status)}</span></td>
+      <td><div class="actions">
+        <button class="small secondary" onclick="editWork('${w.id}')">Editar</button>
+        <button class="small danger" onclick="deleteWork('${w.id}')">Excluir</button>
+      </div></td>
+    </tr>`).join("")}</tbody>
+  </table></div>`;
 }
 
-render();
+/* =========================
+   TRABALHADORES
+========================= */
+
+function resetWorkerForm() {
+  document.getElementById("workerForm").reset();
+  document.getElementById("workerId").value = "";
+  document.getElementById("workerFormTitle").textContent = "Cadastrar trabalhador";
+  fillSelects();
+}
+
+document.getElementById("workerForm").addEventListener("submit", event => {
+  event.preventDefault();
+
+  const id = document.getElementById("workerId").value;
+  const name = document.getElementById("workerName").value.trim();
+  const rate = num(document.getElementById("workerRate").value);
+
+  if (!name) return alert("Informe o nome do trabalhador.");
+  if (rate < 0) return alert("O valor da diária não pode ser negativo.");
+
+  const existing = db.workers.find(w => w.id === id);
+
+  const item = {
+    id: id || uid(),
+    name,
+    role: document.getElementById("workerRole").value,
+    rate,
+    phone: document.getElementById("workerPhone").value.trim(),
+    status: document.getElementById("workerStatus").value,
+    workId: document.getElementById("workerWork").value,
+    notes: document.getElementById("workerNotes").value.trim(),
+    createdAt: existing?.createdAt || new Date().toISOString()
+  };
+
+  if (existing) {
+    Object.assign(existing, item);
+    persist("Trabalhador editado", name);
+  } else {
+    db.workers.push(item);
+    persist("Trabalhador cadastrado", name);
+  }
+
+  resetWorkerForm();
+});
+
+function editWorker(id) {
+  const w = db.workers.find(x => x.id === id);
+  if (!w) return;
+
+  fillSelects();
+  document.getElementById("workerId").value = w.id;
+  document.getElementById("workerName").value = w.name;
+  document.getElementById("workerRole").value = w.role || "Pedreiro";
+  document.getElementById("workerRate").value = w.rate;
+  document.getElementById("workerPhone").value = w.phone || "";
+  document.getElementById("workerStatus").value = w.status || "ativo";
+  document.getElementById("workerWork").value = w.workId || "";
+  document.getElementById("workerNotes").value = w.notes || "";
+  document.getElementById("workerFormTitle").textContent = "Editar trabalhador";
+
+  showView("workers");
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+function deleteWorker(id) {
+  const w = db.workers.find(x => x.id === id);
+  if (!w) return;
+
+  const hasRecords =
+    db.attendance.some(a => a.workerId === id) ||
+    db.finance.some(f => f.workerId === id) ||
+    db.closings.some(c => c.workers?.some(x => x.workerId === id));
+
+  if (hasRecords) {
+    return alert("Este trabalhador possui histórico. Altere a situação para Inativo para preservar os registros.");
+  }
+
+  if (!confirm(`Excluir o trabalhador "${w.name}"?`)) return;
+  db.workers = db.workers.filter(x => x.id !== id);
+  persist("Trabalhador excluído", w.name);
+}
+
+function renderWorkers() {
+  const search = (document.getElementById("workerSearch")?.value || "").toLowerCase();
+  const filter = document.getElementById("workerFilter")?.value || "";
+
+  const list = db.workers.filter(w =>
+    (w.name + " " + (w.role || "") + " " + (w.phone || "")).toLowerCase().includes(search) &&
+    (!filter || w.status === filter)
+  );
+
+  const target = document.getElementById("workersTable");
+  if (!list.length) {
+    target.innerHTML = '<div class="empty">Nenhum trabalhador encontrado.</div>';
+    return;
+  }
+
+  target.innerHTML = `<div class="table-wrap"><table>
+    <thead><tr><th>Trabalhador</th><th>Função</th><th>Diária</th><th>Obra principal</th><th>Situação</th><th>Ações</th></tr></thead>
+    <tbody>${list.map(w => `<tr>
+      <td><strong>${escapeHTML(w.name)}</strong><br><span class="muted">${escapeHTML(w.phone || "")}</span></td>
+      <td>${escapeHTML(w.role || "—")}</td>
+      <td>${money(w.rate)}</td>
+      <td>${escapeHTML(w.workId ? workName(w.workId) : "—")}</td>
+      <td><span class="badge ${w.status === "ativo" ? "green" : ""}">${escapeHTML(w.status)}</span></td>
+      <td><div class="actions">
+        <button class="small secondary" onclick="editWorker('${w.id}')">Editar</button>
+        <button class="small danger" onclick="deleteWorker('${w.id}')">Excluir</button>
+      </div></td>
+    </tr>`).join("")}</tbody>
+  </table></div>`;
+}
+
+/* =========================
+   PRESENÇAS
+========================= */
+
+document.getElementById("attDate").value = today();
+
+document.getElementById("attWorker").addEventListener("change", () => {
+  const w = db.workers.find(x => x.id === document.getElementById("attWorker").value);
+  if (w) document.getElementById("attRate").value = w.rate;
+});
+
+document.getElementById("attType").addEventListener("change", () => {
+  const type = document.getElementById("attType").value;
+  const field = document.getElementById("attRate");
+  if (type === "falta" || type === "feriado") {
+    field.value = 0;
+  } else {
+    const w = db.workers.find(x => x.id === document.getElementById("attWorker").value);
+    if (w) field.value = w.rate;
+  }
+});
+
+document.getElementById("attWorker").addEventListener("change", () => {
+  const w = db.workers.find(x => x.id === document.getElementById("attWorker").value);
+  if (w && !document.getElementById("attRate").value) {
+    document.getElementById("attRate").value = w.rate;
+  }
+});
+
+document.getElementById("attendanceForm").addEventListener("submit", event => {
+  event.preventDefault();
+
+  const date = document.getElementById("attDate").value;
+  const workId = document.getElementById("attWork").value;
+  const workerId = document.getElementById("attWorker").value;
+  const type = document.getElementById("attType").value;
+  const rate = num(document.getElementById("attRate").value);
+
+  if (!date || !workId || !workerId) {
+    return alert("Preencha data, obra e trabalhador.");
+  }
+
+  if (rate < 0) return alert("O valor não pode ser negativo.");
+
+  const duplicate = db.attendance.find(a =>
+    a.date === date && a.workId === workId && a.workerId === workerId
+  );
+
+  if (duplicate) {
+    if (!confirm("Já existe um lançamento para este trabalhador nesta obra e data. Deseja substituir o registro?")) return;
+    db.attendance = db.attendance.filter(a => a.id !== duplicate.id);
+    logAction("Presença substituída", `${workerName(workerId)} • ${dateBR(date)}`);
+  }
+
+  const item = {
+    id: uid(),
+    date,
+    workId,
+    workerId,
+    type,
+    rate,
+    notes: document.getElementById("attNotes").value.trim(),
+    createdAt: new Date().toISOString()
+  };
+
+  db.attendance.push(item);
+  persist("Presença registrada", `${workerName(workerId)} • ${dateBR(date)} • ${type}`);
+  document.getElementById("attNotes").value = "";
+});
+
+function attendanceUnits(type) {
+  if (type === "integral" || type === "feriado_trabalhado") return 1;
+  if (type === "meia") return 0.5;
+  return 0;
+}
+
+function attendanceValue(item) {
+  return num(item.rate) * attendanceUnits(item.type);
+}
+
+function attendanceLabel(type) {
+  return ({
+    integral: "Diária completa",
+    meia: "Meia diária",
+    falta: "Falta",
+    feriado: "Feriado sem trabalho",
+    feriado_trabalhado: "Trabalhou no feriado"
+  })[type] || type;
+}
+
+function deleteAttendance(id) {
+  const item = db.attendance.find(a => a.id === id);
+  if (!item) return;
+
+  if (!confirm("Excluir este lançamento de presença? Os fechamentos já salvos não serão alterados.")) return;
+
+  db.attendance = db.attendance.filter(a => a.id !== id);
+  persist("Presença excluída", `${workerName(item.workerId)} • ${dateBR(item.date)}`);
+}
+
+function renderAttendance() {
+  const from = document.getElementById("attFrom")?.value || "";
+  const to = document.getElementById("attTo")?.value || "";
+  const work = document.getElementById("attWorkFilter")?.value || "";
+  const worker = document.getElementById("attWorkerFilter")?.value || "";
+
+  const list = db.attendance.filter(a =>
+    (!from || a.date >= from) &&
+    (!to || a.date <= to) &&
+    (!work || a.workId === work) &&
+    (!worker || a.workerId === worker)
+  ).sort((a, b) => b.date.localeCompare(a.date));
+
+  const target = document.getElementById("attendanceTable");
+  if (!list.length) {
+    target.innerHTML = '<div class="empty">Nenhuma presença encontrada.</div>';
+    return;
+  }
+
+  const total = list.reduce((sum, a) => sum + attendanceValue(a), 0);
+  const units = list.reduce((sum, a) => sum + attendanceUnits(a.type), 0);
+
+  target.innerHTML = `<p class="muted">Diárias equivalentes: <strong>${units}</strong> • Valor calculado: <strong>${money(total)}</strong></p>
+    <div class="table-wrap"><table>
+    <thead><tr><th>Data</th><th>Obra</th><th>Trabalhador</th><th>Registro</th><th>Diária aplicada</th><th>Valor</th><th>Ação</th></tr></thead>
+    <tbody>${list.map(a => `<tr>
+      <td>${dateBR(a.date)}</td>
+      <td>${escapeHTML(workName(a.workId))}</td>
+      <td>${escapeHTML(workerName(a.workerId))}</td>
+      <td>${escapeHTML(attendanceLabel(a.type))}</td>
+      <td>${money(a.rate)}</td>
+      <td><strong>${money(attendanceValue(a))}</strong></td>
+      <td><button class="small danger" onclick="deleteAttendance('${a.id}')">Excluir</button></td>
+    </tr>`).join("")}</tbody>
+    </table></div>`;
+}
+
+/* =========================
+   FINANCEIRO
+========================= */
+
+document.getElementById("finDate").value = today();
+
+function updateFinanceFields() {
+  const type = document.getElementById("finType").value;
+  const needsWorker = type === "pagamento" || type === "adiantamento";
+  document.getElementById("finWorkerField").style.display = needsWorker ? "flex" : "none";
+  document.getElementById("finWorker").required = needsWorker;
+}
+
+document.getElementById("finType").addEventListener("change", updateFinanceFields);
+
+document.getElementById("financeForm").addEventListener("submit", event => {
+  event.preventDefault();
+
+  const date = document.getElementById("finDate").value;
+  const type = document.getElementById("finType").value;
+  const amount = num(document.getElementById("finAmount").value);
+  const workId = document.getElementById("finWork").value;
+  const workerId = document.getElementById("finWorker").value;
+
+  if (!date) return alert("Informe a data.");
+  if (amount <= 0) return alert("O valor precisa ser maior que zero.");
+
+  if ((type === "pagamento" || type === "adiantamento") && !workerId) {
+    return alert("Selecione o trabalhador.");
+  }
+
+  if (type === "pagamento" && workerId) {
+    const balance = workerBalance(workerId);
+    if (amount > balance + 0.001) {
+      if (!confirm(`O pagamento (${money(amount)}) é maior que o saldo calculado do trabalhador (${money(balance)}). Deseja continuar?`)) return;
+    }
+  }
+
+  const item = {
+    id: uid(),
+    date,
+    type,
+    amount,
+    workId,
+    workerId: (type === "pagamento" || type === "adiantamento") ? workerId : "",
+    method: document.getElementById("finMethod").value,
+    description: document.getElementById("finDescription").value.trim(),
+    status: "ativo",
+    createdAt: new Date().toISOString()
+  };
+
+  db.finance.push(item);
+  persist("Movimentação financeira registrada", `${financeLabel(type)} • ${money(amount)}`);
+  document.getElementById("financeForm").reset();
+  document.getElementById("finDate").value = today();
+  updateFinanceFields();
+});
+
+function financeLabel(type) {
+  return ({
+    entrada: "Recebimento",
+    pagamento: "Pagamento de trabalhador",
+    adiantamento: "Adiantamento",
+    despesa: "Despesa",
+    devolucao: "Devolução / estorno recebido"
+  })[type] || type;
+}
+
+/*
+  Entradas e devoluções aumentam o caixa.
+  Pagamentos, adiantamentos e despesas reduzem o caixa.
+  Adiantamentos são saídas de caixa e ficam separados para consulta.
+*/
+
+function financeDirection(item) {
+  if (item.status === "cancelado") return 0;
+  return (item.type === "entrada" || item.type === "devolucao") ? 1 : -1;
+}
+
+function financeBalance(list = db.finance) {
+  return list.reduce((sum, f) => sum + financeDirection(f) * num(f.amount), 0);
+}
+
+function totalByType(type) {
+  return db.finance
+    .filter(f => f.status !== "cancelado" && f.type === type)
+    .reduce((sum, f) => sum + num(f.amount), 0);
+}
+
+function workerBalance(workerId, workId = "") {
+  const earned = db.attendance
+    .filter(a => a.workerId === workerId && (!workId || a.workId === workId))
+    .reduce((sum, a) => sum + attendanceValue(a), 0);
+
+  const paid = db.finance
+    .filter(f => f.status !== "cancelado" &&
+      f.workerId === workerId &&
+      (!workId || !f.workId || f.workId === workId) &&
+      (f.type === "pagamento" || f.type === "adiantamento"))
+    .reduce((sum, f) => sum + num(f.amount), 0);
+
+  return earned - paid;
+}
+
+function cancelFinance(id) {
+  const item = db.finance.find(f => f.id === id);
+  if (!item || item.status === "cancelado") return;
+
+  if (!confirm("Cancelar esta movimentação? Ela permanecerá no histórico, mas deixará de afetar o saldo.")) return;
+
+  item.status = "cancelado";
+  item.cancelledAt = new Date().toISOString();
+  persist("Movimentação cancelada", `${financeLabel(item.type)} • ${money(item.amount)}`);
+}
+
+function renderFinance() {
+  const from = document.getElementById("finFrom")?.value || "";
+  const to = document.getElementById("finTo")?.value || "";
+  const type = document.getElementById("finTypeFilter")?.value || "";
+
+  const list = db.finance.filter(f =>
+    (!from || f.date >= from) &&
+    (!to || f.date <= to) &&
+    (!type || f.type === type)
+  ).sort((a, b) => b.date.localeCompare(a.date));
+
+  const target = document.getElementById("financeTable");
+  if (!list.length) {
+    target.innerHTML = '<div class="empty">Nenhuma movimentação encontrada.</div>';
+    return;
+  }
+
+  target.innerHTML = `<div class="table-wrap"><table>
+    <thead><tr><th>Data</th><th>Tipo</th><th>Descrição</th><th>Obra</th><th>Valor</th><th>Situação</th><th>Ações</th></tr></thead>
+    <tbody>${list.map(f => `<tr>
+      <td>${dateBR(f.date)}</td>
+      <td>${escapeHTML(financeLabel(f.type))}<br><span class="muted">${escapeHTML(f.method || "")}</span></td>
+      <td>${escapeHTML(f.description || (f.workerId ? workerName(f.workerId) : "—"))}</td>
+      <td>${escapeHTML(f.workId ? workName(f.workId) : "—")}</td>
+      <td class="${financeDirection(f) > 0 ? "green" : financeDirection(f) < 0 ? "red" : ""}">${financeDirection(f) > 0 ? "+" : financeDirection(f) < 0 ? "−" : ""}${money(f.amount)}</td>
+      <td><span class="badge ${f.status === "cancelado" ? "red" : "green"}">${escapeHTML(f.status || "ativo")}</span></td>
+      <td>${f.status === "cancelado" ? "—" : `<button class="small danger" onclick="cancelFinance('${f.id}')">Cancelar</button>
+        ${f.workerId ? `<button class="small secondary" onclick="printReceipt('${f.id}')">Recibo</button>` : ""}`}</td>
+    </tr>`).join("")}</tbody>
+    </table></div>`;
+}
+
+/* =========================
+   FECHAMENTOS
+========================= */
+
+document.getElementById("closeFrom").value = today();
+document.getElementById("closeTo").value = today();
+
+document.getElementById("closingForm").addEventListener("submit", event => {
+  event.preventDefault();
+
+  const workId = document.getElementById("closeWork").value;
+  const from = document.getElementById("closeFrom").value;
+  const to = document.getElementById("closeTo").value;
+
+  if (!workId || !from || !to) return alert("Preencha obra e período.");
+  if (from > to) return alert("A data inicial não pode ser posterior à data final.");
+
+  const overlap = db.closings.find(c =>
+    c.workId === workId &&
+    from <= c.to &&
+    to >= c.from
+  );
+
+  if (overlap) {
+    if (!confirm("Já existe um fechamento com período sobreposto nesta obra. Deseja criar outro mesmo assim?")) return;
+  }
+
+  const attendance = db.attendance.filter(a =>
+    a.workId === workId && a.date >= from && a.date <= to
+  );
+
+  const workerIds = [...new Set(attendance.map(a => a.workerId))];
+
+  const workers = workerIds.map(workerId => {
+    const records = attendance.filter(a => a.workerId === workerId);
+    const units = records.reduce((sum, a) => sum + attendanceUnits(a.type), 0);
+    const gross = records.reduce((sum, a) => sum + attendanceValue(a), 0);
+
+    const advances = db.finance.filter(f =>
+      f.status !== "cancelado" &&
+      f.type === "adiantamento" &&
+      f.workerId === workerId &&
+      (!f.workId || f.workId === workId) &&
+      f.date >= from && f.date <= to
+    ).reduce((sum, f) => sum + num(f.amount), 0);
+
+    const payments = db.finance.filter(f =>
+      f.status !== "cancelado" &&
+      f.type === "pagamento" &&
+      f.workerId === workerId &&
+      (!f.workId || f.workId === workId) &&
+      f.date >= from && f.date <= to
+    ).reduce((sum, f) => sum + num(f.amount), 0);
+
+    return {
+      workerId,
+      name: workerName(workerId),
+      units,
+      gross,
+      advances,
+      payments,
+      net: gross - advances - payments,
+      records: records.map(a => ({
+        date: a.date,
+        type: a.type,
+        rate: num(a.rate),
+        value: attendanceValue(a),
+        notes: a.notes || ""
+      }))
+    };
+  });
+
+  const closing = {
+    id: uid(),
+    workId,
+    workName: workName(workId),
+    from,
+    to,
+    createdAt: new Date().toISOString(),
+    workers,
+    totalGross: workers.reduce((sum, w) => sum + w.gross, 0),
+    totalAdvances: workers.reduce((sum, w) => sum + w.advances, 0),
+    totalPayments: workers.reduce((sum, w) => sum + w.payments, 0),
+    totalNet: workers.reduce((sum, w) => sum + w.net, 0)
+  };
+
+  db.closings.unshift(closing);
+  persist("Fechamento criado", `${closing.workName} • ${dateBR(from)} a ${dateBR(to)}`);
+  showClosing(closing.id);
+});
+
+function renderClosings() {
+  const target = document.getElementById("closingsTable");
+
+  if (!db.closings.length) {
+    target.innerHTML = '<div class="empty">Nenhum fechamento salvo.</div>';
+    return;
+  }
+
+  target.innerHTML = `<div class="table-wrap"><table>
+    <thead><tr><th>Obra</th><th>Período</th><th>Data do fechamento</th><th>Total bruto</th><th>Saldo calculado</th><th>Ações</th></tr></thead>
+    <tbody>${db.closings.map(c => `<tr>
+      <td>${escapeHTML(c.workName || workName(c.workId))}</td>
+      <td>${dateBR(c.from)} a ${dateBR(c.to)}</td>
+      <td>${dateBR((c.createdAt || "").slice(0,10))}</td>
+      <td>${money(c.totalGross)}</td>
+      <td><strong>${money(c.totalNet)}</strong></td>
+      <td><div class="actions">
+        <button class="small secondary" onclick="showClosing('${c.id}')">Detalhes</button>
+        <button class="small secondary" onclick="printClosing('${c.id}')">Imprimir</button>
+        <button class="small danger" onclick="deleteClosing('${c.id}')">Excluir</button>
+      </div></td>
+    </tr>`).join("")}</tbody>
+    </table></div>`;
+}
+
+function showClosing(id) {
+  const c = db.closings.find(x => x.id === id);
+  if (!c) return;
+
+  const target = document.getElementById("closingDetail");
+  target.innerHTML = `<div class="card">
+    <div class="section-head">
+      <div>
+        <h2>Fechamento: ${escapeHTML(c.workName || workName(c.workId))}</h2>
+        <p class="muted">${dateBR(c.from)} a ${dateBR(c.to)} • Salvo em ${dateBR((c.createdAt || "").slice(0,10))}</p>
+      </div>
+      <button onclick="printClosing('${c.id}')">Imprimir relatório</button>
+    </div>
+    <div class="grid">
+      <div class="card"><div class="metric-label">Total bruto</div><div class="metric-value">${money(c.totalGross)}</div></div>
+      <div class="card"><div class="metric-label">Adiantamentos</div><div class="metric-value yellow">${money(c.totalAdvances)}</div></div>
+      <div class="card"><div class="metric-label">Pagamentos registrados no período</div><div class="metric-value">${money(c.totalPayments)}</div></div>
+      <div class="card"><div class="metric-label">Saldo calculado</div><div class="metric-value green">${money(c.totalNet)}</div></div>
+    </div>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Trabalhador</th><th>Diárias equivalentes</th><th>Bruto</th><th>Adiantamentos</th><th>Pagamentos</th><th>Saldo calculado</th></tr></thead>
+      <tbody>${(c.workers || []).map(w => `<tr>
+        <td>${escapeHTML(w.name)}</td>
+        <td>${num(w.units)}</td>
+        <td>${money(w.gross)}</td>
+        <td>${money(w.advances)}</td>
+        <td>${money(w.payments)}</td>
+        <td><strong>${money(w.net)}</strong></td>
+      </tr>`).join("")}</tbody>
+    </table></div>
+    <p class="muted">Este relatório é uma cópia dos dados no momento do fechamento. Excluir o fechamento não cancela nem altera movimentações financeiras.</p>
+  </div>`;
+}
+
+function deleteClosing(id) {
+  const c = db.closings.find(x => x.id === id);
+  if (!c) return;
+  if (!confirm("Excluir este fechamento salvo? Os registros originais de presença e financeiro serão mantidos.")) return;
+
+  db.closings = db.closings.filter(x => x.id !== id);
+  document.getElementById("closingDetail").innerHTML = "";
+  persist("Fechamento excluído", `${c.workName || workName(c.workId)} • ${dateBR(c.from)} a ${dateBR(c.to)}`);
+}
+
+/* =========================
+   RECIBOS E IMPRESSÃO
+========================= */
+
+function printReceipt(id) {
+  const f = db.finance.find(x => x.id === id);
+  if (!f) return;
+
+  if (f.type !== "pagamento" && f.type !== "adiantamento") {
+    return alert("O recibo está disponível para pagamentos e adiantamentos de trabalhadores.");
+  }
+
+  if (f.status === "cancelado") return alert("Não é possível emitir recibo de um lançamento cancelado.");
+
+  const title = f.type === "adiantamento" ? "RECIBO DE ADIANTAMENTO" : "RECIBO DE PAGAMENTO";
+  const worker = workerName(f.workerId);
+  const description = f.description || financeLabel(f.type);
+  const html = `<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8">
+    <title>${title}</title>
+    <style>
+      body{font-family:Arial,sans-serif;max-width:800px;margin:40px auto;padding:20px;color:#111}
+      h1{text-align:center;font-size:22px}p{line-height:1.8}
+      .line{margin-top:65px;text-align:center}
+      .box{border:1px solid #888;padding:25px}
+      @media print{button{display:none}}
+    </style></head><body>
+    <div class="box">
+    <h1>${title}</h1>
+    <p>Eu, <strong>${escapeHTML(worker)}</strong>, declaro ter recebido o valor de
+    <strong>${money(f.amount)}</strong>, referente a ${escapeHTML(description)}.</p>
+    <p>Obra: <strong>${escapeHTML(f.workId ? workName(f.workId) : "Não informada")}</strong></p>
+    <p>Data: <strong>${dateBR(f.date)}</strong></p>
+    <p>Forma de pagamento: <strong>${escapeHTML(f.method || "Não informada")}</strong></p>
+    <p>Observações: ${escapeHTML(f.description || "—")}</p>
+    <p>Declaro que as informações acima correspondem ao valor recebido nesta data.</p>
+    <p>Local e data: ______________________________________________</p>
+    <div class="line">________________________________________<br>Assinatura do trabalhador</div>
+    <div class="line">________________________________________<br>Assinatura do responsável pelo pagamento</div>
+    </div><p><button onclick="window.print()">Imprimir / Salvar PDF</button></p>
+    </body></html>`;
+
+  openPrintWindow(html);
+}
+
+function printClosing(id) {
+  const c = db.closings.find(x => x.id === id);
+  if (!c) return;
+
+  const rows = (c.workers || []).map(w => `<tr>
+    <td>${escapeHTML(w.name)}</td><td>${num(w.units)}</td>
+    <td>${money(w.gross)}</td><td>${money(w.advances)}</td>
+    <td>${money(w.payments)}</td><td>${money(w.net)}</td>
+  </tr>`).join("");
+
+  const html = `<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8">
+    <title>Fechamento de obra</title>
+    <style>
+      body{font-family:Arial,sans-serif;margin:25px;color:#111}
+      h1{font-size:22px}p{line-height:1.5}
+      table{width:100%;border-collapse:collapse;margin-top:20px}
+      th,td{border:1px solid #aaa;padding:9px;text-align:left;font-size:12px}
+      @media print{button{display:none}}
+    </style></head><body>
+    <h1>Relatório de fechamento de obra</h1>
+    <p><strong>Obra:</strong> ${escapeHTML(c.workName || workName(c.workId))}</p>
+    <p><strong>Período:</strong> ${dateBR(c.from)} a ${dateBR(c.to)}</p>
+    <p><strong>Gerado em:</strong> ${dateBR((c.createdAt || "").slice(0,10))}</p>
+    <table><thead><tr><th>Trabalhador</th><th>Diárias</th><th>Bruto</th><th>Adiantamentos</th><th>Pagamentos</th><th>Saldo calculado</th></tr></thead>
+    <tbody>${rows}</tbody></table>
+    <h3>Total bruto: ${money(c.totalGross)}</h3>
+    <h3>Adiantamentos: ${money(c.totalAdvances)}</h3>
+    <h3>Pagamentos registrados: ${money(c.totalPayments)}</h3>
+    <h2>Saldo calculado: ${money(c.totalNet)}</h2>
+    <p>Relatório gerado a partir dos registros salvos no sistema.</p>
+    <p><button onclick="window.print()">Imprimir / Salvar PDF</button></p>
+    </body></html>`;
+
+  openPrintWindow(html);
+}
+
+function openPrintWindow(html) {
+  const win = window.open("", "_blank");
+  if (!win) {
+    alert("O navegador bloqueou a janela de impressão. Permita pop-ups para este arquivo e tente novamente.");
+    return;
+  }
+  win.document.open();
+  win.document.write(html);
+  win.document.close();
+}
+
+/* =========================
+   BACKUP E IMPORTAÇÃO
+========================= */
+
+function exportData() {
+  const content = JSON.stringify(db, null, 2);
+  const blob = new Blob([content], { type: "application/json;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = `backup-controle-obras-${today()}.json`;
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+  URL.revokeObjectURL(url);
+
+  logAction("Backup exportado", `Exportação em ${dateBR(today())}`);
+  saveDB();
+  renderAudit();
+}
+
+function importData(event) {
+  const file = event.target.files?.[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+
+  reader.onload = () => {
+    try {
+      const imported = JSON.parse(reader.result);
+
+      const requiredArrays = ["works", "workers", "attendance", "finance", "closings", "audit"];
+      if (!imported || typeof imported !== "object" ||
+          !requiredArrays.every(key => Array.isArray(imported[key]))) {
+        throw new Error("Formato de backup inválido.");
+      }
+
+      if (!confirm("Importar este backup substituirá os dados atuais. Exporte os dados atuais antes, se quiser preservá-los. Continuar?")) {
+        event.target.value = "";
+        return;
+      }
+
+      const base = emptyDB();
+      requiredArrays.forEach(key => base[key] = imported[key]);
+      base.theme = imported.theme === "light" ? "light" : "dark";
+      db = base;
+
+      document.body.classList.toggle("light", db.theme === "light");
+      logAction("Backup importado", file.name);
+      saveDB();
+      refreshAll();
+      alert("Backup importado. Confira os registros para confirmar que tudo está correto.");
+    } catch (error) {
+      alert("Não foi possível importar este arquivo. Selecione um backup JSON válido do sistema.");
+    }
+
+    event.target.value = "";
+  };
+
+  reader.onerror = () => {
+    alert("Erro ao ler o arquivo.");
+    event.target.value = "";
+  };
+
+  reader.readAsText(file);
+}
+
+function clearAllData() {
+  const confirmation = prompt('Para apagar permanentemente todos os dados, digite APAGAR');
+  if (confirmation !== "APAGAR") return;
+
+  db = emptyDB();
+  saveDB();
+  document.body.classList.remove("light");
+  refreshAll();
+  alert("Todos os dados locais foram apagados.");
+}
+
+/* =========================
+   HISTÓRICO E PAINEL
+========================= */
+
+function renderAudit() {
+  const target = document.getElementById("auditTable");
+  if (!db.audit.length) {
+    target.innerHTML = '<div class="empty">Nenhuma ação registrada ainda.</div>';
+    return;
+  }
+
+  target.innerHTML = `<div class="table-wrap"><table>
+    <thead><tr><th>Data e hora</th><th>Ação</th><th>Detalhes</th></tr></thead>
+    <tbody>${db.audit.slice(0,200).map(a => `<tr>
+      <td>${escapeHTML(new Date(a.date).toLocaleString("pt-BR"))}</td>
+      <td>${escapeHTML(a.action)}</td>
+      <td>${escapeHTML(a.detail)}</td>
+    </tr>`).join("")}</tbody>
+  </table></div>`;
+}
+
+function renderDashboard() {
+  const balance = financeBalance();
+  const income = totalByType("entrada") + totalByType("devolucao");
+  const out = totalByType("pagamento") + totalByType("adiantamento") + totalByType("despesa");
+  const advances = totalByType("adiantamento");
+
+  document.getElementById("dashBalance").textContent = money(balance);
+  document.getElementById("dashIncome").textContent = money(income);
+  document.getElementById("dashExpenses").textContent = money(out);
+  document.getElementById("dashWorks").textContent = db.works.filter(isActiveWork).length;
+  document.getElementById("dashWorkers").textContent = db.workers.filter(w => w.status === "ativo").length;
+  document.getElementById("dashDays").textContent = db.attendance.reduce((sum, a) => sum + attendanceUnits(a.type), 0);
+  document.getElementById("dashAdvances").textContent = money(advances);
+  document.getElementById("dashClosings").textContent = db.closings.length;
+
+  document.getElementById("finBalance").textContent = money(balance);
+  document.getElementById("finIncome").textContent = money(income);
+  document.getElementById("finOut").textContent = money(out);
+  document.getElementById("finAdvances").textContent = money(advances);
+
+  const recent = db.finance.filter(f => f.status !== "cancelado")
+    .slice().sort((a,b) => (b.createdAt || "").localeCompare(a.createdAt || "")).slice(0,8);
+
+  const target = document.getElementById("recentMovements");
+  if (!recent.length) {
+    target.innerHTML = '<div class="empty">Ainda não há movimentações financeiras.</div>';
+  } else {
+    target.innerHTML = `<div class="table-wrap"><table>
+      <thead><tr><th>Data</th><th>Tipo</th><th>Descrição</th><th>Valor</th></tr></thead>
+      <tbody>${recent.map(f => `<tr>
+        <td>${dateBR(f.date)}</td>
+        <td>${escapeHTML(financeLabel(f.type))}</td>
+        <td>${escapeHTML(f.description || (f.workerId ? workerName(f.workerId) : workName(f.workId)))}</td>
+        <td class="${financeDirection(f) > 0 ? "green" : "red"}">${financeDirection(f) > 0 ? "+" : "−"}${money(f.amount)}</td>
+      </tr>`).join("")}</tbody>
+    </table></div>`;
+  }
+}
+
+function updateStorageInfo() {
+  const el = document.getElementById("storageInfo");
+  if (!el) return;
+
+  let bytes = 0;
+  try {
+    bytes = new Blob([localStorage.getItem(STORAGE_KEY) || ""]).size;
+  } catch (_) {}
+
+  el.textContent = `Estimativa dos dados salvos: ${(bytes / 1024).toFixed(1)} KB. O armazenamento é local a este navegador e dispositivo.`;
+}
+
+function showView(id) {
+  document.querySelectorAll("#navigation button").forEach(b => {
+    b.classList.toggle("active", b.dataset.view === id);
+  });
+  document.querySelectorAll(".view").forEach(v => {
+    v.classList.toggle("active", v.id === id);
+  });
+  refreshAll();
+}
+
+function refreshAll() {
+  fillSelects();
+  renderWorks();
+  renderWorkers();
+  renderAttendance();
+  renderFinance();
+  renderClosings();
+  renderDashboard();
+  renderAudit();
+  updateStorageInfo();
+  updateFinanceFields();
+}
+
+/* =========================
+   INICIALIZAÇÃO
+========================= */
+
+resetWorkForm();
+fillSelects();
+updateFinanceFields();
+refreshAll();
 </script>
+
 </body>
 </html>
