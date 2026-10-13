@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="../ESTUDOS/pcture/img/IRON MAN🔥.jfif">
+<title> Painel de Manuais</title>
+
+<style>
+:root {
+  --bg:#080d1b;--card:#111b31;--text:#edf3ff;
+  --muted:#91a1bd;--border:#29344c;--primary:#7c6cff;
+  --cyan:#37d9f5;--green:#40dfad;--input:#101a30;
+}
+body.light {
+  --bg:#f1f5fc;--card:#fff;--text:#17213a;
+  --muted:#68758e;--border:#dce3f0;--primary:#6654ed;
+  --cyan:#008eae;--green:#087e5b;--input:#f5f7fc;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;min-height:100vh;padding:25px;
+  font-family:Arial,Helvetica,sans-serif;color:var(--text);
+  background:radial-gradient(ellipse at top left,#25205a 0,transparent 45%),var(--bg);
+  transition:.25s;
+}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer}
+.container{max-width:1250px;margin:auto}
+header{display:flex;justify-content:space-between;align-items:center;gap:15px;flex-wrap:wrap;margin-bottom:30px}
+.brand{display:flex;align-items:center;gap:13px}
+.logo{
+  width:48px;height:48px;border-radius:15px;display:grid;place-items:center;
+  color:white;font-size:25px;background:linear-gradient(135deg,#7565ff,#27c8e8)
+}
+h1{font-size:24px;margin:0}
+.brand p{color:var(--muted);font-size:11px;letter-spacing:1.5px;margin:6px 0 0}
+.actions{display:flex;gap:10px;flex-wrap:wrap}
+.btn{
+  padding:12px 16px;border:1px solid var(--border);
+  border-radius:11px;background:var(--card);color:var(--text)
+}
+.primary{background:linear-gradient(110deg,#7565ff,#438ff7);color:white;border:0}
+.hero{
+  border:1px solid var(--border);border-radius:22px;padding:32px;
+  background:linear-gradient(120deg,#6a59ff22,#1ec2e111),var(--card);
+  margin-bottom:20px
+}
+.eyebrow{color:var(--cyan);font-size:11px;font-weight:bold;letter-spacing:2px}
+.hero h2{font-size:clamp(28px,4vw,42px);margin:15px 0 10px}
+.hero p{color:var(--muted);line-height:1.7;max-width:600px}
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin:20px 0 32px}
+.stat{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:20px}
+.stat-label{color:var(--muted);font-size:12px}
+.stat-number{font-size:32px;font-weight:bold;margin:15px 0 5px}
+.stat small{color:var(--muted)}
+.track{height:6px;background:var(--border);border-radius:20px;overflow:hidden;margin-top:13px}
+.fill{height:100%;width:0;background:linear-gradient(90deg,var(--primary),var(--cyan));transition:.3s}
+.progress-caption{font-size:11px;color:var(--muted);margin-top:8px}
+h3{font-size:20px;margin-bottom:8px}
+.subtitle{color:var(--muted);font-size:13px;margin-bottom:20px}
+.toolbar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:18px}
+.toolbar input,.toolbar select,.form-input{
+  padding:13px;border-radius:11px;border:1px solid var(--border);
+  background:var(--input);color:var(--text)
+}
+.toolbar input{flex:1;min-width:200px}
+.toolbar select{min-width:150px}
+.list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.manual{
+  display:flex;align-items:center;gap:13px;min-width:0;
+  padding:16px;background:var(--card);border:1px solid var(--border);
+  border-radius:14px;transition:.2s
+}
+.manual:hover{border-color:var(--primary);transform:translateY(-2px)}
+.manual input{width:21px;height:21px;accent-color:var(--green);flex-shrink:0;cursor:pointer}
+.manual-content{flex:1;min-width:0}
+.manual-title{font-size:13px;font-weight:bold;line-height:1.5;overflow-wrap:anywhere}
+.manual.done .manual-title{text-decoration:line-through;color:var(--muted)}
+.status{display:inline-block;margin-top:7px;font-size:10px;padding:5px 8px;border-radius:6px}
+.status.pending{color:var(--muted);background:#8899aa20}
+.status.done{color:var(--green);background:#40dfad18}
+.delete{border:0;background:transparent;color:var(--muted);font-size:20px;padding:5px}
+.delete:hover{color:#ff7189}
+.empty{grid-column:1/-1;text-align:center;color:var(--muted);padding:40px;border:1px dashed var(--border);border-radius:15px}
+footer{border-top:1px solid var(--border);margin-top:30px;padding:20px 0;color:var(--muted);font-size:12px}
+.modal{display:none;position:fixed;inset:0;background:#000b;align-items:center;justify-content:center;padding:20px;z-index:5}
+.modal.open{display:flex}
+.modal-box{width:100%;max-width:440px;background:var(--card);border:1px solid var(--border);border-radius:20px;padding:25px;max-height:90vh;overflow-y:auto}
+.modal-box p{color:var(--muted);font-size:13px;line-height:1.6}
+.modal-box label{display:block;margin:20px 0 8px;font-size:13px}
+.form-input{width:100%}
+
+/* Campo para escrever o conteúdo do manual */
+.manual-editor{
+  width:100%;
+  min-height:300px;
+  resize:vertical;
+  padding:13px;
+  border-radius:11px;
+  border:1px solid var(--border);
+  background:var(--input);
+  color:var(--text);
+  line-height:1.6;
+}
+.manual-editor:focus{
+  outline:2px solid var(--primary);
+  outline-offset:1px;
+}
+.modal-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:20px;flex-wrap:wrap}
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--card);border:1px solid var(--border);border-radius:10px;padding:13px 18px;display:none;z-index:9}
+.toast.show{display:block}
+@media(max-width:850px){.stats{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:600px){
+  body{padding:15px}.hero{padding:23px}
+  .list{grid-template-columns:1fr}
+  .stats{gap:9px}.stat{padding:14px}.stat-number{font-size:26px}
+  .toolbar input,.toolbar select{width:100%;min-width:0}
+  .manual-editor{min-height:240px}
+}
+</style>
+</head>
+
+<body>
+<div class="container">
+
+<header>
+  <div class="brand">
+    <div class="logo">✧</div>
+    <div>
+      <h1>Manual<span style="color:var(--cyan)"></span></h1>
+      <p>CENTRAL DE DOCUMENTAÇÃO</p>
+    </div>
+  </div>
+  <div class="actions">
+    <button class="btn" id="themeBtn">☀️ Modo claro</button>
+    <button class="btn primary" id="addBtn">＋ Novo manual</button>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="eyebrow">✦ PAINEL DE PRODUTIVIDADE</div>
+  <h2>Manuais</h2>
+  <p>Organize seus manuais, acompanhe o desenvolvimento e visualize seu progresso em um só lugar.</p>
+</section>
+
+<section class="stats">
+  <div class="stat">
+    <div class="stat-label">TOTAL DE MANUAIS</div>
+    <div class="stat-number" id="total">0</div>
+    <small>Itens cadastrados</small>
+  </div>
+  <div class="stat">
+    <div class="stat-label">CONCLUÍDOS</div>
+    <div class="stat-number" id="completed">0</div>
+    <small>Manuais finalizados</small>
+  </div>
+  <div class="stat">
+    <div class="stat-label">PENDENTES</div>
+    <div class="stat-number" id="pending">0</div>
+    <small>Aguardando desenvolvimento</small>
+  </div>
+  <div class="stat">
+    <div class="stat-label">PROGRESSO GERAL</div>
+    <div class="stat-number" id="percentage">0%</div>
+    <div class="track"><div class="fill" id="bar"></div></div>
+    <div class="progress-caption" id="caption">0 de 0 concluídos</div>
+  </div>
+</section>
+
+<section>
+  <h3>Biblioteca de manuais</h3>
+  <div class="subtitle">Marque os concluídos, pesquise, filtre ou adicione novos documentos.</div>
+  <div class="toolbar">
+    <input id="search" type="search" placeholder="⌕  Buscar manual...">
+    <select id="filter">
+      <option value="all">Todos os status</option>
+      <option value="pending">Pendentes</option>
+      <option value="done">Concluídos</option>
+    </select>
+    <select id="sort">
+      <option value="original">Ordem original</option>
+      <option value="az">Nome A–Z</option>
+      <option value="za">Nome Z–A</option>
+      <option value="pending">Pendentes primeiro</option>
+    </select>
+  </div>
+  <div class="list" id="list"></div>
+</section>
+
+<footer>ManualHub ◆ Painel de controle de manuais · <span id="saveInfo">Salvamento local ativado</span></footer>
+</div>
+
+<div class="modal" id="modal">
+  <div class="modal-box">
+    <h3>Novo manual</h3>
+    <p>Adicione um item ao seu planejamento.</p>
+    <form id="form">
+      <label for="manualName">Nome do manual</label>
+      <input class="form-input" id="manualName" maxlength="180" placeholder="Digite o nome do manual" required>
+      <div class="modal-actions">
+        <button class="btn" type="button" id="cancelBtn">Cancelar</button>
+        <button class="btn primary" type="submit">Adicionar</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Janela para escrever e salvar o conteúdo do manual -->
+<div class="modal" id="editorModal">
+  <div class="modal-box" style="max-width:750px">
+    <h3 id="editorTitle">Escrever manual</h3>
+    <p>Digite ou cole abaixo o conteúdo do manual. Clique em salvar para guardar o texto neste navegador.</p>
+    <form id="editorForm">
+      <label for="manualText">Conteúdo do manual</label>
+      <textarea
+        class="manual-editor"
+        id="manualText"
+        placeholder="Digite ou cole aqui o conteúdo completo do manual..."
+      ></textarea>
+      <div class="modal-actions">
+        <button class="btn" type="button" id="cancelEditorBtn">Fechar</button>
+        <button class="btn primary" type="submit">Salvar manual</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+const KEY = "manualhub_v1";
+const THEME_KEY = "manualhub_theme";
+
+const initialTitles = [
+  "Atendimento Compartilhado",
+  "Cadastro de Profissionais",
+  "Realização de Ultrassom nas UPAs",
+  "Solicitar Encaminhamento",
+  "Solicitar Exame",
+  "Ficha de Rastreamento TEA (M-CHAT)",
+  "Disponibilidade do IVCF-20 no Prontuário Eletrônico",
+  "Atendimento por Profissional",
+  "Atendimento Domiciliar",
+  "Prontuário Eletrônico",
+  "Cadastro > Pacientes",
+  "Manutenção de Agenda > Criar novas agendas > Central de Vagas > Exclusão/Bloqueio de agenda",
+  "Posição de estoque",
+  "Dispensa por paciente",
+  "Requisição de suprimentos",
+  "Recebimento por Requisição",
+  "Gerar BPA",
+  "Relatório de faturamento",
+  "Ficha de atendimento",
+  "Solicitar encaminhamento",
+  "Solicitar exame",
+  "Gerenciamento de status",
+  "Unificar paciente",
+  "Ficha de atividade coletiva",
+  "Agendamento",
+  "Listagem de agendamento",
+  "Listagem de exames agendados",
+  "Vacinação",
+  "Saída e entrada de estoque"
+];
+
+function newId() {
+  return Date.now().toString(36) + Math.random().toString(36).slice(2,8);
+}
+
+function loadData() {
+  try {
+    const data = localStorage.getItem(KEY);
+    if (data !== null) {
+      const parsed = JSON.parse(data);
+      if (Array.isArray(parsed)) {
+        return parsed.filter(m => m && typeof m.title === "string")
+          .map(m => ({
+            id: String(m.id || newId()),
+            title: m.title,
+            done: m.done === true,
+            content: typeof m.content === "string" ? m.content : ""
+          }));
+      }
+    }
+  } catch(e) {
+    console.warn("Não foi possível carregar os dados.",e);
+  }
+  return initialTitles.map(title => ({
+    id:newId(),
+    title,
+    done:false,
+    content:""
+  }));
+}
+
+let manuals = loadData();
+
+/* Identifica qual manual está sendo editado */
+let editingManualId = null;
+
+function saveData() {
+  try {
+    localStorage.setItem(KEY,JSON.stringify(manuals));
+    document.getElementById("saveInfo").textContent = "✓ Alterações salvas neste navegador";
+  } catch(e) {
+    document.getElementById("saveInfo").textContent = "Erro ao salvar dados";
+    notify("Não foi possível salvar. Verifique o armazenamento.");
+  }
+}
+
+function el(tag,cls,text) {
+  const node = document.createElement(tag);
+  if(cls) node.className = cls;
+  if(text !== undefined) node.textContent = text;
+  return node;
+}
+
+function updateStats() {
+  const total = manuals.length;
+  const completed = manuals.filter(m => m.done).length;
+  const pending = total-completed;
+  const pct = total ? Math.round(completed/total*100) : 0;
+
+  document.getElementById("total").textContent = total;
+  document.getElementById("completed").textContent = completed;
+  document.getElementById("pending").textContent = pending;
+  document.getElementById("percentage").textContent = pct+"%";
+  document.getElementById("bar").style.width = pct+"%";
+  document.getElementById("caption").textContent = completed+" de "+total+" concluídos";
+}
+
+/* Abre a janela de edição do manual */
+function openEditor(manual) {
+  editingManualId = manual.id;
+
+  document.getElementById("editorTitle").textContent = "Manual: " + manual.title;
+  document.getElementById("manualText").value = manual.content || "";
+  document.getElementById("editorModal").classList.add("open");
+
+  setTimeout(() => {
+    document.getElementById("manualText").focus();
+  }, 0);
+}
+
+/* Fecha a janela de edição sem apagar o conteúdo salvo */
+function closeEditor() {
+  document.getElementById("editorModal").classList.remove("open");
+  editingManualId = null;
+}
+
+function render() {
+  const list = document.getElementById("list");
+  const query = document.getElementById("search").value.trim().toLocaleLowerCase("pt-BR");
+  const filter = document.getElementById("filter").value;
+  const sort = document.getElementById("sort").value;
+
+  let items = manuals.filter(m =>
+    m.title.toLocaleLowerCase("pt-BR").includes(query) &&
+    (filter === "all" || (filter === "done" && m.done) || (filter === "pending" && !m.done))
+  );
+
+  if(sort === "az") items.sort((a,b)=>a.title.localeCompare(b.title,"pt-BR"));
+  if(sort === "za") items.sort((a,b)=>b.title.localeCompare(a.title,"pt-BR"));
+  if(sort === "pending") items.sort((a,b)=>Number(a.done)-Number(b.done));
+
+  list.replaceChildren();
+
+  if(items.length === 0) {
+    list.appendChild(el("div","empty","Nenhum manual encontrado. Tente alterar a busca ou o filtro."));
+  }
+
+  items.forEach(m => {
+    const card = el("article","manual"+(m.done?" done":""));
+    const check = el("input");
+    check.type = "checkbox";
+    check.checked = m.done;
+    check.setAttribute("aria-label","Concluir: "+m.title);
+
+    check.addEventListener("change",()=>{
+      m.done = check.checked;
+      saveData();
+      render();
+
+      if(m.done) {
+        notify("Manual concluído!");
+        openEditor(m);
+      } else {
+        notify("Manual marcado como pendente.");
+      }
+    });
+
+    const content = el("div","manual-content");
+    content.appendChild(el("div","manual-title",m.title));
+    content.appendChild(el("span","status "+(m.done?"done":"pending"),m.done?"✓ Concluído":"◷ Pendente"));
+
+    /* Permite abrir novamente um manual já concluído */
+    if(m.done) {
+      const editBtn = el("button","btn","Abrir manual");
+      editBtn.type = "button";
+      editBtn.style.marginTop = "8px";
+      editBtn.style.padding = "7px 10px";
+      editBtn.style.fontSize = "11px";
+      editBtn.addEventListener("click",()=>{
+        openEditor(m);
+      });
+      content.appendChild(document.createElement("br"));
+      content.appendChild(editBtn);
+    }
+
+    const del = el("button","delete","×");
+    del.type = "button";
+    del.title = "Excluir manual";
+    del.setAttribute("aria-label","Excluir "+m.title);
+    del.addEventListener("click",()=>{
+      if(confirm('Deseja excluir "'+m.title+'"?')) {
+        manuals = manuals.filter(x=>x.id!==m.id);
+        saveData();
+        render();
+        notify("Manual excluído.");
+      }
+    });
+
+    card.append(check,content,del);
+    list.appendChild(card);
+  });
+
+  updateStats();
+}
+
+function addManual(title) {
+  title = title.trim();
+  if(!title) return false;
+
+  if(manuals.some(m=>m.title.toLocaleLowerCase("pt-BR")===title.toLocaleLowerCase("pt-BR"))) {
+    notify("Esse manual já está cadastrado.");
+    return false;
+  }
+
+  manuals.push({id:newId(),title,done:false,content:""});
+  saveData();
+  document.getElementById("search").value = "";
+  document.getElementById("filter").value = "all";
+  document.getElementById("sort").value = "original";
+  render();
+  notify("Novo manual adicionado!");
+  return true;
+}
+
+function notify(message) {
+  const toast = document.getElementById("toast");
+  toast.textContent = message;
+  toast.classList.add("show");
+  clearTimeout(notify.timer);
+  notify.timer = setTimeout(()=>toast.classList.remove("show"),2500);
+}
+
+function setTheme(theme) {
+  const light = theme === "light";
+  document.body.classList.toggle("light",light);
+  document.getElementById("themeBtn").textContent = light ? "🌙 Modo noturno" : "☀️ Modo claro";
+  try { localStorage.setItem(THEME_KEY,theme); } catch(e) {}
+}
+
+document.getElementById("themeBtn").addEventListener("click",()=>{
+  setTheme(document.body.classList.contains("light")?"dark":"light");
+});
+
+document.getElementById("addBtn").addEventListener("click",()=>{
+  document.getElementById("modal").classList.add("open");
+  document.getElementById("manualName").focus();
+});
+
+function closeModal() {
+  document.getElementById("modal").classList.remove("open");
+}
+
+document.getElementById("cancelBtn").addEventListener("click",closeModal);
+document.getElementById("modal").addEventListener("click",e=>{
+  if(e.target.id==="modal") closeModal();
+});
+
+/* Salva o conteúdo digitado no manual selecionado */
+document.getElementById("editorForm").addEventListener("submit",e=>{
+  e.preventDefault();
+
+  const manual = manuals.find(m => m.id === editingManualId);
+
+  if(!manual) {
+    closeEditor();
+    return;
+  }
+
+  manual.content = document.getElementById("manualText").value;
+  saveData();
+  render();
+  closeEditor();
+  notify("Conteúdo do manual salvo!");
+});
+
+document.getElementById("cancelEditorBtn").addEventListener("click",closeEditor);
+
+document.getElementById("editorModal").addEventListener("click",e=>{
+  if(e.target.id === "editorModal") closeEditor();
+});
+
+document.addEventListener("keydown",e=>{
+  if(e.key==="Escape") {
+    closeModal();
+    closeEditor();
+  }
+});
+
+document.getElementById("form").addEventListener("submit",e=>{
+  e.preventDefault();
+  if(addManual(document.getElementById("manualName").value)) {
+    document.getElementById("form").reset();
+    closeModal();
+  }
+});
+
+["search","filter","sort"].forEach(id=>{
+  document.getElementById(id).addEventListener(
+    id==="search"?"input":"change",render
+  );
+});
+
+try {
+  setTheme(localStorage.getItem(THEME_KEY)==="light"?"light":"dark");
+} catch(e) {
+  setTheme("dark");
+}
+
+render();
+</script>
+</body>
+</html>

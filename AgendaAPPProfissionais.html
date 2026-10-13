@@ -1,0 +1,1278 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0b1018">
+<title>Agenda APP | Profissionais</title>
+
+<style>
+:root {
+    color-scheme: dark;
+    --bg: #0b1018;
+    --surface: #111925;
+    --surface2: #172231;
+    --text: #e8f0f7;
+    --muted: #91a3b6;
+    --border: #273747;
+    --accent: #38dfcb;
+    --accent-soft: rgba(56,223,203,.12);
+    --blue: #7c9cff;
+    --shadow: 0 18px 50px rgba(0,0,0,.2);
+}
+
+html[data-theme="light"] {
+    color-scheme: light;
+    --bg: #eef3f8;
+    --surface: #ffffff;
+    --surface2: #f3f7fb;
+    --text: #192b3b;
+    --muted: #65798c;
+    --border: #dce5ed;
+    --accent: #087f7a;
+    --accent-soft: rgba(8,127,122,.1);
+    --blue: #466bd6;
+    --shadow: 0 14px 38px rgba(31,54,77,.08);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    min-height: 100vh;
+    background:
+        radial-gradient(ellipse at 10% 0%, var(--accent-soft), transparent 35rem),
+        var(--bg);
+    color: var(--text);
+    font-family: "Segoe UI", Inter, system-ui, sans-serif;
+    line-height: 1.5;
+    transition: background .25s, color .25s;
+}
+
+button, input, select {
+    font: inherit;
+}
+
+button {
+    cursor: pointer;
+}
+
+.shell {
+    width: min(1280px, calc(100% - 40px));
+    margin: auto;
+}
+
+/* CABEÇALHO */
+
+header {
+    padding: 32px 0 78px;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.brand-icon {
+    width: 52px;
+    height: 52px;
+    display: grid;
+    place-items: center;
+    border-radius: 16px;
+    color: var(--accent);
+    font-size: 25px;
+    border: 1px solid var(--border);
+    background: var(--accent-soft);
+}
+
+.eyebrow {
+    color: var(--accent);
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 3px;
+}
+
+h1 {
+    font-size: clamp(26px, 4vw, 36px);
+    letter-spacing: -1px;
+    line-height: 1.2;
+}
+
+.subtitle {
+    color: var(--muted);
+    font-size: 13px;
+    margin-top: 7px;
+}
+
+.theme-btn {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    min-height: 43px;
+    padding: 0 14px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    color: var(--text);
+    background: var(--surface);
+    transition: .2s;
+}
+
+.theme-btn:hover {
+    border-color: var(--accent);
+}
+
+.theme-symbol {
+    color: var(--accent);
+    font-size: 18px;
+}
+
+/* CONTEÚDO */
+
+main {
+    margin-top: -43px;
+    padding-bottom: 35px;
+}
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 15px;
+    margin-bottom: 18px;
+}
+
+.stat {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 20px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 17px;
+    box-shadow: var(--shadow);
+}
+
+.stat-icon {
+    width: 43px;
+    height: 43px;
+    flex-shrink: 0;
+    display: grid;
+    place-items: center;
+    border-radius: 13px;
+    color: var(--accent);
+    background: var(--accent-soft);
+    font-size: 20px;
+}
+
+.stat strong {
+    display: block;
+    font-size: 27px;
+    letter-spacing: -.8px;
+    line-height: 1.1;
+}
+
+.stat span {
+    display: block;
+    margin-top: 5px;
+    color: var(--muted);
+    font-size: 12px;
+}
+
+.panel {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    box-shadow: var(--shadow);
+    overflow: hidden;
+}
+
+/* PESQUISA E FILTROS */
+
+.filters {
+    padding: 20px;
+    margin-bottom: 18px;
+}
+
+.filter-grid {
+    display: grid;
+    grid-template-columns: minmax(240px, 2fr) minmax(160px, 1fr) minmax(160px, 1fr) auto;
+    gap: 12px;
+    align-items: end;
+}
+
+label {
+    display: block;
+    color: var(--muted);
+    font-size: 11px;
+    font-weight: 800;
+    margin-bottom: 7px;
+    letter-spacing: .4px;
+}
+
+.search-wrap {
+    position: relative;
+}
+
+.search-icon {
+    position: absolute;
+    left: 13px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--muted);
+    pointer-events: none;
+}
+
+input, select {
+    width: 100%;
+    height: 45px;
+    border: 1px solid var(--border);
+    border-radius: 11px;
+    background: var(--bg);
+    color: var(--text);
+    padding: 0 13px;
+    outline: none;
+    transition: .2s;
+}
+
+input {
+    padding-left: 39px;
+}
+
+input::placeholder {
+    color: var(--muted);
+    opacity: .8;
+}
+
+input:focus, select:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
+.btn {
+    min-height: 45px;
+    border-radius: 11px;
+    padding: 0 15px;
+    border: 1px solid transparent;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    color: #071719;
+    background: var(--accent);
+    font-size: 12px;
+    font-weight: 800;
+    white-space: nowrap;
+    transition: .2s;
+}
+
+.btn:hover {
+    filter: brightness(1.08);
+    transform: translateY(-1px);
+}
+
+.btn.secondary {
+    color: var(--text);
+    background: var(--surface2);
+    border-color: var(--border);
+}
+
+.btn.secondary:hover {
+    border-color: var(--accent);
+}
+
+.filter-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    margin-top: 16px;
+    color: var(--muted);
+    font-size: 12px;
+}
+
+.result-count {
+    color: var(--text);
+    font-weight: 750;
+}
+
+.hint {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.hint-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 10px var(--accent);
+}
+
+/* TABELA */
+
+.table-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    padding: 21px 22px;
+    border-bottom: 1px solid var(--border);
+}
+
+.table-heading h2 {
+    font-size: 16px;
+}
+
+.table-heading p {
+    margin-top: 4px;
+    color: var(--muted);
+    font-size: 12px;
+}
+
+.table-badge {
+    padding: 6px 10px;
+    border-radius: 9px;
+    color: var(--accent);
+    background: var(--accent-soft);
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: .7px;
+    white-space: nowrap;
+}
+
+.table-wrap {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 680px;
+}
+
+thead {
+    background: var(--surface2);
+}
+
+th {
+    padding: 14px 21px;
+    text-align: left;
+    color: var(--muted);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+td {
+    padding: 16px 21px;
+    border-top: 1px solid var(--border);
+    vertical-align: top;
+}
+
+tbody tr {
+    transition: background .15s;
+}
+
+tbody tr:hover {
+    background: var(--surface2);
+}
+
+.unit-cell {
+    width: 23%;
+}
+
+.unit-name {
+    color: var(--text);
+    font-size: 12px;
+    font-weight: 850;
+    letter-spacing: .3px;
+}
+
+.unit-caption {
+    display: block;
+    margin-top: 5px;
+    color: var(--muted);
+    font-size: 10px;
+}
+
+.people {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 7px;
+}
+
+/* NOMES CLICÁVEIS */
+
+.person {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    max-width: 100%;
+    text-align: left;
+    border: 1px solid transparent;
+    border-radius: 9px;
+    padding: 7px 9px;
+    color: var(--text);
+    background: transparent;
+    font-size: 12px;
+    line-height: 1.5;
+    transition: background .16s, border-color .16s, color .16s;
+}
+
+.person::before {
+    content: "";
+    width: 5px;
+    height: 5px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    background: var(--blue);
+}
+
+.person:hover {
+    background: var(--accent-soft);
+    border-color: var(--accent);
+    color: var(--accent);
+}
+
+.person:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+}
+
+.copy-icon {
+    color: var(--accent);
+    opacity: 0;
+    transition: opacity .15s;
+}
+
+.person:hover .copy-icon,
+.person:focus-visible .copy-icon {
+    opacity: 1;
+}
+
+.person.copied {
+    background: var(--accent-soft);
+    border-color: var(--accent);
+    color: var(--accent);
+}
+
+.person.copied .copy-icon {
+    opacity: 1;
+}
+
+.no-person {
+    padding: 7px 9px;
+    color: var(--muted);
+    font-size: 12px;
+}
+
+/* ESTADOS E RODAPÉ */
+
+.empty {
+    text-align: center;
+    padding: 55px 20px;
+    color: var(--muted);
+}
+
+.empty-icon {
+    display: block;
+    font-size: 30px;
+    margin-bottom: 10px;
+    color: var(--accent);
+}
+
+.empty strong {
+    display: block;
+    margin-bottom: 5px;
+    color: var(--text);
+}
+
+footer {
+    padding: 22px 10px 0;
+    text-align: center;
+    color: var(--muted);
+    font-size: 11px;
+    line-height: 1.8;
+}
+
+footer strong {
+    color: var(--text);
+}
+
+/* AVISO DE CÓPIA */
+
+.toast {
+    position: fixed;
+    z-index: 20;
+    bottom: 24px;
+    left: 50%;
+    transform: translate(-50%, 18px);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    max-width: calc(100% - 30px);
+    padding: 12px 17px;
+    border-radius: 13px;
+    border: 1px solid var(--accent);
+    background: var(--surface2);
+    color: var(--text);
+    box-shadow: 0 14px 40px rgba(0,0,0,.25);
+    font-size: 13px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .2s, transform .2s;
+}
+
+.toast.show {
+    opacity: 1;
+    transform: translate(-50%, 0);
+}
+
+.toast-mark {
+    color: var(--accent);
+    font-weight: 900;
+}
+
+/* RESPONSIVIDADE */
+
+@media (max-width: 1000px) {
+    .filter-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .search-field {
+        grid-column: 1 / -1;
+    }
+
+    .filter-grid .btn {
+        width: 100%;
+    }
+}
+
+@media (max-width: 620px) {
+    .shell {
+        width: calc(100% - 24px);
+    }
+
+    header {
+        padding: 23px 0 70px;
+    }
+
+    .brand-icon {
+        width: 43px;
+        height: 43px;
+    }
+
+    .subtitle {
+        max-width: 250px;
+        font-size: 12px;
+    }
+
+    .theme-btn {
+        width: 43px;
+        height: 43px;
+        padding: 0;
+        justify-content: center;
+        font-size: 0;
+    }
+
+    .theme-symbol {
+        font-size: 18px;
+    }
+
+    main {
+        margin-top: -42px;
+    }
+
+    .stats {
+        grid-template-columns: 1fr;
+        gap: 9px;
+    }
+
+    .stat {
+        padding: 14px 16px;
+    }
+
+    .stat strong {
+        font-size: 23px;
+    }
+
+    .filters {
+        padding: 14px;
+    }
+
+    .filter-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .search-field {
+        grid-column: auto;
+    }
+
+    .filter-bottom {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .table-heading {
+        padding: 17px;
+    }
+
+    td {
+        padding: 13px 15px;
+    }
+
+    th {
+        padding: 12px 15px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        transition: none !important;
+    }
+}
+
+/* IMPRESSÃO */
+
+@media print {
+    body {
+        background: white;
+        color: #111;
+    }
+
+    header {
+        padding: 0 0 25px;
+    }
+
+    .top-actions,
+    .stats,
+    .filters,
+    .table-badge,
+    .copy-icon,
+    .toast {
+        display: none !important;
+    }
+
+    main {
+        width: 100%;
+        margin: 0;
+    }
+
+    .panel {
+        box-shadow: none;
+        border: 1px solid #ddd;
+    }
+
+    .table-wrap {
+        overflow: visible;
+    }
+
+    table {
+        min-width: 0;
+        font-size: 9pt;
+    }
+
+    th, td {
+        padding: 7px 9px;
+    }
+
+    tr {
+        break-inside: avoid;
+    }
+
+    .person {
+        color: #111;
+        padding: 2px 0;
+    }
+
+    footer {
+        padding-top: 15px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <div class="shell navbar">
+        <div class="brand">
+            <div class="brand-icon">⌘</div>
+
+            <div>
+                <h1>Agenda APP</h1>
+                <p class="subtitle">Profissionais por unidade de saúde</p>
+            </div>
+        </div>
+
+        <button class="theme-btn" id="themeToggle" type="button">
+            <span class="theme-symbol" id="themeSymbol">☼</span>
+            <span id="themeLabel">Modo claro</span>
+        </button>
+    </div>
+</header>
+
+<main class="shell">
+
+    <section class="stats">
+        <div class="stat">
+            <div class="stat-icon">▦</div>
+            <div>
+                <strong id="unitCount">0</strong>
+                <span>Unidades de saúde</span>
+            </div>
+        </div>
+
+        <div class="stat">
+            <div class="stat-icon">♙</div>
+            <div>
+                <strong id="peopleCount">0</strong>
+                <span>Profissionais cadastrados</span>
+            </div>
+        </div>
+
+        <div class="stat">
+            <div class="stat-icon">⌕</div>
+            <div>
+                <strong id="visibleCount">0</strong>
+                <span>Resultados na tela</span>
+            </div>
+        </div>
+    </section>
+
+    <section class="panel filters">
+        <div class="filter-grid">
+
+            <div class="search-field">
+                <label for="search">PESQUISAR PROFISSIONAL OU UNIDADE</label>
+
+                <div class="search-wrap">
+                    <span class="search-icon">⌕</span>
+                    <input
+                        id="search"
+                        type="search"
+                        placeholder="Digite um nome ou unidade..."
+                        autocomplete="off"
+                    >
+                </div>
+            </div>
+
+            <div>
+                <label for="roleFilter">ÁREA PROFISSIONAL</label>
+                <select id="roleFilter">
+                    <option value="all">Todas as áreas</option>
+                    <option value="enfermeiros">Enfermeiros</option>
+                    <option value="adm">Administrativo (ADM)</option>
+                </select>
+            </div>
+
+            <div>
+                <label for="sortFilter">ORDENAR UNIDADES</label>
+                <select id="sortFilter">
+                    <option value="original">Ordem da lista</option>
+                    <option value="az">Ordem alfabética</option>
+                </select>
+            </div>
+
+            <button class="btn secondary" id="clearBtn" type="button">
+                ↺ Limpar
+            </button>
+        </div>
+
+        <div class="filter-bottom">
+            <span id="resultText" class="result-count">
+                Carregando lista...
+            </span>
+
+            <span class="hint">
+                <i class="hint-dot"></i>
+                Clique em qualquer nome para copiar
+            </span>
+        </div>
+    </section>
+
+    <section class="panel">
+        <div class="table-heading">
+            <div>
+                <h2>Lista de profissionais</h2>
+                <p>Selecione um nome para copiá-lo para a área de transferência.</p>
+            </div>
+
+            <span class="table-badge">● Lista ativa</span>
+        </div>
+
+        <div class="table-wrap">
+            <table id="staffTable">
+                <thead>
+                    <tr>
+                        <th>Unidade</th>
+                        <th>Enfermeiros</th>
+                        <th>Administrativo · ADM</th>
+                    </tr>
+                </thead>
+
+                <tbody id="tableBody"></tbody>
+            </table>
+
+            <div class="empty" id="emptyState" hidden>
+                <span class="empty-icon">⌕</span>
+                <strong>Nenhum resultado encontrado</strong>
+                <span>Tente outro termo ou limpe os filtros.</span>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <strong>Yuri Fernandes da silva</strong>
+        · Futuro Dev Front-End mais desejado
+    </footer>
+
+</main>
+
+<div class="toast" id="toast" role="status" aria-live="polite">
+    <span class="toast-mark">✓</span>
+    <span id="toastText">Nome copiado!</span>
+</div>
+
+<script>
+const unidades = [
+    {
+        unidade: "ÁGUA COMPRIDA",
+        enfermeiros: ["Tamara Pereira Maia Silva"],
+        adm: ["Vitória Correa Mariano"]
+    },
+    {
+        unidade: "ÁGUAS CLARAS",
+        enfermeiros: ["Kennedy Franco Dos Santos"],
+        adm: ["Michelle Xavier Souza da Silva"]
+    },
+    {
+        unidade: "ARARA DOS MORI",
+        enfermeiros: ["Karina Helena Pinto De Oliveira"],
+        adm: ["Jorge dos Santos Pessoa Junior"]
+    },
+    {
+        unidade: "BIRIÇA DO VALADO",
+        enfermeiros: ["Luciana Paschoalini"],
+        adm: ["Fatima Aparecida Fagundes de Lima"]
+    },
+    {
+        unidade: "CASA DE JESUS",
+        enfermeiros: ["Milena Farias De Souza"],
+        adm: ["Giseli Cristhine Silva Rodrigues"]
+    },
+    {
+        unidade: "CDHU",
+        enfermeiros: ["Tatiane Aparecida De Sant Anna"],
+        adm: ["Tamara Ramos Leme"]
+    },
+    {
+        unidade: "CSI",
+        enfermeiros: [],
+        adm: ["Paulo Henrique de Freitas"]
+    },
+    {
+        unidade: "CIDADE JARDIM",
+        enfermeiros: ["Lucas Andre Alves De Godoi"],
+        adm: ["Gisele Ribeiro Dos Santos"]
+    },
+    {
+        unidade: "HENEDINA CORTEZ",
+        enfermeiros: ["Mariana Alvarenga"],
+        adm: ["Marilia Marques Maia"]
+    },
+    {
+        unidade: "HÍPICA JAGUARI",
+        enfermeiros: ["Lais Melo Alves Morais"],
+        adm: ["Elisabete Aparecida Granado"]
+    },
+    {
+        unidade: "MADRE PAULINA",
+        enfermeiros: ["Maria Vitoria Nunes Da Silva"],
+        adm: ["Hillary Bernucio da Costa"]
+    },
+    {
+        unidade: "MÃE DOS HOMENS",
+        enfermeiros: ["Priscila Lemes Godoi"],
+        adm: ["Lucas"]
+    },
+    {
+        unidade: "MORRO GRANDE",
+        enfermeiros: ["Alexandre Luis Janotti"],
+        adm: ["Vitoria Correa Mariano"]
+    },
+    {
+        unidade: "NILDA COLLI",
+        enfermeiros: ["Thais Milena Da Silva"],
+        adm: ["Isadora Carolina Indalecio de Lima"]
+    },
+    {
+        unidade: "PEDRO MEGALE",
+        enfermeiros: ["Priscila Rodrigues"],
+        adm: ["Daniela Salles"]
+    },
+    {
+        unidade: "PLANEJADA I",
+        enfermeiros: ["Carla Monaliza"],
+        adm: ["Francine de Castilho Cirqueira"]
+    },
+    {
+        unidade: "PLANEJADA II",
+        enfermeiros: ["Ana Clara de Jesus Moreira"],
+        adm: ["Angelica de Carvalho Pimenta"]
+    },
+    {
+        unidade: "PQ DOS ESTADOS I",
+        enfermeiros: ["Jaqueline Aline Atorre"],
+        adm: ["Adriana Fernandes da Silva"]
+    },
+    {
+        unidade: "PQ DOS ESTADOS II",
+        enfermeiros: ["Daiana Alves De Oliveira"],
+        adm: ["Ingrid Mary Vieira de Barros"]
+    },
+    {
+        unidade: "SANTA LUZIA",
+        enfermeiros: ["Vitoria Da Silva Acedo"],
+        adm: ["Tabata Aparecida de Oliveira"]
+    },
+    {
+        unidade: "SÃO FRANCISCO",
+        enfermeiros: ["Joice Maria Cardoso Dos Santos"],
+        adm: ["Thiago Adolfo Luiz Rufino"]
+    },
+    {
+        unidade: "SÃO LOURENÇO",
+        enfermeiros: ["Mariane Ademi"],
+        adm: ["Nicole Stefany da Silva"]
+    },
+    {
+        unidade: "SÃO MIGUEL",
+        enfermeiros: ["Brendha Taynara de Melo Carvalho"],
+        adm: ["Camila Aparecida Bueno pinto"]
+    },
+    {
+        unidade: "SAO VICENTE",
+        enfermeiros: ["Bernadete Aparecida De Paula"],
+        adm: ["Rafael Murilo de Lima"]
+    },
+    {
+        unidade: "TORÓ II",
+        enfermeiros: ["Monica Fontoura Valente Sousa Pinto"],
+        adm: ["Amanda Aparecida da Silva"]
+    },
+    {
+        unidade: "UNIDADE MOVEL",
+        enfermeiros: ["Sabrina Leme Oliveira"],
+        adm: []
+    },
+    {
+        unidade: "VILA APARECIDA",
+        enfermeiros: ["Jessica de Souza Bannai"],
+        adm: ["Tamily Alice Campos Silva"]
+    },
+    {
+        unidade: "VILA BIANCHI",
+        enfermeiros: ["Marli Soares Dos Santos"],
+        adm: ["Tatiane de Lima Moreira"]
+    },
+    {
+        unidade: "VILA DAVI I E II",
+        enfermeiros: ["Sara Cristina Ferreira"],
+        adm: ["Arielle Pinto Silva"]
+    },
+    {
+        unidade: "VILA MOTTA",
+        enfermeiros: ["Patricia Ferreira Garcia Silva"],
+        adm: ["Ana Julia Cecconello da Silva"]
+    },
+    {
+        unidade: "PAD",
+        enfermeiros: ["Adriana Azevedo Pasternak"],
+        adm: ["Dayany Monik Peres"]
+    },
+    {
+        unidade: "PENHA",
+        enfermeiros: ["Mara De Oliveira"],
+        adm: ["Douglas Almeida Barros"]
+    }
+];
+
+const $ = id => document.getElementById(id);
+
+const tableBody = $("tableBody");
+const search = $("search");
+const roleFilter = $("roleFilter");
+const sortFilter = $("sortFilter");
+
+function normalizar(texto) {
+    return texto
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .toLowerCase()
+        .trim();
+}
+
+function escaparHTML(texto) {
+    return String(texto).replace(/[&<>"']/g, caractere => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#39;"
+    })[caractere]);
+}
+
+function criarBotaoNome(nome) {
+    const seguro = escaparHTML(nome);
+
+    return `
+        <button
+            type="button"
+            class="person"
+            data-copy="${seguro}"
+            title="Clique para copiar: ${seguro}"
+            aria-label="Copiar ${seguro}"
+        >
+            <span>${seguro}</span>
+            <span class="copy-icon" aria-hidden="true">⧉</span>
+        </button>
+    `;
+}
+
+function renderizar() {
+    const termo = normalizar(search.value);
+    const area = roleFilter.value;
+
+    let lista = [...unidades];
+
+    if (sortFilter.value === "az") {
+        lista.sort((a, b) =>
+            a.unidade.localeCompare(b.unidade, "pt-BR")
+        );
+    }
+
+    const linhas = [];
+    let totalVisivel = 0;
+
+    lista.forEach(unidade => {
+        const unidadeCorresponde =
+            normalizar(unidade.unidade).includes(termo);
+
+        function filtrar(nomes, tipo) {
+            if (area !== "all" && area !== tipo) {
+                return [];
+            }
+
+            return nomes.filter(nome => {
+                return (
+                    !termo ||
+                    unidadeCorresponde ||
+                    normalizar(nome).includes(termo)
+                );
+            });
+        }
+
+        const enfermeiros = filtrar(
+            unidade.enfermeiros,
+            "enfermeiros"
+        );
+
+        const adm = filtrar(
+            unidade.adm,
+            "adm"
+        );
+
+        if (enfermeiros.length || adm.length) {
+            totalVisivel += enfermeiros.length + adm.length;
+
+            linhas.push(`
+                <tr>
+                    <td class="unit-cell">
+                        <div class="unit-name">
+                            ${escaparHTML(unidade.unidade)}
+                        </div>
+                        <span class="unit-caption">
+                            UNIDADE DE SAÚDE
+                        </span>
+                    </td>
+
+                    <td>
+                        <div class="people">
+                            ${
+                                enfermeiros.map(criarBotaoNome).join("")
+                                || '<span class="no-person">—</span>'
+                            }
+                        </div>
+                    </td>
+
+                    <td>
+                        <div class="people">
+                            ${
+                                adm.map(criarBotaoNome).join("")
+                                || '<span class="no-person">—</span>'
+                            }
+                        </div>
+                    </td>
+                </tr>
+            `);
+        }
+    });
+
+    tableBody.innerHTML = linhas.join("");
+
+    $("staffTable").style.display =
+        linhas.length ? "table" : "none";
+
+    $("emptyState").hidden = linhas.length > 0;
+
+    $("visibleCount").textContent = totalVisivel;
+
+    $("resultText").textContent =
+        `${linhas.length} ${
+            linhas.length === 1
+                ? "unidade encontrada"
+                : "unidades encontradas"
+        } · ${totalVisivel} ${
+            totalVisivel === 1
+                ? "profissional"
+                : "profissionais"
+        }`;
+}
+
+/* COPIAR O NOME COM UM CLIQUE */
+
+let timerToast;
+
+function mostrarAviso(mensagem) {
+    $("toastText").textContent = mensagem;
+    $("toast").classList.add("show");
+
+    clearTimeout(timerToast);
+
+    timerToast = setTimeout(() => {
+        $("toast").classList.remove("show");
+    }, 1900);
+}
+
+async function copiarNome(nome, botao) {
+    try {
+        if (navigator.clipboard && window.isSecureContext) {
+            await navigator.clipboard.writeText(nome);
+        } else {
+            const campo = document.createElement("textarea");
+
+            campo.value = nome;
+            campo.style.position = "fixed";
+            campo.style.opacity = "0";
+
+            document.body.appendChild(campo);
+            campo.select();
+
+            const sucesso = document.execCommand("copy");
+            campo.remove();
+
+            if (!sucesso) {
+                throw new Error("Falha ao copiar");
+            }
+        }
+
+        document.querySelectorAll(".person.copied")
+            .forEach(elemento => elemento.classList.remove("copied"));
+
+        botao.classList.add("copied");
+
+        mostrarAviso(`Copiado: ${nome}`);
+
+        setTimeout(() => {
+            botao.classList.remove("copied");
+        }, 1700);
+
+    } catch (erro) {
+        mostrarAviso(
+            "Não foi possível copiar. Verifique a permissão do navegador."
+        );
+    }
+}
+
+/* Um único evento funciona para todos os nomes da lista */
+
+tableBody.addEventListener("click", evento => {
+    const botao = evento.target.closest("[data-copy]");
+
+    if (botao) {
+        copiarNome(botao.dataset.copy, botao);
+    }
+});
+
+/* FILTROS */
+
+search.addEventListener("input", renderizar);
+roleFilter.addEventListener("change", renderizar);
+sortFilter.addEventListener("change", renderizar);
+
+$("clearBtn").addEventListener("click", () => {
+    search.value = "";
+    roleFilter.value = "all";
+    sortFilter.value = "original";
+
+    renderizar();
+    search.focus();
+});
+
+/* MODO CLARO E ESCURO */
+
+function definirTema(tema) {
+    document.documentElement.dataset.theme = tema;
+
+    const escuro = tema === "dark";
+
+    $("themeSymbol").textContent = escuro ? "☼" : "☾";
+    $("themeLabel").textContent =
+        escuro ? "Modo claro" : "Modo escuro";
+
+    document.querySelector('meta[name="theme-color"]').content =
+        escuro ? "#0b1018" : "#eef3f8";
+}
+
+$("themeToggle").addEventListener("click", () => {
+    const proximoTema =
+        document.documentElement.dataset.theme === "dark"
+            ? "light"
+            : "dark";
+
+    definirTema(proximoTema);
+});
+
+/* CONTADORES */
+
+const totalProfissionais = unidades.reduce((total, unidade) => {
+    return total
+        + unidade.enfermeiros.length
+        + unidade.adm.length;
+}, 0);
+
+$("unitCount").textContent = unidades.length;
+$("peopleCount").textContent = totalProfissionais;
+
+renderizar();
+</script>
+
+</body>
+</html>
